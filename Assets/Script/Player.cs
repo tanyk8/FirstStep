@@ -2,31 +2,89 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player
+public class Player : MonoBehaviour
 {
-    int mental_health;
-    int mental_power;
+    [SerializeField]private int stat_maxhealth;
+    [SerializeField] private int stat_maxmentalpoint;
+    [SerializeField] private int stat_mentalpower;
+    [SerializeField] private int stat_mentalprotection;
 
-    List<Inventory> player_inventory;
+    [SerializeField] private int current_health;
+    [SerializeField] private int current_mentalpoint;
+    [SerializeField] private int current_mentalpower;
+    [SerializeField] private int current_mentalprotection;
 
-    struct Inventory
+    List<Inventory> player_inventory_list;
+    List<Quest> player_quest_list;
+    List<Skill> player_skill_list;
+
+
+    //contructor
+    public Player()
     {
-        string item_name;
-        string item_type;
-        int item_quantity;
-        string item_description;
+        stat_maxhealth = 100;
+        stat_maxmentalpoint = 100;
+        stat_mentalpower = 10;
+        stat_mentalprotection = 10;
+
+        current_health = 100;
+        current_mentalpoint = 100;
+        current_mentalpower = 10;
+        current_mentalprotection = 10;
+
+        player_inventory_list = new List<Inventory>();
+        player_quest_list = new List<Quest>();
+        player_skill_list = new List<Skill>();
+
     }
 
-    struct Quest
+    public int getStat_MentalPower()
     {
-        string quest_name;
-        string quest_type; //main or sub
-        string quest_description;
-        string quest_reward;
-        string quest_progress;
-        bool quest_completed;
+        return stat_mentalpower;
+    }
+
+    public int getStat_MaxHealth()
+    {
+        return stat_maxhealth;
+    }
+
+    public int getCurrent_Health()
+    {
+        return current_health;
+    }
+
+    public bool receiveDamage(int damage)
+    {
+        current_health -= damage;
+
+        if (current_health <= 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    void playerBuff(string skill_name)
+    {
 
     }
 
+    void playerDebuff(string debuff_name)
+    {
 
+    }
+
+    void useSkill()
+    {
+        //base on skill cost
+        //deal damage to enemy
+    }
+
+    void battleSetPlayerStat()
+    {
+        //load player stat in battle
+    }
 }
