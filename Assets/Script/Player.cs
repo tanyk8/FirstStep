@@ -11,8 +11,6 @@ public class Player : MonoBehaviour
 
     [SerializeField] private int current_health;
     [SerializeField] private int current_mentalpoint;
-    [SerializeField] private int current_mentalpower;
-    [SerializeField] private int current_mentalprotection;
 
     List<Inventory> player_inventory_list;
     List<Quest> player_quest_list;
@@ -22,15 +20,13 @@ public class Player : MonoBehaviour
     //contructor
     public Player()
     {
-        stat_maxhealth = 100;
+        stat_maxhealth = 1000;
         stat_maxmentalpoint = 100;
-        stat_mentalpower = 10;
-        stat_mentalprotection = 10;
+        stat_mentalpower = 62;
+        stat_mentalprotection = 20;
 
-        current_health = 100;
+        current_health = 1000;
         current_mentalpoint = 100;
-        current_mentalpower = 10;
-        current_mentalprotection = 10;
 
         player_inventory_list = new List<Inventory>();
         player_quest_list = new List<Quest>();
@@ -53,12 +49,28 @@ public class Player : MonoBehaviour
         return current_health;
     }
 
+    public int getStat_MaxMentalPoint()
+    {
+        return stat_maxmentalpoint;
+    }
+
+    public int getCurrent_MentalPoint()
+    {
+        return current_mentalpoint;
+    }
+
+    public int getStat_MentalProtection()
+    {
+        return stat_mentalprotection;
+    }
+
     public bool receiveDamage(int damage)
     {
         current_health -= damage;
 
         if (current_health <= 0)
         {
+            current_health = 0;
             return true;
         }
         else

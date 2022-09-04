@@ -89,6 +89,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy_name: Enemy1
-  stat_maxhealth: 100
-  stat_damage: 10
-  current_health: 100
+  stat_maxhealth: 1300
+  stat_damage: 58
+  stat_defence: 10
+  current_health: 1300

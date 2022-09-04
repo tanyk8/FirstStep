@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private string enemy_name;
     [SerializeField] private int stat_maxhealth;
     [SerializeField] private int stat_damage;
+    [SerializeField] private int stat_defence;
 
     [SerializeField] private int current_health;
 
@@ -17,6 +18,7 @@ public class Enemy : MonoBehaviour
 
         if (current_health <= 0)
         {
+            current_health = 0;
             return true;
         }
         else
@@ -47,6 +49,11 @@ public class Enemy : MonoBehaviour
     public int getStat_Damage()
     {
         return stat_damage;
+    }
+
+    public int getStat_Defence()
+    {
+        return stat_defence;
     }
 
     //enemy buff and debuff/ heal

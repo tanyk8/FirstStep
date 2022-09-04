@@ -6,13 +6,33 @@ using UnityEngine.UI;
 
 public class BattleUIManager : MonoBehaviour
 {
+    //private static BattleUIManager instance;
+
     [SerializeField] private TextMeshProUGUI actorname;
     [SerializeField] private Slider slider_hp;
     [SerializeField] private TextMeshProUGUI hp_text;
+    [SerializeField] private Slider slider_mp;
+    [SerializeField] private TextMeshProUGUI mp_text;
 
     [SerializeField] private Gradient gradient;
 
     [SerializeField] private Image fill;
+
+
+    /*private void Awake()
+    {
+        if (instance != null)
+        {
+            Debug.LogWarning("Found more than one Battle Manager in the scene");
+        }
+        instance = this;
+    }
+
+    public static BattleUIManager GetInstance()
+    {
+        return instance;
+    }*/
+
 
     public void setEnemyHUD(Enemy enemy)
     {
@@ -32,6 +52,10 @@ public class BattleUIManager : MonoBehaviour
         slider_hp.value = player.getCurrent_Health();
         hp_text.text = player.getCurrent_Health() + "/" + player.getStat_MaxHealth();
         fill.color = gradient.Evaluate(1f);
+        slider_mp.maxValue = player.getStat_MaxMentalPoint();
+        slider_mp.value = player.getCurrent_MentalPoint();
+        mp_text.text = player.getCurrent_MentalPoint() + "/" + player.getStat_MaxMentalPoint();
+        
     }
 
     public void setEnemyHP(int hp,Enemy enemy)

@@ -4,7 +4,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+
 public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST }
+
+public static class BtnExtension
+{
+    public static void AddEventListener<T>(this Button button, T param, System.Action<T> OnClick)
+    {
+        button.onClick.AddListener(delegate ()
+        {
+            OnClick(param);
+        });
+    }
+}
 
 public class BattleManager : MonoBehaviour
 {
@@ -14,6 +26,8 @@ public class BattleManager : MonoBehaviour
     private Enemy enemy;
 
     private string battle_encountermessage="A strong presences of negative energy has been sensed!";
+
+    //private static BattleManager instance;
 
     [Header("Player")]
     [SerializeField] private GameObject playerGameObject;
@@ -31,7 +45,34 @@ public class BattleManager : MonoBehaviour
     [SerializeField] BattleUIManager playerHUD;
     [SerializeField] BattleUIManager enemyHUD;
 
-    //[Header("Button")]
+    [Header("Button")]
+    [SerializeField] Button attackBtn;
+    [SerializeField] Button skillBtn;
+    [SerializeField] Button itemBtn;
+    [SerializeField] Button runBtn;
+
+    [Header("Panel")]
+    [SerializeField] GameObject statuspanel;
+    [SerializeField] GameObject actionpanel;
+
+    [Header("ListLayout")]
+    [SerializeField] GameObject template_listitem;
+    [SerializeField] GameObject panel_list;
+    [SerializeField] Transform panel_listT;
+
+    /*private void Awake()
+    {
+        if (instance != null)
+        {
+            Debug.LogWarning("Found more than one Battle Manager in the scene");
+        }
+        instance = this;
+    }
+
+    public static BattleManager GetInstance()
+    {
+        return instance;
+    }*/
 
     private void Start()
     {
@@ -41,6 +82,8 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator initiateBattle()
     {
+        setBtnStatus(false);
+
         GameObject enemyGameObject= Instantiate(enemyPrefab, enemyLocation);
         enemy = enemyGameObject.GetComponent<Enemy>();
 
@@ -52,6 +95,7 @@ public class BattleManager : MonoBehaviour
         enemyHUD.setEnemyHUD(enemy);
         playerHUD.setPlayerHUD(player);
 
+
         yield return new WaitForSeconds(3f);
 
         state = BattleState.PLAYERTURN;
@@ -60,6 +104,7 @@ public class BattleManager : MonoBehaviour
 
     void playerTurn()
     {
+        setBtnStatus(true);
         battle_status.text = "Choose an action!";
     }
 
@@ -80,8 +125,32 @@ public class BattleManager : MonoBehaviour
         battle_status.text = enemy.getEnemyName()+" attacks!";
         yield return new WaitForSeconds(1f);
 
-        battle_status.text = "Enemy dealt " + enemy.getStat_Damage() + " damage";
-        bool isDefeated = player.receiveDamage(enemy.getStat_Damage());
+        int enemydmgdealt = 0;
+        int probability = Random.Range(0, 20);
+
+        if (probability <= 3)
+        {
+            enemydmgdealt = enemy.getStat_Damage() * 125 / 100;
+            battle_status.text = "Enemy dealt " + enemydmgdealt + " critical damage!";
+        }
+        else if(probability==19){
+            enemydmgdealt = 0;
+            battle_status.text = "The enemy missed!";
+        }
+        else
+        {
+            enemydmgdealt = Random.Range(enemy.getStat_Damage() * 75 / 100, enemy.getStat_Damage() * 115 / 100);
+            battle_status.text = "Enemy dealt " + enemydmgdealt + " damage";
+        }
+
+        float reducedmg = 0f;
+
+        reducedmg = 100-player.getStat_MentalProtection()*0.2f;
+
+        enemydmgdealt = (int)(enemydmgdealt*reducedmg/100);
+
+        bool isDefeated = player.receiveDamage(enemydmgdealt);
+
 
         playerHUD.setPlayerHP(player.getCurrent_Health(),player);
 
@@ -101,11 +170,42 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator playerAttack()
     {
-        bool isDefeated=enemy.receiveDamage(player.getStat_MentalPower());
+        battle_status.text = "Player chose to attack!";
+
+        yield return new WaitForSeconds(1f);
+
+
+        int playerdmgdealt = 0;
+        int probability = Random.Range(0, 20);
+
+        if ( probability<= 3)
+        {
+            playerdmgdealt = player.getStat_MentalPower() * 125 / 100;
+            battle_status.text = "Enemy took " + playerdmgdealt + " critical damage!";
+        }
+        else if (probability==19)
+        {
+            playerdmgdealt = 0;
+            battle_status.text = "You've missed!";
+        }
+        else
+        {
+            playerdmgdealt = Random.Range(player.getStat_MentalPower() * 75 / 100, player.getStat_MentalPower() * 115 / 100);
+            battle_status.text = "Enemy took " + playerdmgdealt + " damage";
+        }
+
+        float reducedmg = 0f;
+
+        reducedmg = 100 - enemy.getStat_Defence() * 0.2f;
+
+        playerdmgdealt = (int)(playerdmgdealt * reducedmg / 100);
+
+
+        bool isDefeated=enemy.receiveDamage(playerdmgdealt);
 
         enemyHUD.setEnemyHP(enemy.getCurrent_Health(),enemy);
 
-        battle_status.text = "Enemy took "+player.getStat_MentalPower()+" damage";
+        
 
         yield return new WaitForSeconds(1f);
 
@@ -128,6 +228,7 @@ public class BattleManager : MonoBehaviour
             return;
         }
 
+        setBtnStatus(false);
         StartCoroutine(playerAttack());
     }
 
@@ -137,6 +238,48 @@ public class BattleManager : MonoBehaviour
         {
             return;
         }
+
+        GameObject btn = template_listitem;
+        GameObject panel_list_ref;
+
+        if (statuspanel.activeInHierarchy)
+        {
+            actionpanel.SetActive(true);
+            statuspanel.SetActive(false);
+
+            
+
+            for (int i = 0; i < 10; i++)
+            {
+                panel_list_ref = Instantiate(btn, panel_listT);
+                panel_list_ref.transform.GetChild(0).GetComponent<Text>().text = "item " + i;
+
+                panel_list_ref.GetComponent<Button>().AddEventListener(i, listItemClicked);
+            
+            }
+            
+
+        }
+        else if (actionpanel.activeInHierarchy)
+        {
+            statuspanel.SetActive(true);
+            actionpanel.SetActive(false);
+
+            foreach(Transform child in panel_listT)
+            {
+                Destroy(child.gameObject);
+            }
+            
+          
+        }
+
+        
+
+    }
+
+    void listItemClicked(int itemIndex)
+    {
+        Debug.Log("item " + itemIndex + " clicked");
     }
 
     public void onItemBtn()
@@ -153,6 +296,14 @@ public class BattleManager : MonoBehaviour
         {
             return;
         }
+    }
+
+    void setBtnStatus(bool btnStatus)
+    {
+        attackBtn.interactable= btnStatus;
+        skillBtn.interactable = btnStatus;
+        itemBtn.interactable = btnStatus;
+        runBtn.interactable = btnStatus;
     }
 
 }
