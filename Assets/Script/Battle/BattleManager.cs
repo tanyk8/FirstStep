@@ -3,20 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
 
 public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST }
-
-public static class BtnExtension
-{
-    public static void AddEventListener<T>(this Button button, T param, System.Action<T> OnClick)
-    {
-        button.onClick.AddListener(delegate ()
-        {
-            OnClick(param);
-        });
-    }
-}
 
 public class BattleManager : MonoBehaviour
 {
@@ -26,6 +16,8 @@ public class BattleManager : MonoBehaviour
     private Enemy enemy;
 
     private string battle_encountermessage="A strong presences of negative energy has been sensed!";
+
+    private ListLayout listObjectRef;
 
     //private static BattleManager instance;
 
@@ -50,15 +42,21 @@ public class BattleManager : MonoBehaviour
     [SerializeField] Button skillBtn;
     [SerializeField] Button itemBtn;
     [SerializeField] Button runBtn;
+    [SerializeField] Button backBtn;
 
     [Header("Panel")]
     [SerializeField] GameObject statuspanel;
     [SerializeField] GameObject actionpanel;
 
     [Header("ListLayout")]
-    [SerializeField] GameObject template_listitem;
-    [SerializeField] GameObject panel_list;
-    [SerializeField] Transform panel_listT;
+    [SerializeField] GameObject skillList;
+
+    [Header("GameObject")]
+    [SerializeField] GameObject attBtnObj;
+    [SerializeField] GameObject skillBtnObj;
+    [SerializeField] GameObject backBtnObj;
+
+
 
     /*private void Awake()
     {
@@ -76,7 +74,11 @@ public class BattleManager : MonoBehaviour
 
     private void Start()
     {
+        listObjectRef = skillList.GetComponent<ListLayout>();
+
+        
         state = BattleState.START;
+
         StartCoroutine(initiateBattle());
     }
 
@@ -95,9 +97,6 @@ public class BattleManager : MonoBehaviour
         enemyHUD.setEnemyHUD(enemy);
         playerHUD.setPlayerHUD(player);
 
-
-
-
         yield return new WaitForSeconds(3f);
 
         state = BattleState.PLAYERTURN;
@@ -107,6 +106,7 @@ public class BattleManager : MonoBehaviour
     void playerTurn()
     {
         setBtnStatus(true);
+        EventSystem.current.SetSelectedGameObject(attBtnObj);
         battle_status.text = "Choose an action!";
     }
 
@@ -177,10 +177,7 @@ public class BattleManager : MonoBehaviour
             statuspanel.SetActive(true);
             actionpanel.SetActive(false);
 
-            foreach (Transform child in panel_listT)
-            {
-                Destroy(child.gameObject);
-            }
+            listObjectRef.destroyListSelection();
         }
 
         battle_status.text = "Player chose to attack!";
@@ -218,8 +215,6 @@ public class BattleManager : MonoBehaviour
 
         enemyHUD.setEnemyHP(enemy.getCurrent_Health(),enemy);
 
-        
-
         yield return new WaitForSeconds(1f);
 
         if (isDefeated)
@@ -252,47 +247,31 @@ public class BattleManager : MonoBehaviour
             return;
         }
 
-        GameObject btn = template_listitem;
-        GameObject panel_list_ref;
 
         if (statuspanel.activeInHierarchy)
         {
+
+            setBtnStatus(false);
+
             actionpanel.SetActive(true);
             statuspanel.SetActive(false);
 
-            
+            listObjectRef.createSkillList();
 
-            for (int i = 0; i < 10; i++)
-            {
-                panel_list_ref = Instantiate(btn, panel_listT);
-                panel_list_ref.transform.GetChild(0).GetComponent<Text>().text = "item " + i;
-
-                panel_list_ref.GetComponent<Button>().AddEventListener(i, listItemClicked);
-            
-            }
-            
-
+            EventSystem.current.SetSelectedGameObject(backBtnObj);
         }
-        else if (actionpanel.activeInHierarchy)
-        {
-            statuspanel.SetActive(true);
-            actionpanel.SetActive(false);
-
-            foreach(Transform child in panel_listT)
-            {
-                Destroy(child.gameObject);
-            }
-            
-          
-        }
-
-        
-
     }
 
-    void listItemClicked(int itemIndex)
+    public void onBackBtn()
     {
-        Debug.Log("item " + itemIndex + " clicked");
+        statuspanel.SetActive(true);
+        actionpanel.SetActive(false);
+
+        listObjectRef.destroyListSelection();
+
+        setBtnStatus(true);
+
+        EventSystem.current.SetSelectedGameObject(skillBtnObj);
     }
 
     public void onItemBtn()
