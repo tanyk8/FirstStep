@@ -96,6 +96,8 @@ public class BattleManager : MonoBehaviour
         playerHUD.setPlayerHUD(player);
 
 
+
+
         yield return new WaitForSeconds(3f);
 
         state = BattleState.PLAYERTURN;
@@ -170,6 +172,17 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator playerAttack()
     {
+        if (actionpanel.activeInHierarchy)
+        {
+            statuspanel.SetActive(true);
+            actionpanel.SetActive(false);
+
+            foreach (Transform child in panel_listT)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+
         battle_status.text = "Player chose to attack!";
 
         yield return new WaitForSeconds(1f);
