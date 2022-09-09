@@ -1,17 +1,62 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Ink.Runtime;
+using System;
+
+public enum QuestState { NONE,INPROGRESS,COMPLETED}
 
 public class Quest
 {
-    string quest_name;
-    string quest_type; //main or sub
-    string quest_description;
-    string quest_reward;
-    string quest_progress;
-    string quest_totalprogress;
+    
 
-    bool quest_completed;
+    public QuestData questData;
+    public QuestState questState;
+    public int quest_progress;
+    public int quest_progressvalue;
 
-    List<Quest> questlist = new List<Quest>();
+    
+
+    public Quest(QuestData questdata)
+    {
+        questData = questdata;
+        questState = QuestState.NONE;
+        quest_progress = 0;
+        quest_progressvalue = 0;
+    }
+    
+    public void updateQuestState()
+    {
+        if (questState == QuestState.NONE)
+        {
+            questState=QuestState.INPROGRESS;
+        }
+        else if (questState == QuestState.INPROGRESS)
+        {
+            questState = QuestState.COMPLETED;
+        }
+    }
+
+    public string getQuestRewardType()
+    {
+        return questData.quest_rewardType;
+    }
+    
+    public int getQuestReward()
+    {
+        return questData.quest_reward;
+    }
+
+    public void addProgressValue()
+    {
+        quest_progressvalue++;
+    }
+
+    public void resetProgressValue()
+    {
+        quest_progressvalue = 0;
+    }
+
 }
+
+//Dialogue handled by inky, use variable and invoke function, get variable when story end to handle progress dialogue

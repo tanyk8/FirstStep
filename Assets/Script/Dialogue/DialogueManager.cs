@@ -5,11 +5,16 @@ using TMPro;
 using Ink.Runtime;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System;
+using System.Linq;
 
 public class DialogueManager : MonoBehaviour
 {
     [Header("Params")]
     [SerializeField] private float typingSpeed = 0.04f;
+
+    [Header("LoadGlobalsJSON")]
+    [SerializeField] private TextAsset loadGlobalsJSON;
 
     [Header("Dialogue UI")]
 
@@ -24,10 +29,12 @@ public class DialogueManager : MonoBehaviour
 
     private Animator layoutAnimator;
 
-    [Header("Choices UI")]
-    [SerializeField] private GameObject[] choices;
+    [Header("ChoiceListRef")]
+    [SerializeField] private GameObject choiceListref;
+    [SerializeField] private GameObject dialoguechoicepanel;
 
-    private TextMeshProUGUI[] choicesText;
+    [Header("QuestManager")]
+    [SerializeField] private GameObject questManager;
 
     private Story currentStory;
 
@@ -42,6 +49,27 @@ public class DialogueManager : MonoBehaviour
     private const string SPEAKER_TAG = "speaker";
     private const string PORTRAIT_TAG = "portrait";
     private const string LAYOUT_TAG = "layout";
+    private const string QUESTTRIGGER_TAG = "questevent";
+
+    public static event handleStartQuestT startQuestTrigger;
+    public delegate void handleStartQuestT(QuestData questdata);
+
+    private QuestData questData;
+
+    public static event handleUpdateQuestT updateQuestTrigger;
+    public delegate void handleUpdateQuestT(QuestData questdata);
+
+    public static event handleCompleteQuestT completeQuestTrigger;
+    public delegate void handleCompleteQuestT(QuestData questdata);
+
+    public static event Action increaseProgressValue;
+    public static event Action resetProgressValue;
+
+    public static event Action updateTalkingActor;
+
+    private DialogueVariableObserver dialoguevariableobserver;
+
+    private GameObject talkingActor; 
 
     private void Awake()
     {
@@ -50,6 +78,8 @@ public class DialogueManager : MonoBehaviour
             Debug.LogWarning("Found more than one Dialogue Manager in the scene");
         }
         instance = this;
+
+        dialoguevariableobserver = new DialogueVariableObserver(loadGlobalsJSON);
     }
 
     public static DialogueManager GetInstance()
@@ -61,16 +91,9 @@ public class DialogueManager : MonoBehaviour
     {
         dialogueIsPlaying = false;
         dialoguePanel.SetActive(false);
+        dialoguechoicepanel.SetActive(false);
 
         layoutAnimator = dialoguePanel.GetComponent<Animator>();
-
-        choicesText = new TextMeshProUGUI[choices.Length];
-        int index = 0;
-        foreach(GameObject choice in choices)
-        {
-            choicesText[index] = choice.GetComponentInChildren<TextMeshProUGUI>();
-            index++;
-        }
     }
 
     private void Update()
@@ -87,9 +110,27 @@ public class DialogueManager : MonoBehaviour
 
     public void EnterDialogueMode(TextAsset inkJSON)
     {
+
+        //update reference of talking person to corresponding object
+        updateTalkingActor?.Invoke();
+
         currentStory = new Story(inkJSON.text);
         dialogueIsPlaying = true;
         dialoguePanel.SetActive(true);
+
+        dialoguevariableobserver.startListening(currentStory);
+
+        if (talkingActor.GetComponent<QuestGiver>() != null&&questManager.GetComponent<QuestManager>() != null)
+        {
+            questData = talkingActor.GetComponent<QuestGiver>().questData;
+            //increaseProgressValue += questManager.GetComponent<QuestManager>().questlist.ElementAt(questManager.GetComponent<QuestManager>().findQuestIndexwithID(questData.quest_ID)).addProgressValue;
+            //resetProgressValue += questManager.GetComponent<QuestManager>().questlist.ElementAt(questManager.GetComponent<QuestManager>().findQuestIndexwithID(questData.quest_ID)).resetProgressValue;
+
+            startQuestTrigger += questManager.GetComponent<QuestManager>().startQuest;
+            updateQuestTrigger += questManager.GetComponent<QuestManager>().updateQuest;
+            completeQuestTrigger += questManager.GetComponent<QuestManager>().completeQuest;
+        }
+        
 
         displayNameText.text = "???";
         portraitAnimator.Play("default");
@@ -102,6 +143,24 @@ public class DialogueManager : MonoBehaviour
     public IEnumerator ExitDialogueMode()
     {
         yield return new WaitForSeconds(0.2f);
+
+        dialoguevariableobserver.stopListening(currentStory);
+
+
+        if (talkingActor.GetComponent<QuestGiver>() != null&& questManager.GetComponent<QuestManager>() != null)
+        {
+            questData = talkingActor.GetComponent<QuestGiver>().questData;
+            //increaseProgressValue += questManager.GetComponent<QuestManager>().questlist.ElementAt(questManager.GetComponent<QuestManager>().findQuestIndexwithID(questData.quest_ID)).addProgressValue;
+            //resetProgressValue += questManager.GetComponent<QuestManager>().questlist.ElementAt(questManager.GetComponent<QuestManager>().findQuestIndexwithID(questData.quest_ID)).resetProgressValue;
+
+            startQuestTrigger -= questManager.GetComponent<QuestManager>().startQuest;
+            updateQuestTrigger -= questManager.GetComponent<QuestManager>().updateQuest;
+            completeQuestTrigger -= questManager.GetComponent<QuestManager>().completeQuest;
+        }
+
+
+ 
+        
 
         dialogueIsPlaying = false;
         dialoguePanel.SetActive(false);
@@ -120,6 +179,7 @@ public class DialogueManager : MonoBehaviour
             
 
             HandleTags(currentStory.currentTags);
+            
         }
         else
         {
@@ -133,7 +193,7 @@ public class DialogueManager : MonoBehaviour
         dialogueText.maxVisibleCharacters = 0;
 
         continueIcon.SetActive(false);
-        HideChoices();
+        
 
         canContinueToNextLine = false;
 
@@ -165,17 +225,14 @@ public class DialogueManager : MonoBehaviour
         }
 
         continueIcon.SetActive(true);
-        DisplayChoices();
+
+        if (currentStory.currentChoices.Count != 0)
+        {
+            DisplayChoices();
+        }
+        
 
         canContinueToNextLine = true;
-    }
-
-    private void HideChoices()
-    {
-        foreach(GameObject choiceButton in choices)
-        {
-            choiceButton.SetActive(false);
-        }
     }
 
     private void HandleTags(List<string> currentTags)
@@ -202,6 +259,20 @@ public class DialogueManager : MonoBehaviour
                 case LAYOUT_TAG:
                     layoutAnimator.Play(tagValue);
                     break;
+                case QUESTTRIGGER_TAG:
+                    if (tagValue == "start")
+                    {
+                        startQuestTrigger?.Invoke(questData);
+                    }
+                    if (tagValue == "update")
+                    {
+                        updateQuestTrigger?.Invoke(questData);
+                    }
+                    if (tagValue == "complete")
+                    {
+                        completeQuestTrigger?.Invoke(questData);
+                    }
+                    break;
                 default:
                     Debug.LogWarning("Tag in switch case but not handled: "+tag);
                     break;
@@ -213,44 +284,65 @@ public class DialogueManager : MonoBehaviour
     {
         List<Choice> currentChoices = currentStory.currentChoices;
 
-        if (currentChoices.Count > choices.Length)
+        if (dialoguechoicepanel.activeInHierarchy == false)
         {
-            Debug.LogError("More choices were given than the UI can support. Number of choices given: " + currentChoices.Count);
+            dialoguechoicepanel.SetActive(true);
+            choiceListref.GetComponent<ListLayout>().createChoiceList(currentChoices.Count, currentChoices);
         }
+        
 
-        int index = 0;
-        foreach(Choice choice in currentChoices)
-        {
-            choices[index].gameObject.SetActive(true);
-            choicesText[index].text = choice.text;
-            index++;
-        }
 
-        for(int i = index; i < choices.Length; i++)
-        {
-            choices[i].gameObject.SetActive(false);
-        }
-
-        StartCoroutine(SelectFirstChoice());
     }
 
-    private IEnumerator SelectFirstChoice()
-    {
-        EventSystem.current.SetSelectedGameObject(null);
-        yield return new WaitForEndOfFrame();
-        EventSystem.current.SetSelectedGameObject(choices[0].gameObject);
-    }
-
-    public void MakeChoice(int choiceIndex)
+    public void MakeChoice(int choiceIndex,string response)
     {
 
         if (canContinueToNextLine)
         {
+            int temp_id = 0;
+            string temp_name = "";
+            int temp_progress = 0;
+            if (talkingActor.GetComponent<QuestReceiver>() != null)
+            {
+                temp_id = talkingActor.GetComponent<QuestReceiver>().quest_ID;
+                temp_name = talkingActor.GetComponent<QuestReceiver>().quest_name;
+                temp_progress = talkingActor.GetComponent<QuestReceiver>().progress;
+
+                if (response == temp_name)
+                {
+                    int index = 0;
+                    index = questManager.GetComponent<QuestManager>().findQuestIndexwithID(temp_id);
+
+                    if (questManager.GetComponent<QuestManager>().checkQuestInProgress(temp_id) && questManager.GetComponent<QuestManager>().questlist.ElementAt(index).quest_progress == temp_progress)
+                    {
+
+
+                        questManager.GetComponent<QuestManager>().questlist.ElementAt(index).addProgressValue();
+                    }
+
+                }
+            }
+            
             currentStory.ChooseChoiceIndex(choiceIndex);
 
             InputManager.GetInstance().RegisterSubmitPressed();
+
+            choiceListref.GetComponent<ListLayout>().destroyListSelection();
+            dialoguechoicepanel.SetActive(false);
+
             ContinueStory();
         }
         
     }
+
+    public Story getStory()
+    {
+        return currentStory;
+    }
+
+    public void setTalkingActor(GameObject talkingactor)
+    {
+        talkingActor = talkingactor;
+    }
+
 }
