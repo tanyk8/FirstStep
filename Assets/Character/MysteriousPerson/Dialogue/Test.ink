@@ -1,5 +1,7 @@
 INCLUDE ../../../Script/globals.ink
+INCLUDE ../../../Script/globalfunction.ink
 
+VAR ID=2
 
 ->main
 
@@ -40,7 +42,7 @@ Are you done?
         Thank you my bro #speaker:??? #portrait:portrait_npc_mysterious #layout:layout_left #questevent:complete
         -else:
         No you are not done!!!
-    }
+    } 
     ->END
 +[No]
 why
@@ -53,8 +55,3 @@ why
 
 
 
-===function checkRequirement(value)===
-{value>quest_tutorial2_requiredhp:
-~quest_tutorial2_complete=true
-~quest_tutorial2_status="done"
-}

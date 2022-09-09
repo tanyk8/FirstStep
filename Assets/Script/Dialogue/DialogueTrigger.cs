@@ -46,7 +46,7 @@ public class DialogueTrigger : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             playerInRange = true;
-            DialogueManager.updateTalkingActor += getParentObj;
+            DialogueManager.updateTalkingActor += updateParentObjRef;
         }
     }
 
@@ -54,15 +54,15 @@ public class DialogueTrigger : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
+            DialogueManager.updateTalkingActor -= updateParentObjRef;
             playerInRange = false;
-            DialogueManager.updateTalkingActor -= getParentObj;
         }
     }
 
-    private void getParentObj()
+    private void updateParentObjRef()
     {
-
         dialoguemanager.GetComponent<DialogueManager>().setTalkingActor(this.gameObject.transform.parent.gameObject);
+        
     }
 
 }

@@ -12,9 +12,6 @@ public class Player : MonoBehaviour
     [SerializeField] private int current_health;
     [SerializeField] private int current_mentalpoint;
 
-    List<Inventory> player_inventory_list;
-    List<Quest> player_quest_list;
-    List<Skill> player_skill_list;
 
 
     //contructor
@@ -28,10 +25,12 @@ public class Player : MonoBehaviour
         current_health = 1000;
         current_mentalpoint = 100;
 
-        player_inventory_list = new List<Inventory>();
-        player_quest_list = new List<Quest>();
-        player_skill_list = new List<Skill>();
 
+    }
+
+    public void addStat_MentalPower(int value)
+    {
+        stat_mentalpower += value;
     }
 
     public int getStat_MentalPower()

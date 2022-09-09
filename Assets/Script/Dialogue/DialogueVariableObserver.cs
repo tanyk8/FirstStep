@@ -52,5 +52,10 @@ public class DialogueVariableObserver
         }
     }
 
+    public void saveToFile()
+    {
+
+    }
+
 
 }

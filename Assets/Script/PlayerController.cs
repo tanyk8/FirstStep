@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
     Animator animator;
     List<RaycastHit2D> castCollision = new List<RaycastHit2D>();
 
+    [SerializeField] GameObject menu;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +31,11 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         if (DialogueManager.GetInstance().dialogueIsPlaying)
+        {
+            return;
+        }
+
+        if (menu.activeInHierarchy)
         {
             return;
         }

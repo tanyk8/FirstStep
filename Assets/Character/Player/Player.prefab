@@ -74,7 +74,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -2038089611
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 5603502816663785006, guid: e76160ef792cd1747b52cd1e1a13dd64, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -228,18 +228,19 @@ MonoBehaviour:
   collisionOffset: 0.02
   movementFilter:
     useTriggers: 0
-    useLayerMask: 0
+    useLayerMask: 1
     useDepth: 0
     useOutsideDepth: 0
     useNormalAngle: 0
     useOutsideNormalAngle: 0
     layerMask:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 512
     minDepth: 0
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  menu: {fileID: 0}
 --- !u!95 &5088952637388986533
 Animator:
   serializedVersion: 3
