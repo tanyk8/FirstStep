@@ -298,23 +298,21 @@ public class DialogueManager : MonoBehaviour
             startQuestTrigger?.Invoke(questData);
         }
 
-        if (questTrigger == "complete")
-        {
-            questData = talkingActor.GetComponent<QuestGiver>().getTargetQuestData(int.Parse(givequest_id));
-            completeQuestTrigger?.Invoke(questData);
-        }
-
-
         if (questTrigger == "updateprogressvalue")
         {
             updateQuestPV?.Invoke(int.Parse(receivequest_id));
         }
-        
+
         if (questTrigger == "proceedprogress")
         {
             updateQuestTrigger?.Invoke(questData, "proceedprogress");
         }
 
+        if (questTrigger == "complete")
+        {
+            questData = talkingActor.GetComponent<QuestGiver>().getTargetQuestData(int.Parse(givequest_id));
+            completeQuestTrigger?.Invoke(questData);
+        }
     }
 
     private void DisplayChoices()
