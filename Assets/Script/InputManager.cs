@@ -14,6 +14,7 @@ public class InputManager : MonoBehaviour
     private Vector2 moveDirection = Vector2.zero;
     private bool interactPressed = false;
     private bool submitPressed = false;
+    private bool menuPressed = false;
 
     private static InputManager instance;
 
@@ -26,13 +27,14 @@ public class InputManager : MonoBehaviour
         instance = this;
     }
 
-    public static InputManager GetInstance()
+    public static InputManager getInstance()
     {
         return instance;
     }
 
-    public void MovePressed(InputAction.CallbackContext context)
+    public void movePressed(InputAction.CallbackContext context)
     {
+
         if (context.performed)
         {
             moveDirection = context.ReadValue<Vector2>();
@@ -43,7 +45,7 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    public void InteractButtonPressed(InputAction.CallbackContext context)
+    public void interactButtonPressed(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
@@ -55,7 +57,7 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    public void SubmitPressed(InputAction.CallbackContext context)
+    public void submitButtonPressed(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
@@ -67,7 +69,19 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    public Vector2 GetMoveDirection()
+    public void menuButtonPressed(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            menuPressed = true;
+        }
+        else if (context.canceled)
+        {
+            menuPressed = false;
+        }
+    }
+
+    public Vector2 getMoveDirection()
     {
         return moveDirection;
     }
@@ -76,21 +90,28 @@ public class InputManager : MonoBehaviour
     // which means we should set it to false so that it can't be used again until actually
     // pressed again.
 
-    public bool GetInteractPressed()
+    public bool getInteractPressed()
     {
         bool result = interactPressed;
         interactPressed = false;
         return result;
     }
 
-    public bool GetSubmitPressed()
+    public bool getSubmitPressed()
     {
         bool result = submitPressed;
         submitPressed = false;
         return result;
     }
 
-    public void RegisterSubmitPressed()
+    public bool getMenuPressed()
+    {
+        bool result = menuPressed;
+        menuPressed = false;
+        return result;
+    }
+
+    public void registerSubmitPressed()
     {
         submitPressed = false;
     }

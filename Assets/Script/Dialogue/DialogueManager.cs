@@ -18,6 +18,7 @@ public class DialogueManager : MonoBehaviour
 
     [Header("Dialogue UI")]
 
+    [SerializeField] private GameObject dialogueCanvas;
     [SerializeField] private GameObject dialoguePanel;
     [SerializeField] private GameObject continueIcon;
 
@@ -49,21 +50,25 @@ public class DialogueManager : MonoBehaviour
     private const string SPEAKER_TAG = "speaker";
     private const string PORTRAIT_TAG = "portrait";
     private const string LAYOUT_TAG = "layout";
-    private const string QUESTTRIGGER_TAG = "questevent";
+    private const string QUESTTRIGGER_TAG = "questtrigger";
+    private const string GIVEQUEST_TAG = "givequest_id";
+    private const string RECEIVEQUESTID_TAG = "receivequest_id";
+    //private const string RECEIVEQUESTNAME_TAG = "receivequest_name";
+    //private const string RECEIVEQUESTPROGRESS_TAG = "receivequest_progress";
 
     public static event handleStartQuestT startQuestTrigger;
     public delegate void handleStartQuestT(QuestData questdata);
 
     private QuestData questData;
 
+    public static event handleUpdateQuestPV updateQuestPV;
+    public delegate void handleUpdateQuestPV(int receivequest_ID);
+
     public static event handleUpdateQuestT updateQuestTrigger;
-    public delegate void handleUpdateQuestT(QuestData questdata);
+    public delegate void handleUpdateQuestT(QuestData questdata,string type);
 
     public static event handleCompleteQuestT completeQuestTrigger;
     public delegate void handleCompleteQuestT(QuestData questdata);
-
-    public static event Action increaseProgressValue;
-    public static event Action resetProgressValue;
 
     public static event Action updateTalkingActor;
 
@@ -90,7 +95,8 @@ public class DialogueManager : MonoBehaviour
     private void Start()
     {
         dialogueIsPlaying = false;
-        dialoguePanel.SetActive(false);
+        //dialoguePanel.SetActive(false);
+        dialogueCanvas.SetActive(false);
         dialoguechoicepanel.SetActive(false);
 
         layoutAnimator = dialoguePanel.GetComponent<Animator>();
@@ -102,7 +108,7 @@ public class DialogueManager : MonoBehaviour
         {
             return;
         }
-        if (canContinueToNextLine&& currentStory.currentChoices.Count == 0 && InputManager.GetInstance().GetSubmitPressed())
+        if (canContinueToNextLine&& currentStory.currentChoices.Count == 0 && InputManager.getInstance().getSubmitPressed())
         {
             ContinueStory();
         }
@@ -116,18 +122,19 @@ public class DialogueManager : MonoBehaviour
 
         currentStory = new Story(inkJSON.text);
         dialogueIsPlaying = true;
-        dialoguePanel.SetActive(true);
+        dialogueCanvas.SetActive(true);
+        //dialoguePanel.SetActive(true);
 
         dialoguevariableobserver.startListening(currentStory);
 
         if (talkingActor.GetComponent<QuestGiver>() != null&&questManager.GetComponent<QuestManager>() != null)
         {
-            questData = talkingActor.GetComponent<QuestGiver>().questData;
-            //increaseProgressValue += questManager.GetComponent<QuestManager>().questlist.ElementAt(questManager.GetComponent<QuestManager>().findQuestIndexwithID(questData.quest_ID)).addProgressValue;
-            //resetProgressValue += questManager.GetComponent<QuestManager>().questlist.ElementAt(questManager.GetComponent<QuestManager>().findQuestIndexwithID(questData.quest_ID)).resetProgressValue;
+            //questData = talkingActor.GetComponent<QuestGiver>().questData[0];
+            
 
             startQuestTrigger += questManager.GetComponent<QuestManager>().startQuest;
-            updateQuestTrigger += questManager.GetComponent<QuestManager>().updateQuest;
+            updateQuestPV += questManager.GetComponent<QuestManager>().updateTalkProgressValue;
+            updateQuestTrigger += questManager.GetComponent<QuestManager>().updateQuestProgress;
             completeQuestTrigger += questManager.GetComponent<QuestManager>().completeQuest;
         }
         
@@ -146,15 +153,11 @@ public class DialogueManager : MonoBehaviour
 
         dialoguevariableobserver.stopListening(currentStory);
 
-
         if (talkingActor.GetComponent<QuestGiver>() != null&& questManager.GetComponent<QuestManager>() != null)
         {
-            questData = talkingActor.GetComponent<QuestGiver>().questData;
-            //increaseProgressValue += questManager.GetComponent<QuestManager>().questlist.ElementAt(questManager.GetComponent<QuestManager>().findQuestIndexwithID(questData.quest_ID)).addProgressValue;
-            //resetProgressValue += questManager.GetComponent<QuestManager>().questlist.ElementAt(questManager.GetComponent<QuestManager>().findQuestIndexwithID(questData.quest_ID)).resetProgressValue;
-
             startQuestTrigger -= questManager.GetComponent<QuestManager>().startQuest;
-            updateQuestTrigger -= questManager.GetComponent<QuestManager>().updateQuest;
+            updateQuestPV -= questManager.GetComponent<QuestManager>().updateTalkProgressValue;
+            updateQuestTrigger -= questManager.GetComponent<QuestManager>().updateQuestProgress;
             completeQuestTrigger -= questManager.GetComponent<QuestManager>().completeQuest;
         }
 
@@ -163,7 +166,8 @@ public class DialogueManager : MonoBehaviour
         
 
         dialogueIsPlaying = false;
-        dialoguePanel.SetActive(false);
+        //dialoguePanel.SetActive(false);
+        dialogueCanvas.SetActive(false);
         dialogueText.text = "";
     }
 
@@ -201,7 +205,7 @@ public class DialogueManager : MonoBehaviour
 
         foreach(char letter in line.ToCharArray())
         {
-            if (InputManager.GetInstance().GetSubmitPressed())
+            if (InputManager.getInstance().getSubmitPressed())
             {
                 dialogueText.maxVisibleCharacters = line.Length;
                 break;
@@ -237,7 +241,15 @@ public class DialogueManager : MonoBehaviour
 
     private void HandleTags(List<string> currentTags)
     {
-        foreach(string tag in currentTags)
+        string givequest_id = "";
+        string receivequest_id = "";
+        string questTrigger = "";
+        //string receivequest_name = "";
+        //string receivequest_progress = "";
+
+        
+
+        foreach (string tag in currentTags)
         {
             string[] splitTag = tag.Split(':');
             if (splitTag.Length != 2)
@@ -260,24 +272,49 @@ public class DialogueManager : MonoBehaviour
                     layoutAnimator.Play(tagValue);
                     break;
                 case QUESTTRIGGER_TAG:
-                    if (tagValue == "start")
-                    {
-                        startQuestTrigger?.Invoke(questData);
-                    }
-                    if (tagValue == "update")
-                    {
-                        updateQuestTrigger?.Invoke(questData);
-                    }
-                    if (tagValue == "complete")
-                    {
-                        completeQuestTrigger?.Invoke(questData);
-                    }
+                    questTrigger = tagValue;
                     break;
+                case GIVEQUEST_TAG:
+                    givequest_id = tagValue;
+                    break;
+                case RECEIVEQUESTID_TAG:
+                    receivequest_id = tagValue;
+                    break;
+                //case RECEIVEQUESTNAME_TAG:
+                //    receivequest_name = tagValue;
+                //    break;
+                //case RECEIVEQUESTPROGRESS_TAG:
+                //    receivequest_progress = tagValue;
+                //    break;
                 default:
                     Debug.LogWarning("Tag in switch case but not handled: "+tag);
                     break;
             }
         }
+
+        if (questTrigger == "start")
+        {
+            questData = talkingActor.GetComponent<QuestGiver>().getTargetQuestData(int.Parse(givequest_id));
+            startQuestTrigger?.Invoke(questData);
+        }
+
+        if (questTrigger == "complete")
+        {
+            questData = talkingActor.GetComponent<QuestGiver>().getTargetQuestData(int.Parse(givequest_id));
+            completeQuestTrigger?.Invoke(questData);
+        }
+
+
+        if (questTrigger == "updateprogressvalue")
+        {
+            updateQuestPV?.Invoke(int.Parse(receivequest_id));
+        }
+        
+        if (questTrigger == "proceedprogress")
+        {
+            updateQuestTrigger?.Invoke(questData, "proceedprogress");
+        }
+
     }
 
     private void DisplayChoices()
@@ -299,33 +336,33 @@ public class DialogueManager : MonoBehaviour
 
         if (canContinueToNextLine)
         {
-            int temp_id = 0;
-            string temp_name = "";
-            int temp_progress = 0;
-            if (talkingActor.GetComponent<QuestReceiver>() != null)
-            {
-                temp_id = talkingActor.GetComponent<QuestReceiver>().quest_ID;
-                temp_name = talkingActor.GetComponent<QuestReceiver>().quest_name;
-                temp_progress = talkingActor.GetComponent<QuestReceiver>().progress;
+            //int temp_id = 0;
+            //string temp_name = "";
+            //int temp_progress = 0;
+            //if (talkingActor.GetComponent<QuestReceiver>() != null)
+            //{
+            //    temp_id = talkingActor.GetComponent<QuestReceiver>().quest_ID;
+            //    temp_name = talkingActor.GetComponent<QuestReceiver>().quest_name;
+            //    temp_progress = talkingActor.GetComponent<QuestReceiver>().progress;
 
-                if (response == temp_name)
-                {
-                    int index = 0;
-                    index = questManager.GetComponent<QuestManager>().findQuestIndexwithID(temp_id);
+            //    if (response == temp_name)
+            //    {
+            //        int index = 0;
+            //        index = questManager.GetComponent<QuestManager>().findQuestIndexwithID(temp_id);
 
-                    if (questManager.GetComponent<QuestManager>().checkQuestInProgress(temp_id) && questManager.GetComponent<QuestManager>().questlist.ElementAt(index).quest_progress == temp_progress)
-                    {
+            //        if (questManager.GetComponent<QuestManager>().checkQuestInProgress(temp_id) && questManager.GetComponent<QuestManager>().questlist.ElementAt(index).quest_progress == temp_progress)
+            //        {
 
 
-                        questManager.GetComponent<QuestManager>().questlist.ElementAt(index).addProgressValue();
-                    }
+            //            questManager.GetComponent<QuestManager>().questlist.ElementAt(index).addProgressValue();
+            //        }
 
-                }
-            }
+            //    }
+            //}
             
             currentStory.ChooseChoiceIndex(choiceIndex);
 
-            InputManager.GetInstance().RegisterSubmitPressed();
+            InputManager.getInstance().registerSubmitPressed();
 
             choiceListref.GetComponent<ListLayout>().destroyListSelection();
             dialoguechoicepanel.SetActive(false);

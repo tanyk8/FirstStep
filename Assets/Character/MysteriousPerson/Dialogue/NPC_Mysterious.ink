@@ -6,16 +6,16 @@ VAR ID=1
 ->main
 
 === main ===
-Hi, how may I help you today? #speaker:??? #portrait:portrait_npc_mysterious #layout:layout_left #questevent:none
+Hi, how may I help you today? #speaker:??? #portrait:portrait_npc_mysterious #layout:layout_left #questtrigger:none
 {
--quest_tutorial2_status=="inprogress"&&quest_tutorial2_talktonpc==false:
+-quest_tutorial2_status=="inprogress"&&quest_tutorial2_progress=="1":
     +[Talk]
     ->chosen("Talk")
     +[Buy]
     ->chosen("Buy")
     +[Sell]
     ->chosen("Sell")
-    +[Quest1]
+    +[Quest]
         {quest_tutorial_status=="inprogress":
             ->questinprogress
           - else:
@@ -51,8 +51,8 @@ You chose <b><color=\#5B81FF>{playerchoice}</color></b>!
 
 
 ===questupdate===
-Ok tell the duplicate that he is stupid
-~quest_tutorial2_talktonpc=true
+Ok tell the duplicate that he is stupid#questtrigger:updateprogressvalue #receivequest_id:2
+
 ->END
 
 === questcheck===
@@ -84,7 +84,7 @@ Ok tell the duplicate that he is stupid
 === questinprogress ===
 Are you done? part 1
 +[Yes]
-    Let me check#speaker:??? #portrait:portrait_npc_mysterious #layout:layout_left #questevent:update
+    Let me check#speaker:??? #portrait:portrait_npc_mysterious #layout:layout_left #questevent:updateprogress
     {proceed_progress:
         Thank you my friend
         ~proceed_progress=false

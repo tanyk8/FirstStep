@@ -30,13 +30,9 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (DialogueManager.GetInstance().dialogueIsPlaying)
+        if (DialogueManager.GetInstance().dialogueIsPlaying|| menu.activeInHierarchy)
         {
-            return;
-        }
-
-        if (menu.activeInHierarchy)
-        {
+            animator.SetBool("isMoving", false);
             return;
         }
 
@@ -84,7 +80,7 @@ public class PlayerController : MonoBehaviour
     {
         movementInput = movementValue.Get<Vector2>();
 
-        if (movementInput != Vector2.zero && !DialogueManager.GetInstance().dialogueIsPlaying)
+        if (movementInput != Vector2.zero && !DialogueManager.GetInstance().dialogueIsPlaying&&!menu.activeInHierarchy)
         {
             animator.SetFloat("Xinput", movementInput.x);
             animator.SetFloat("Yinput", movementInput.y);
