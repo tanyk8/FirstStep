@@ -53,8 +53,6 @@ public class DialogueManager : MonoBehaviour
     private const string QUESTTRIGGER_TAG = "questtrigger";
     private const string GIVEQUEST_TAG = "givequest_id";
     private const string RECEIVEQUESTID_TAG = "receivequest_id";
-    //private const string RECEIVEQUESTNAME_TAG = "receivequest_name";
-    //private const string RECEIVEQUESTPROGRESS_TAG = "receivequest_progress";
 
     public static event handleStartQuestT startQuestTrigger;
     public delegate void handleStartQuestT(QuestData questdata);
@@ -95,7 +93,6 @@ public class DialogueManager : MonoBehaviour
     private void Start()
     {
         dialogueIsPlaying = false;
-        //dialoguePanel.SetActive(false);
         dialogueCanvas.SetActive(false);
         dialoguechoicepanel.SetActive(false);
 
@@ -117,21 +114,16 @@ public class DialogueManager : MonoBehaviour
     public void EnterDialogueMode(TextAsset inkJSON)
     {
 
-        //update reference of talking person to corresponding object
         updateTalkingActor?.Invoke();
 
         currentStory = new Story(inkJSON.text);
         dialogueIsPlaying = true;
         dialogueCanvas.SetActive(true);
-        //dialoguePanel.SetActive(true);
 
         dialoguevariableobserver.startListening(currentStory);
 
         if (talkingActor.GetComponent<QuestGiver>() != null&&questManager.GetComponent<QuestManager>() != null)
         {
-            //questData = talkingActor.GetComponent<QuestGiver>().questData[0];
-            
-
             startQuestTrigger += questManager.GetComponent<QuestManager>().startQuest;
             updateQuestPV += questManager.GetComponent<QuestManager>().updateTalkProgressValue;
             updateQuestTrigger += questManager.GetComponent<QuestManager>().updateQuestProgress;
@@ -244,8 +236,6 @@ public class DialogueManager : MonoBehaviour
         string givequest_id = "";
         string receivequest_id = "";
         string questTrigger = "";
-        //string receivequest_name = "";
-        //string receivequest_progress = "";
 
         
 
@@ -280,12 +270,6 @@ public class DialogueManager : MonoBehaviour
                 case RECEIVEQUESTID_TAG:
                     receivequest_id = tagValue;
                     break;
-                //case RECEIVEQUESTNAME_TAG:
-                //    receivequest_name = tagValue;
-                //    break;
-                //case RECEIVEQUESTPROGRESS_TAG:
-                //    receivequest_progress = tagValue;
-                //    break;
                 default:
                     Debug.LogWarning("Tag in switch case but not handled: "+tag);
                     break;
@@ -298,23 +282,21 @@ public class DialogueManager : MonoBehaviour
             startQuestTrigger?.Invoke(questData);
         }
 
-        if (questTrigger == "complete")
-        {
-            questData = talkingActor.GetComponent<QuestGiver>().getTargetQuestData(int.Parse(givequest_id));
-            completeQuestTrigger?.Invoke(questData);
-        }
-
-
         if (questTrigger == "updateprogressvalue")
         {
             updateQuestPV?.Invoke(int.Parse(receivequest_id));
         }
-        
+
         if (questTrigger == "proceedprogress")
         {
             updateQuestTrigger?.Invoke(questData, "proceedprogress");
         }
 
+        if (questTrigger == "complete")
+        {
+            questData = talkingActor.GetComponent<QuestGiver>().getTargetQuestData(int.Parse(givequest_id));
+            completeQuestTrigger?.Invoke(questData);
+        }
     }
 
     private void DisplayChoices()
@@ -336,30 +318,6 @@ public class DialogueManager : MonoBehaviour
 
         if (canContinueToNextLine)
         {
-            //int temp_id = 0;
-            //string temp_name = "";
-            //int temp_progress = 0;
-            //if (talkingActor.GetComponent<QuestReceiver>() != null)
-            //{
-            //    temp_id = talkingActor.GetComponent<QuestReceiver>().quest_ID;
-            //    temp_name = talkingActor.GetComponent<QuestReceiver>().quest_name;
-            //    temp_progress = talkingActor.GetComponent<QuestReceiver>().progress;
-
-            //    if (response == temp_name)
-            //    {
-            //        int index = 0;
-            //        index = questManager.GetComponent<QuestManager>().findQuestIndexwithID(temp_id);
-
-            //        if (questManager.GetComponent<QuestManager>().checkQuestInProgress(temp_id) && questManager.GetComponent<QuestManager>().questlist.ElementAt(index).quest_progress == temp_progress)
-            //        {
-
-
-            //            questManager.GetComponent<QuestManager>().questlist.ElementAt(index).addProgressValue();
-            //        }
-
-            //    }
-            //}
-            
             currentStory.ChooseChoiceIndex(choiceIndex);
 
             InputManager.getInstance().registerSubmitPressed();
