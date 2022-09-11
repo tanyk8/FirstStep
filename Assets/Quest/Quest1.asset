@@ -19,18 +19,14 @@ MonoBehaviour:
   quest_description: Gather item
   quest_rewardType: stat
   quest_reward: 10000
-  quest_currentprogress: 0
-  quest_totalprogress: 3
+  quest_totalprogress: 4
   quest_progress:
-  - completed: 0
-    description: Gather 2 item
+  - description: Gather 2 item
     requirementType: item
     requirement: 30
-  - completed: 0
-    description: Gather 3 item
+  - description: Gather 3 item
     requirementType: item
     requirement: 60
-  - completed: 0
-    description: Gather 4 item
+  - description: Gather 4 item
     requirementType: item
     requirement: 70

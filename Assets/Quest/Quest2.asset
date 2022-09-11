@@ -19,10 +19,11 @@ MonoBehaviour:
   quest_description: Gather item
   quest_rewardType: stat
   quest_reward: 100
-  quest_currentprogress: 0
-  quest_totalprogress: 1
+  quest_totalprogress: 3
   quest_progress:
-  - completed: 0
-    description: Gather 1 item
+  - description: talk to npc 1
+    requirementType: talk
+    requirement: 1
+  - description: talk to npc 2
     requirementType: talk
     requirement: 1

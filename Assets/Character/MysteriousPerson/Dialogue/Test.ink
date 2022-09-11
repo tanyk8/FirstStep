@@ -2,19 +2,44 @@ INCLUDE ../../../Script/globals.ink
 INCLUDE ../../../Script/globalfunction.ink
 
 VAR ID=2
-
 ->main
 
 === main ===
-I am the duplicate? #speaker:??? #portrait:portrait_npc_mysterious #layout:layout_left #questevent:none
-+[Quest]
-    {quest_tutorial2_status=="inprogress":
-        ->questinprogress
-      - else:
-        ->questcheck
-    }
-+[Nothing]
-Ok then bye
+I am the duplicate? #speaker:??? #portrait:portrait_npc_mysterious #layout:layout_left #questtrigger:none
+{
+-quest_tutorial2_status=="inprogress"&&quest_tutorial2_progress=="2":
+    +[Get this]
+    ->questupdate
+    +[Quest]
+        {
+        -quest_tutorial2_status=="inprogress"&&quest_tutorial2_progress=="1":
+            ->questinprogress
+        -quest_tutorial2_status=="inprogress"&&quest_tutorial2_progress=="3":
+            ->questinprogress2
+        -else:
+            ->questcheck
+        }
+    +[Nothing]
+    Ok then bye
+    ->END
+-else:
+    +[Quest]
+        {
+        -quest_tutorial2_status=="inprogress"&&quest_tutorial2_progress=="1":
+            ->questinprogress
+        -quest_tutorial2_status=="inprogress"&&quest_tutorial2_progress=="3":
+            ->questinprogress2
+        -else:
+            ->questcheck
+        }
+    +[Nothing]
+    Ok then bye
+    ->END
+}
+
+===questupdate===
+No tell the original that he is stupid #questtrigger:updateprogressvalue #receivequest_id:2
+~quest_tutorial2_progress="3"
 ->END
 
 === questcheck===
@@ -24,8 +49,9 @@ Ok then bye
     -else:
     Please accept
     +[Yes]
-        Thanks #speaker:??? #portrait:portrait_npc_mysterious #layout:layout_left #questevent:start
+        Thanks  #questtrigger:start #givequest_id:2
         ~quest_tutorial2_status="inprogress"
+        ~quest_tutorial2_progress="1"
         ->DONE
     +[No]
         Fine, be gone!
@@ -33,13 +59,14 @@ Ok then bye
 }
 
 
-
-=== questinprogress ===
-Are you done?
+===questinprogress===
+Are you done? 1/3
 +[Complete quest]
-    Let me check#speaker:??? #portrait:portrait_npc_mysterious #layout:layout_left #questevent:update
-    {quest_tutorial2_complete:
-        Thank you my bro #speaker:??? #portrait:portrait_npc_mysterious #layout:layout_left #questevent:complete
+    Let me check #questtrigger:proceedprogress
+    {proceed_progress:
+        Thank you my bro 2/3
+        ~proceed_progress=false
+        ~quest_tutorial2_progress="2"
         -else:
         No you are not done!!!
     } 
@@ -47,6 +74,24 @@ Are you done?
 +[No]
 why
 ->END
+
+
+=== questinprogress2 ===
+Are you done? 2/3
++[Complete quest]
+    Let me check #questtrigger:proceedprogress
+    {proceed_progress:
+        Thank you my bro 3/3 #questtrigger:complete #givequest_id:2
+        ~proceed_progress=false
+        -else:
+        No you are not done!!!
+    } 
+    ->END
++[No]
+why
+->END
+
+
 
 
 
