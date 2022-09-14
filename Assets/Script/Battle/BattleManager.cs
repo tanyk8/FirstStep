@@ -106,7 +106,7 @@ public class BattleManager : MonoBehaviour
     void playerTurn()
     {
         setBtnStatus(true);
-        StartCoroutine(ListLayout.selectFirstOption(attBtnObj));
+        StartCoroutine(ListLayout.selectOption(attBtnObj));
         //EventSystem.current.SetSelectedGameObject(attBtnObj);
         battle_status.text = "Choose an action!";
     }
@@ -259,7 +259,7 @@ public class BattleManager : MonoBehaviour
 
             listObjectRef.createBattleSkillList();
 
-            StartCoroutine(ListLayout.selectFirstOption(backBtnObj));
+            StartCoroutine(ListLayout.selectOption(backBtnObj));
             //EventSystem.current.SetSelectedGameObject(backBtnObj);
         }
     }
@@ -273,7 +273,7 @@ public class BattleManager : MonoBehaviour
 
         setBtnStatus(true);
 
-        StartCoroutine(ListLayout.selectFirstOption(skillBtnObj));
+        StartCoroutine(ListLayout.selectOption(skillBtnObj));
         //EventSystem.current.SetSelectedGameObject(skillBtnObj);
     }
 

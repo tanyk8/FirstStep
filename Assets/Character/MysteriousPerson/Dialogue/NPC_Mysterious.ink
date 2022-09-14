@@ -1,5 +1,5 @@
-INCLUDE ../../../Script/globals.ink
-INCLUDE ../../../Script/globalfunction.ink
+INCLUDE ../../../Script/Dialogue/globals.ink
+INCLUDE ../../../Script/Dialogue/globalfunction.ink
 
 VAR ID=1
 
@@ -51,7 +51,7 @@ You chose <b><color=\#5B81FF>{playerchoice}</color></b>!
 
 
 ===questupdate===
-Ok tell the duplicate that he is stupid#questtrigger:updateprogressvalue #receivequest_id:2
+Ok tell the duplicate that he is stupid#questtrigger:updateprogressvalue #quest_id:2
 
 ->END
 

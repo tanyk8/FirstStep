@@ -15,15 +15,15 @@ MonoBehaviour:
   quest_ID: 2
   quest_giver: NPC_mysterious_2
   quest_name: Get this
-  quest_type: gather
+  quest_type: sub
   quest_description: Gather item
   quest_rewardType: stat
   quest_reward: 100
   quest_totalprogress: 3
   quest_progress:
-  - description: talk to npc 1
+  - description: talk to original
     requirementType: talk
     requirement: 1
-  - description: talk to npc 2
+  - description: talk to duplicate
     requirementType: talk
     requirement: 1

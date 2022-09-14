@@ -51,8 +51,9 @@ public class DialogueManager : MonoBehaviour
     private const string PORTRAIT_TAG = "portrait";
     private const string LAYOUT_TAG = "layout";
     private const string QUESTTRIGGER_TAG = "questtrigger";
-    private const string GIVEQUEST_TAG = "givequest_id";
-    private const string RECEIVEQUESTID_TAG = "receivequest_id";
+    //private const string GIVEQUEST_TAG = "givequest_id";
+    //private const string RECEIVEQUESTID_TAG = "receivequest_id";
+    private const string QUESTID_TAG = "quest_id";
 
     public static event handleStartQuestT startQuestTrigger;
     public delegate void handleStartQuestT(QuestData questdata);
@@ -60,7 +61,7 @@ public class DialogueManager : MonoBehaviour
     private QuestData questData;
 
     public static event handleUpdateQuestPV updateQuestPV;
-    public delegate void handleUpdateQuestPV(int receivequest_ID);
+    public delegate void handleUpdateQuestPV(int quest_ID);
 
     public static event handleUpdateQuestT updateQuestTrigger;
     public delegate void handleUpdateQuestT(QuestData questdata,string type);
@@ -233,8 +234,9 @@ public class DialogueManager : MonoBehaviour
 
     private void HandleTags(List<string> currentTags)
     {
-        string givequest_id = "";
-        string receivequest_id = "";
+        //string givequest_id = "";
+        //string receivequest_id = "";
+        string quest_id = "";
         string questTrigger = "";
 
         
@@ -264,11 +266,14 @@ public class DialogueManager : MonoBehaviour
                 case QUESTTRIGGER_TAG:
                     questTrigger = tagValue;
                     break;
-                case GIVEQUEST_TAG:
-                    givequest_id = tagValue;
-                    break;
-                case RECEIVEQUESTID_TAG:
-                    receivequest_id = tagValue;
+                //case GIVEQUEST_TAG:
+                //    givequest_id = tagValue;
+                //    break;
+                //case RECEIVEQUESTID_TAG:
+                //    receivequest_id = tagValue;
+                //    break;
+                case QUESTID_TAG:
+                    quest_id = tagValue;
                     break;
                 default:
                     Debug.LogWarning("Tag in switch case but not handled: "+tag);
@@ -278,23 +283,24 @@ public class DialogueManager : MonoBehaviour
 
         if (questTrigger == "start")
         {
-            questData = talkingActor.GetComponent<QuestGiver>().getTargetQuestData(int.Parse(givequest_id));
+            questData = talkingActor.GetComponent<QuestGiver>().getTargetQuestData(int.Parse(quest_id));
             startQuestTrigger?.Invoke(questData);
         }
 
         if (questTrigger == "updateprogressvalue")
         {
-            updateQuestPV?.Invoke(int.Parse(receivequest_id));
+            updateQuestPV?.Invoke(int.Parse(quest_id));
         }
 
         if (questTrigger == "proceedprogress")
         {
+            questData = talkingActor.GetComponent<QuestGiver>().getTargetQuestData(int.Parse(quest_id));
             updateQuestTrigger?.Invoke(questData, "proceedprogress");
         }
 
         if (questTrigger == "complete")
         {
-            questData = talkingActor.GetComponent<QuestGiver>().getTargetQuestData(int.Parse(givequest_id));
+            questData = talkingActor.GetComponent<QuestGiver>().getTargetQuestData(int.Parse(quest_id));
             completeQuestTrigger?.Invoke(questData);
         }
     }

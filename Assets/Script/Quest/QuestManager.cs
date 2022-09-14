@@ -5,8 +5,14 @@ using UnityEngine;
 using Ink.Runtime;
 using System.Linq;
 
+
 public class QuestManager : MonoBehaviour
 {
+
+    [SerializeField] GameObject questmanager;
+
+    private static QuestManager instance;
+
     [Header("ManagerRef")]
     [SerializeField] GameObject dialoguemanager;
     [SerializeField] GameObject playermanager;
@@ -14,6 +20,20 @@ public class QuestManager : MonoBehaviour
     [SerializeField] GameObject progressmanager;
 
     public List<Quest> questlist=new List<Quest>();
+
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Debug.LogWarning("Found more than one Inventory Manager in the scene");
+        }
+        instance = this;
+    }
+
+    public static QuestManager GetInstance()
+    {
+        return instance;
+    }
 
     public void startQuest(QuestData questData)
     {
@@ -50,6 +70,7 @@ public class QuestManager : MonoBehaviour
 
 
         Story temp = DialogueManager.GetInstance().GetComponent<DialogueManager>().getStory();
+        //Debug.Log(questData.quest_ID);
         int questID = questData.quest_ID;
         int targetIndex = findQuestIndexwithID(questID);
 
@@ -119,6 +140,7 @@ public class QuestManager : MonoBehaviour
         //}
 
         questlist.ElementAt(findQuestIndexwithID(questID)).questState = QuestState.COMPLETED;
+        checkList();
 
     }
 
@@ -163,6 +185,8 @@ public class QuestManager : MonoBehaviour
             output += questlist.ElementAt(i).quest_progress;
             output += "|progressvalue:";
             output += questlist.ElementAt(i).quest_progressvalue;
+            output += "|state:";
+            output += questlist.ElementAt(i).questState;
             output += ",";
         }
         Debug.Log(output);
@@ -182,5 +206,50 @@ public class QuestManager : MonoBehaviour
 
 
         return found;
+    }
+
+    public bool checkQuestListEmpty(string type)
+    {
+        bool empty = true;
+
+        if (type == "inprog")
+        {
+            for (int x = 0; x < questlist.Count; x++)
+            {
+                if (questlist.ElementAt(x).questState == QuestState.INPROGRESS)
+                {
+                    empty = false;
+                }
+                if (empty == false)
+                {
+                    break;
+                }
+            }
+        }
+        else if (type == "completed")
+        {
+            for(int x=0;x< questlist.Count; x++){
+                if (questlist.ElementAt(x).questState == QuestState.COMPLETED)
+                {
+                    empty = false;
+                }
+                if (empty == false)
+                {
+                    break;
+                }
+            }
+        }
+
+        return empty;
+    }
+
+    public void updateQuestManager(List<Quest> questList)
+    {
+        questlist = questList;
+    }
+
+    public QuestManager getQuestManager()
+    {
+        return this;
     }
 }

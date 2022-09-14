@@ -5,7 +5,7 @@ using Ink.Runtime;
 using System;
 
 public enum QuestState { NONE,INPROGRESS,COMPLETED}
-
+[Serializable]
 public class Quest
 {
     

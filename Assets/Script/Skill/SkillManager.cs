@@ -2,17 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Skill
+public class SkillManager : MonoBehaviour
 {
-    string skill_name;
-    string skill_type; //buff or debuff or attack or heal
-    string skill_description;
-
-    int skill_power;
-    int skill_cost;
-
-    List<Skill> skillList = new List<Skill>();
-
     public void convertRawToAsset()
     {
         //convert raw txt file to serialized file
@@ -23,7 +14,7 @@ public class Skill
         //load serialized file
     }
 
-    public void useSkill(string type,string name)
+    public void useSkill(string type, string name)
     {
         switch (type)
         {
@@ -43,7 +34,7 @@ public class Skill
 
     }
 
-    public List<Skill> getSkillList(string type)
+    public void getSkillList(string type)
     {
         if (type == "learnt")
         {
@@ -58,7 +49,7 @@ public class Skill
 
         }
 
-        return skillList;
+
     }
 
     public void useSkill_Buff(string name)
