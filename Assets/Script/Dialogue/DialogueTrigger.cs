@@ -21,6 +21,7 @@ public class DialogueTrigger : MonoBehaviour
     {
         playerInRange = false;
         visualcue.SetActive(false);
+
     }
 
     private void Update()
@@ -46,7 +47,7 @@ public class DialogueTrigger : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             playerInRange = true;
-            DialogueManager.updateTalkingActor += updateParentObjRef;
+            DialogueManager.GetInstance().updateTalkingActor += updateParentObjRef;
         }
     }
 
@@ -54,14 +55,18 @@ public class DialogueTrigger : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            DialogueManager.updateTalkingActor -= updateParentObjRef;
+            DialogueManager.GetInstance().updateTalkingActor -= updateParentObjRef;
             playerInRange = false;
         }
     }
 
     private void updateParentObjRef()
     {
-        dialoguemanager.GetComponent<DialogueManager>().setTalkingActor(this.gameObject.transform.parent.gameObject);
+        //dialoguemanager.GetComponent<DialogueManager>().setTalkingActor(this.gameObject.transform.parent.gameObject);
+        //Debug.Log(gameObject.transform.parent.gameObject);
+
+
+        DialogueManager.GetInstance().setTalkingActor(gameObject.transform.parent.gameObject);
         
     }
 

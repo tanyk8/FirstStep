@@ -12,13 +12,38 @@ public class InventoryManager : MonoBehaviour
     public List<InventoryItem> inventory=new List<InventoryItem>();
     public Dictionary<ItemData, InventoryItem> itemDictionary=new Dictionary<ItemData, InventoryItem>();
 
+    private void Start()
+    {
+        ItemData shard=Resources.Load<ItemData>("Item/Shard of Light");
+        Debug.Log(shard.item_name);
+        Add(shard);
+        //ItemData item2 = Resources.Load<ItemData>("Item/item2");
+        //Add(item2);
+    }
+
     private void Awake()
     {
-        if (instance != null)
+        //if (instance != null)
+        //{
+        //    Debug.LogWarning("Found more than one Inventory Manager in the scene");
+        //    Destroy(gameObject);
+        //}
+        //else
+        //{
+        //    instance = this;
+        //    DontDestroyOnLoad(gameObject);
+        //}
+        if (instance == null)
         {
-            Debug.LogWarning("Found more than one Inventory Manager in the scene");
+            instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        instance = this;
+        else if (instance != this)
+        {
+            Destroy(instance.gameObject);
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
     }
 
     public static InventoryManager GetInstance()
@@ -69,7 +94,7 @@ public class InventoryManager : MonoBehaviour
         {
             for(int x = 0; x < inventory.Count; x++)
             {
-                if (inventory.ElementAt(x).itemData.itemType == "use")
+                if (inventory.ElementAt(x).itemData.item_type == "use")
                 {
                     empty = false;
                     break;
@@ -80,7 +105,7 @@ public class InventoryManager : MonoBehaviour
         {
             for (int x = 0; x < inventory.Count; x++)
             {
-                if (inventory.ElementAt(x).itemData.itemType == "etc")
+                if (inventory.ElementAt(x).itemData.item_type == "etc")
                 {
                     empty = false;
                     break;
@@ -91,7 +116,7 @@ public class InventoryManager : MonoBehaviour
         {
             for (int x = 0; x < inventory.Count; x++)
             {
-                if (inventory.ElementAt(x).itemData.itemType == "important")
+                if (inventory.ElementAt(x).itemData.item_type == "important")
                 {
                     empty = false;
                     break;

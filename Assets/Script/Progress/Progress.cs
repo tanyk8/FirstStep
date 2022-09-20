@@ -38,6 +38,9 @@ public class Progress
         progressData.player_currmp= player.getCurrent_MentalPoint();
 
 
+        progressData.skillList = SkillManager.GetInstance().skilllist;
+        progressData.statusList = StatusManager.GetInstance().statusList;
+
         progressData.inventoryList = InventoryManager.GetInstance().inventory;
         progressData.itemDictionary = InventoryManager.GetInstance().itemDictionary;
 

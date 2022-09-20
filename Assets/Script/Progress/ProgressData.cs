@@ -14,7 +14,8 @@ public class ProgressData
     public int player_currmp;
 
 
-
+    public List<Skill> skillList;
+    public List<Status> statusList;
     public List<InventoryItem> inventoryList;
     public Dictionary<ItemData, InventoryItem> itemDictionary;
     public List<Quest> questList;

@@ -22,9 +22,25 @@ public class Player : MonoBehaviour
     {
         if (instance != null)
         {
-            Debug.LogWarning("Found more than one Inventory Manager in the scene");
+            Destroy(gameObject);
         }
-        instance = this;
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        //if (instance == null)
+        //{
+        //    instance = this;
+        //    DontDestroyOnLoad(gameObject);
+        //}
+        //else if (instance != this)
+        //{
+        //    Destroy(instance.gameObject);
+        //    instance = this;
+        //    DontDestroyOnLoad(gameObject);
+        //}
+
     }
 
     public static Player GetInstance()

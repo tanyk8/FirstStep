@@ -2,17 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StatusData : MonoBehaviour
+[CreateAssetMenu]
+public class StatusData : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public int status_ID;
+    public string status_name;
+    public string status_description;
+    public float status_value;
+    public int status_duration;
+    public string status_type;
 }

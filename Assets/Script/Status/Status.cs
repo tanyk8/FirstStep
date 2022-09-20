@@ -1,18 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class Status : MonoBehaviour
+[Serializable]
+public class Status
 {
-    // Start is called before the first frame update
-    void Start()
+    public StatusData statusData;
+    public int current_duration;
+
+    public Status(StatusData statusdata)
     {
-        
+        statusData = statusdata;
+        current_duration = 0;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

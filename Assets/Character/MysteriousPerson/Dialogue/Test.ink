@@ -32,6 +32,9 @@ I am the duplicate? #speaker:??? #portrait:portrait_npc_mysterious #layout:layou
         -else:
             ->questcheck
         }
+    +[Battle]
+    You engaged in battle#battle:start
+    ->END 
     +[Nothing]
     Ok then bye
     ->END

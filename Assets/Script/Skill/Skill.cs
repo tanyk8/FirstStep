@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class Skill : MonoBehaviour
+[Serializable]
+public class Skill
 {
-    SkillData skillData;
-    bool skillLearnt;
+    public SkillData skillData;
+    public bool skillLearnt;
 
     public Skill(SkillData skilldata)
     {

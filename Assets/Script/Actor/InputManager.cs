@@ -15,16 +15,33 @@ public class InputManager : MonoBehaviour
     private bool interactPressed = false;
     private bool submitPressed = false;
     private bool menuPressed = false;
+    private bool switchPressed = false;
 
     private static InputManager instance;
 
     private void Awake()
     {
-        if (instance != null)
+        //if (instance != null)
+        //{
+        //    Debug.LogWarning("Found more than one Input Manager in the scene.");
+        //    //Destroy(gameObject);
+        //}
+        //else
+        //{
+        //    instance = this;
+        //    DontDestroyOnLoad(gameObject);
+        //}
+        if (instance == null)
         {
-            Debug.LogError("Found more than one Input Manager in the scene.");
+            instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        instance = this;
+        else if (instance != this)
+        {
+            Destroy(instance.gameObject);
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
     }
 
     public static InputManager getInstance()
@@ -81,6 +98,18 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    public void switchButtonPressed(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            switchPressed = true;
+        }
+        else if (context.canceled)
+        {
+            switchPressed = false;
+        }
+    }
+
     public Vector2 getMoveDirection()
     {
         return moveDirection;
@@ -108,6 +137,13 @@ public class InputManager : MonoBehaviour
     {
         bool result = menuPressed;
         menuPressed = false;
+        return result;
+    }
+
+    public bool getSwitchPressed()
+    {
+        bool result = switchPressed;
+        switchPressed = false;
         return result;
     }
 

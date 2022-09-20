@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -54,6 +55,7 @@ public class DialogueManager : MonoBehaviour
     //private const string GIVEQUEST_TAG = "givequest_id";
     //private const string RECEIVEQUESTID_TAG = "receivequest_id";
     private const string QUESTID_TAG = "quest_id";
+    private const string BATTLE_TAG = "battle";
 
     public static event handleStartQuestT startQuestTrigger;
     public delegate void handleStartQuestT(QuestData questdata);
@@ -69,19 +71,38 @@ public class DialogueManager : MonoBehaviour
     public static event handleCompleteQuestT completeQuestTrigger;
     public delegate void handleCompleteQuestT(QuestData questdata);
 
-    public static event Action updateTalkingActor;
+    public event Action updateTalkingActor;
 
     private DialogueVariableObserver dialoguevariableobserver;
 
-    private GameObject talkingActor; 
+    private GameObject talkingActor;
+
+    private bool initiateBattle;
 
     private void Awake()
     {
-        if (instance != null)
+        //if (instance != null)
+        //{
+        //    Debug.LogWarning("Found more than one Dialogue Manager in the scene");
+        //    Destroy(gameObject);
+        //}
+        //else
+        //{
+        //    instance = this;
+        //    DontDestroyOnLoad(gameObject);
+        //}
+        if (instance == null)
         {
-            Debug.LogWarning("Found more than one Dialogue Manager in the scene");
+            instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        instance = this;
+        else if (instance != this)
+        {
+            Destroy(instance.gameObject);
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+
 
         dialoguevariableobserver = new DialogueVariableObserver(loadGlobalsJSON);
     }
@@ -162,6 +183,12 @@ public class DialogueManager : MonoBehaviour
         //dialoguePanel.SetActive(false);
         dialogueCanvas.SetActive(false);
         dialogueText.text = "";
+
+        if (initiateBattle == true)
+        {
+            initiateBattle = false;
+            SceneManager.LoadScene("Battlescene");
+        }
     }
 
     private void ContinueStory()
@@ -238,7 +265,7 @@ public class DialogueManager : MonoBehaviour
         //string receivequest_id = "";
         string quest_id = "";
         string questTrigger = "";
-
+        string battle="";
         
 
         foreach (string tag in currentTags)
@@ -275,6 +302,9 @@ public class DialogueManager : MonoBehaviour
                 case QUESTID_TAG:
                     quest_id = tagValue;
                     break;
+                case BATTLE_TAG:
+                    battle = tagValue;
+                    break;
                 default:
                     Debug.LogWarning("Tag in switch case but not handled: "+tag);
                     break;
@@ -302,6 +332,12 @@ public class DialogueManager : MonoBehaviour
         {
             questData = talkingActor.GetComponent<QuestGiver>().getTargetQuestData(int.Parse(quest_id));
             completeQuestTrigger?.Invoke(questData);
+        }
+
+        if (battle == "start")
+        {
+            initiateBattle = true;
+            
         }
     }
 

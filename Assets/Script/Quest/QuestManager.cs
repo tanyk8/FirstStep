@@ -23,11 +23,28 @@ public class QuestManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance != null)
+        //if (instance != null)
+        //{
+        //    Debug.LogWarning("Found more than one Inventory Manager in the scene");
+        //    Destroy(gameObject);
+        //}
+        //else
+        //{
+        //    instance = this;
+        //    DontDestroyOnLoad(gameObject);
+        //}
+        if (instance == null)
         {
-            Debug.LogWarning("Found more than one Inventory Manager in the scene");
+            instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        instance = this;
+        else if (instance != this)
+        {
+            Destroy(instance.gameObject);
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+
     }
 
     public static QuestManager GetInstance()

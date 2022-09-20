@@ -1,20 +1,61 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class SkillManager : MonoBehaviour
 {
-    public void convertRawToAsset()
+
+    public List<Skill> skilllist=new List<Skill>();
+
+    private static SkillManager instance;
+
+    private void Start()
     {
-        //convert raw txt file to serialized file
+        SkillData testskill = Resources.Load<SkillData>("Skill/skill1");
+        Debug.Log(testskill.skill_name);
+        Skill skill = new Skill(testskill);
+        skill.updateSkillLearnt();
+        skilllist.Add(skill);
+
+        SkillData testskill2 = Resources.Load<SkillData>("Skill/skill2");
+        Skill skill2 = new Skill(testskill2);
+        skill2.updateSkillLearnt();
+        skilllist.Add(skill2);
     }
 
-    public void loadSkillList()
+    private void Awake()
     {
-        //load serialized file
+        //if (instance != null)
+        //{
+        //    Debug.LogWarning("Found more than one Skill Manager in the scene");
+        //    Destroy(gameObject);
+        //}
+        //else
+        //{
+        //    instance = this;
+        //    DontDestroyOnLoad(gameObject);
+        //}
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (instance != this)
+        {
+            Destroy(instance.gameObject);
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+
     }
 
-    public void useSkill(string type, string name)
+    public static SkillManager GetInstance()
+    {
+        return instance;
+    }
+
+    public int useSkill(string type, string name)
     {
         switch (type)
         {
@@ -31,6 +72,7 @@ public class SkillManager : MonoBehaviour
                 useSkill_Heal(name);
                 break;
         }
+        return 1;
 
     }
 
@@ -81,8 +123,47 @@ public class SkillManager : MonoBehaviour
         //Rest
     }
 
+    public bool checkSkillEmpty(string type)
+    {
+        bool empty = true;
+
+        if (type == "notlearnt")
+        {
+            for (int x = 0; x < skilllist.Count; x++)
+            {
+                if (skilllist.ElementAt(x).skillLearnt == false)
+                {
+                    empty = false;
+                }
+                if (empty == false)
+                {
+                    break;
+                }
+            }
+        }
+        else if (type == "learnt")
+        {
+            for (int x = 0; x < skilllist.Count; x++)
+            {
+                if (skilllist.ElementAt(x).skillLearnt == true)
+                {
+                    empty = false;
+                }
+                if (empty == false)
+                {
+                    break;
+                }
+            }
+        }
+
+        return empty;
+    }
 
 
+    public void updateSkill(List<Skill> listskill)
+    {
+        skilllist = listskill;
+    }
     //load player skill(also check if skill learnt)
     //load enemy skill
 }

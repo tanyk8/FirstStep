@@ -25,11 +25,29 @@ public class ProgressManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance != null)
+        //if (instance != null)
+        //{
+        //    Debug.LogWarning("Found more than one Progress Manager in the scene");
+        //    Destroy(gameObject);
+        //}
+        //else
+        //{
+        //    instance = this;
+        //    DontDestroyOnLoad(gameObject);
+        //}
+
+        if (instance == null)
         {
-            Debug.LogWarning("Found more than one Progress Manager in the scene");
+            instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        instance = this;
+        else if (instance != this)
+        {
+            Destroy(instance.gameObject);
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+
     }
 
     public static ProgressManager GetInstance()
@@ -107,6 +125,10 @@ public class ProgressManager : MonoBehaviour
         ProgressData progdata = progress.progressData;
 
         DialogueVariableObserver.loadVariables(progress.inkVariableData);
+
+        SkillManager.GetInstance().updateSkill(progdata.skillList);
+        
+        StatusManager.GetInstance().updateStatus(progdata.statusList);
 
         Player.GetInstance().updatePlayer(progdata.player_maxhealth, progdata.player_maxmp, progdata.player_power, progdata.player_protection, progdata.player_currhealth, progdata.player_currmp);
         InventoryManager.GetInstance().updateInventory(progdata.inventoryList, progdata.itemDictionary);

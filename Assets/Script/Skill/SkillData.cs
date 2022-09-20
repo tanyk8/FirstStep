@@ -5,12 +5,14 @@ using UnityEngine;
 [CreateAssetMenu]
 public class SkillData : ScriptableObject
 {
-    string skill_name;
-    string skill_type; //buff or debuff or attack or heal
-    string skill_description;
 
-    int skill_power;
-    int skill_cost;
+    public int skill_ID;
+    public string skill_name;
+    public string skill_type; //buff or debuff or attack or heal
+    public string skill_description;
+
+    public int skill_power;
+    public int skill_cost;
 
     
 }

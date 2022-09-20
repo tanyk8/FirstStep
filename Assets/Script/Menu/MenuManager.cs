@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 public class MenuManager : MonoBehaviour
 {
@@ -49,10 +50,13 @@ public class MenuManager : MonoBehaviour
     [SerializeField] GameObject characterAboutPanel;
     [SerializeField] GameObject characterLeftPanel;
     [SerializeField] GameObject characterRightPanel;
+    [SerializeField] GameObject characterEmptyMsg;
 
     [SerializeField] GameObject characterAboutBtn;
     [SerializeField] GameObject characterSkillBtn;
     [SerializeField] GameObject characterStatusBtn;
+
+    [SerializeField] GameObject skillListRef;
 
     [Header("Inventory")]
     [SerializeField] GameObject inventoryContentPanel;
@@ -92,11 +96,27 @@ public class MenuManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance != null)
+        //if (instance != null)
+        //{
+        //    Debug.LogWarning("Found more than one Inventory Manager in the scene");
+        //    Destroy(gameObject);
+        //}
+        //else
+        //{
+            
+        //}
+        if (instance == null)
         {
-            Debug.LogWarning("Found more than one Inventory Manager in the scene");
+            instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        instance = this;
+        else if (instance != this)
+        {
+            Destroy(instance.gameObject);
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        
     }
 
     public static MenuManager GetInstance()
@@ -123,11 +143,12 @@ public class MenuManager : MonoBehaviour
             }
             else if (lastSelectedCharacterBtn!=""&&characterContentPanel.activeInHierarchy)
             {
-
+                characterEmptyMsg.SetActive(false);
                 characterAboutPanel.SetActive(false);
                 characterLeftPanel.SetActive(false);
                 characterRightPanel.SetActive(false);
                 characterContentPanel.SetActive(false);
+                skillListRef.GetComponent<ListLayout>().destroyListSelection();
 
                 if (lastSelectedCharacterBtn == "about")
                 {
@@ -300,8 +321,19 @@ public class MenuManager : MonoBehaviour
         if (!characterContentPanel.activeInHierarchy)
         {
             characterContentPanel.SetActive(true);
-            characterLeftPanel.SetActive(true);
-            characterRightPanel.SetActive(true);
+
+            if (SkillManager.GetInstance().checkSkillEmpty("learnt"))
+            {
+                characterEmptyMsg.SetActive(true);
+                StartCoroutine(ListLayout.selectOption(null));
+            }
+            else
+            {
+                characterLeftPanel.SetActive(true);
+                characterRightPanel.SetActive(true);
+                skillListRef.GetComponent<ListLayout>().createSkillList(SkillManager.GetInstance().skilllist, "learnt");
+            }
+
             lastSelectedCharacterBtn = "skill";
         }
     }
@@ -311,8 +343,19 @@ public class MenuManager : MonoBehaviour
         if (!characterContentPanel.activeInHierarchy)
         {
             characterContentPanel.SetActive(true);
-            characterLeftPanel.SetActive(true);
-            characterRightPanel.SetActive(true);
+            if (StatusManager.GetInstance().checkStatusEmpty())
+            {
+                characterEmptyMsg.SetActive(true);
+                StartCoroutine(ListLayout.selectOption(null));
+            }
+            else
+            {
+                characterLeftPanel.SetActive(true);
+                characterRightPanel.SetActive(true);
+                skillListRef.GetComponent<ListLayout>().createStatusList(StatusManager.GetInstance().statusList);
+            }
+            
+            
             lastSelectedCharacterBtn = "status";
         }
     }
