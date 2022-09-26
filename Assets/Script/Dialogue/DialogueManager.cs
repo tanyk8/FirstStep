@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -21,8 +22,13 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private GameObject dialogueCanvas;
     [SerializeField] private GameObject dialoguePanel;
     [SerializeField] private GameObject continueIcon;
+    [SerializeField] private GameObject portraitFrame;
+    [SerializeField] private GameObject speakerFrame;
+    [SerializeField] private GameObject dialogueFrame;
+    [SerializeField] private GameObject monologueFrame;
 
     [SerializeField] private TextMeshProUGUI dialogueText;
+    [SerializeField] private TextMeshProUGUI monologueText;
 
     [SerializeField] private TextMeshProUGUI displayNameText;
 
@@ -51,8 +57,12 @@ public class DialogueManager : MonoBehaviour
     private const string PORTRAIT_TAG = "portrait";
     private const string LAYOUT_TAG = "layout";
     private const string QUESTTRIGGER_TAG = "questtrigger";
-    private const string GIVEQUEST_TAG = "givequest_id";
-    private const string RECEIVEQUESTID_TAG = "receivequest_id";
+    //private const string GIVEQUEST_TAG = "givequest_id";
+    //private const string RECEIVEQUESTID_TAG = "receivequest_id";
+    private const string QUESTID_TAG = "quest_id";
+    private const string BATTLE_TAG = "battle";
+    private const string PORTAL_TAG = "portal";
+    private const string LOG_TAG = "logtype";
 
     public static event handleStartQuestT startQuestTrigger;
     public delegate void handleStartQuestT(QuestData questdata);
@@ -60,7 +70,7 @@ public class DialogueManager : MonoBehaviour
     private QuestData questData;
 
     public static event handleUpdateQuestPV updateQuestPV;
-    public delegate void handleUpdateQuestPV(int receivequest_ID);
+    public delegate void handleUpdateQuestPV(int quest_ID);
 
     public static event handleUpdateQuestT updateQuestTrigger;
     public delegate void handleUpdateQuestT(QuestData questdata,string type);
@@ -68,19 +78,42 @@ public class DialogueManager : MonoBehaviour
     public static event handleCompleteQuestT completeQuestTrigger;
     public delegate void handleCompleteQuestT(QuestData questdata);
 
-    public static event Action updateTalkingActor;
+    public event Action updateTalkingActor;
 
     private DialogueVariableObserver dialoguevariableobserver;
 
-    private GameObject talkingActor; 
+    private GameObject talkingActor;
+
+    private bool initiateBattle;
+    private bool changeScene;
+    private string destination;
+
+    private string dialoguetype;
 
     private void Awake()
     {
-        if (instance != null)
+        //if (instance != null)
+        //{
+        //    Debug.LogWarning("Found more than one Dialogue Manager in the scene");
+        //    Destroy(gameObject);
+        //}
+        //else
+        //{
+        //    instance = this;
+        //    DontDestroyOnLoad(gameObject);
+        //}
+        if (instance == null)
         {
-            Debug.LogWarning("Found more than one Dialogue Manager in the scene");
+            instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        instance = this;
+        else if (instance != this)
+        {
+            Destroy(instance.gameObject);
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        DontDestroyOnLoad(dialogueCanvas);
 
         dialoguevariableobserver = new DialogueVariableObserver(loadGlobalsJSON);
     }
@@ -129,11 +162,18 @@ public class DialogueManager : MonoBehaviour
             updateQuestTrigger += questManager.GetComponent<QuestManager>().updateQuestProgress;
             completeQuestTrigger += questManager.GetComponent<QuestManager>().completeQuest;
         }
-        
 
-        displayNameText.text = "???";
+
+        displayNameText.text = "?0?";
         portraitAnimator.Play("default");
         layoutAnimator.Play("layout_left");
+        dialoguetype = "di";
+
+        monologueFrame.SetActive(false);
+        dialogueFrame.SetActive(true);
+        portraitFrame.SetActive(true);
+        speakerFrame.SetActive(true);
+
 
         ContinueStory();
 
@@ -161,21 +201,37 @@ public class DialogueManager : MonoBehaviour
         //dialoguePanel.SetActive(false);
         dialogueCanvas.SetActive(false);
         dialogueText.text = "";
+
+        if (initiateBattle)
+        {
+            initiateBattle = false;
+            SceneManager.LoadScene("Battlescene");
+        }
+        else if (changeScene)
+        {
+
+            changeScene = false;
+            switch (destination)
+            {
+                case "FirstStage_Park":
+                    destination = "";
+                    UnityEngine.SceneManagement.SceneManager.LoadScene("FirstStage_Park");
+                    break;
+
+            }
+        }
     }
 
     private void ContinueStory()
     {
         if (currentStory.canContinue)
         {
-            if(displayLineCoroutine != null)
+            if (displayLineCoroutine != null)
             {
                 StopCoroutine(displayLineCoroutine);
             }
             displayLineCoroutine = StartCoroutine(DisplayLine(currentStory.Continue()));
-            
-
             HandleTags(currentStory.currentTags);
-            
         }
         else
         {
@@ -183,10 +239,61 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    private IEnumerator DisplayMonoLine(string line)
+    {
+
+        monologueText.text = line;
+        monologueText.maxVisibleCharacters = 0;
+
+        continueIcon.SetActive(false);
+
+
+        canContinueToNextLine = false;
+
+        bool isAddingRichTextTag = false;
+
+        foreach (char letter in line.ToCharArray())
+        {
+            if (InputManager.getInstance().getSubmitPressed())
+            {
+                monologueText.maxVisibleCharacters = line.Length;
+                break;
+            }
+
+            if (letter == '<' || isAddingRichTextTag)
+            {
+                isAddingRichTextTag = true;
+                if (letter == '>')
+                {
+                    isAddingRichTextTag = false;
+                }
+            }
+            else
+            {
+                monologueText.maxVisibleCharacters++;
+                yield return new WaitForSeconds(typingSpeed);
+            }
+
+
+        }
+
+        continueIcon.SetActive(true);
+
+        if (currentStory.currentChoices.Count != 0)
+        {
+            DisplayChoices();
+        }
+
+
+        canContinueToNextLine = true;
+    }
+
     private IEnumerator DisplayLine(string line)
     {
         dialogueText.text = line;
         dialogueText.maxVisibleCharacters = 0;
+        monologueText.text = line;
+        monologueText.maxVisibleCharacters = 0;
 
         continueIcon.SetActive(false);
         
@@ -200,6 +307,7 @@ public class DialogueManager : MonoBehaviour
             if (InputManager.getInstance().getSubmitPressed())
             {
                 dialogueText.maxVisibleCharacters = line.Length;
+                monologueText.maxVisibleCharacters = line.Length;
                 break;
             }
 
@@ -214,6 +322,7 @@ public class DialogueManager : MonoBehaviour
             else
             {
                 dialogueText.maxVisibleCharacters++;
+                monologueText.maxVisibleCharacters++;
                 yield return new WaitForSeconds(typingSpeed);
             }
 
@@ -233,11 +342,10 @@ public class DialogueManager : MonoBehaviour
 
     private void HandleTags(List<string> currentTags)
     {
-        string givequest_id = "";
-        string receivequest_id = "";
+        string quest_id = "";
         string questTrigger = "";
-
-        
+        string battle="";
+        string portal = "";
 
         foreach (string tag in currentTags)
         {
@@ -264,11 +372,32 @@ public class DialogueManager : MonoBehaviour
                 case QUESTTRIGGER_TAG:
                     questTrigger = tagValue;
                     break;
-                case GIVEQUEST_TAG:
-                    givequest_id = tagValue;
+                case QUESTID_TAG:
+                    quest_id = tagValue;
                     break;
-                case RECEIVEQUESTID_TAG:
-                    receivequest_id = tagValue;
+                case BATTLE_TAG:
+                    battle = tagValue;
+                    break;
+                case PORTAL_TAG:
+                    portal = tagValue;
+                    break;
+                case LOG_TAG:
+                    dialoguetype = tagValue;
+                    if (tagValue == "mono")
+                    {
+                        monologueFrame.SetActive(true);
+                        dialogueFrame.SetActive(false);
+                        portraitFrame.SetActive(false);
+                        speakerFrame.SetActive(false);
+                    }
+                    else if (tagValue == "di")
+                    {
+                        monologueFrame.SetActive(false);
+                        dialogueFrame.SetActive(true);
+                        portraitFrame.SetActive(true);
+                        speakerFrame.SetActive(true);
+                    }
+                    
                     break;
                 default:
                     Debug.LogWarning("Tag in switch case but not handled: "+tag);
@@ -278,24 +407,36 @@ public class DialogueManager : MonoBehaviour
 
         if (questTrigger == "start")
         {
-            questData = talkingActor.GetComponent<QuestGiver>().getTargetQuestData(int.Parse(givequest_id));
+            questData = talkingActor.GetComponent<QuestGiver>().getTargetQuestData(int.Parse(quest_id));
             startQuestTrigger?.Invoke(questData);
         }
 
         if (questTrigger == "updateprogressvalue")
         {
-            updateQuestPV?.Invoke(int.Parse(receivequest_id));
+            updateQuestPV?.Invoke(int.Parse(quest_id));
         }
 
         if (questTrigger == "proceedprogress")
         {
+            questData = talkingActor.GetComponent<QuestGiver>().getTargetQuestData(int.Parse(quest_id));
             updateQuestTrigger?.Invoke(questData, "proceedprogress");
         }
 
         if (questTrigger == "complete")
         {
-            questData = talkingActor.GetComponent<QuestGiver>().getTargetQuestData(int.Parse(givequest_id));
+            questData = talkingActor.GetComponent<QuestGiver>().getTargetQuestData(int.Parse(quest_id));
             completeQuestTrigger?.Invoke(questData);
+        }
+
+        if (battle == "start")
+        {
+            initiateBattle = true;
+            
+        }
+        if (portal !="")
+        {
+            destination = portal;
+            changeScene = true;
         }
     }
 

@@ -1571,6 +1571,21 @@ TextureImporter:
   - first:
       213: -8019197239903065295
     second: Modern_campingcar_1_3
+  - first:
+      213: 2541796778438382773
+    second: Modern_Exteriors_Complete_Tileset_523
+  - first:
+      213: 5279332461643672676
+    second: Modern_Exteriors_Complete_Tileset_524
+  - first:
+      213: -6465676535235492144
+    second: Modern_Exteriors_Complete_Tileset_525
+  - first:
+      213: 6868715092569704744
+    second: Modern_Exteriors_Complete_Tileset_526
+  - first:
+      213: -4387172088302368319
+    second: Modern_Exteriors_Complete_Tileset_527
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -5442,7 +5457,11 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -8, y: 2}
+        - {x: -8, y: -8}
+        - {x: 8, y: -8}
+        - {x: 8, y: 2}
       tessellationDetail: 0
       bones: []
       spriteID: 758c828cb5050c1e0800000000000000
@@ -5946,7 +5965,13 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.75}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -8, y: -6}
+        - {x: -8, y: -16}
+        - {x: 2, y: -16}
+        - {x: 2, y: -14}
+        - {x: 8, y: -14}
+        - {x: 8, y: -6}
       tessellationDetail: 0
       bones: []
       spriteID: 9d413b7c35f5199a0800000000000000
@@ -5967,7 +5992,13 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.75}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: 8, y: -6}
+        - {x: -8, y: -6}
+        - {x: -8, y: -14}
+        - {x: -1, y: -14}
+        - {x: -1, y: -16}
+        - {x: 8, y: -16}
       tessellationDetail: 0
       bones: []
       spriteID: d72abe9c76cc7adf0800000000000000
@@ -5988,7 +6019,11 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: 1, y: -8}
+        - {x: 1, y: 8}
+        - {x: -8, y: 8}
+        - {x: -8, y: -8}
       tessellationDetail: 0
       bones: []
       spriteID: ef58eb3e742d7cf50800000000000000
@@ -6009,7 +6044,13 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.75}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -8, y: 16}
+        - {x: -8, y: -16}
+        - {x: 8, y: -16}
+        - {x: 8, y: -7}
+        - {x: 1, y: -7}
+        - {x: 1, y: 16}
       tessellationDetail: 0
       bones: []
       spriteID: fd8b9c4dbc3d687c0800000000000000
@@ -6051,7 +6092,13 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.75}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -1, y: 16}
+        - {x: -1, y: -7}
+        - {x: -8, y: -7}
+        - {x: -8, y: -16}
+        - {x: 8, y: -16}
+        - {x: 8, y: 16}
       tessellationDetail: 0
       bones: []
       spriteID: 368bc6d044cfb7210800000000000000
@@ -6093,7 +6140,11 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: -1, y: 8}
+        - {x: -1, y: -8}
+        - {x: 8, y: -8}
+        - {x: 8, y: 8}
       tessellationDetail: 0
       bones: []
       spriteID: adb996049d623a2f0800000000000000
@@ -12650,6 +12701,111 @@ TextureImporter:
       bones: []
       spriteID: 13be8cb099616b090800000000000000
       internalID: -8019197239903065295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Modern_Exteriors_Complete_Tileset_523
+      rect:
+        serializedVersion: 2
+        x: 1008
+        y: 800
+        width: 80
+        height: 48
+      alignment: 9
+      pivot: {x: 0.1, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b45d06f3b6464320800000000000000
+      internalID: 2541796778438382773
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Modern_Exteriors_Complete_Tileset_524
+      rect:
+        serializedVersion: 2
+        x: 1008
+        y: 720
+        width: 80
+        height: 80
+      alignment: 9
+      pivot: {x: 0.1, y: 0.9}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 46ca57b17e4f34940800000000000000
+      internalID: 5279332461643672676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Modern_Exteriors_Complete_Tileset_525
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 1840
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d6c5b4a27d4546a0800000000000000
+      internalID: -6465676535235492144
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Modern_Exteriors_Complete_Tileset_526
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 1840
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8294bf31cf3925f50800000000000000
+      internalID: 6868715092569704744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Modern_Exteriors_Complete_Tileset_527
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 1840
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c98a3cda32ad13c0800000000000000
+      internalID: -4387172088302368319
       vertices: []
       indices: 
       edges: []

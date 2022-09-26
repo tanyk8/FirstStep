@@ -1,0 +1,18 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[CreateAssetMenu]
+public class SkillData : ScriptableObject
+{
+
+    public int skill_ID;
+    public string skill_name;
+    public string skill_type; //buff or debuff or attack or heal
+    public string skill_description;
+
+    public int skill_power;
+    public int skill_cost;
+
+    
+}

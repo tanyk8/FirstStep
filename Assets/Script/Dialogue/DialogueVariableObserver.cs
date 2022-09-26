@@ -6,16 +6,43 @@ using Ink.Runtime;
 public class DialogueVariableObserver
 {
 
-    public static Dictionary<string, Ink.Runtime.Object> variables;
+    public static Dictionary<string, Ink.Runtime.Object> variables { get; private set; }
+
+    public static Story globalVariablesStory;
 
     public DialogueVariableObserver(TextAsset loadGlobalJSON)
     {
-        Story globalVariablesStory = new Story(loadGlobalJSON.text);
+        globalVariablesStory = new Story(loadGlobalJSON.text);
 
         variables = new Dictionary<string, Ink.Runtime.Object>();
         foreach(string name in globalVariablesStory.variablesState)
         {
             Ink.Runtime.Object value=globalVariablesStory.variablesState.GetVariableWithName(name);
+            variables.Add(name, value);
+            Debug.Log("Initialized global dialogue variable: " + name + "=" + value);
+        }
+    }
+
+    public static string saveVariables()
+    {
+        string temp="";
+
+        if (globalVariablesStory != null)
+        {
+            VariablesToStory(globalVariablesStory);
+            temp = globalVariablesStory.state.ToJson();
+        }
+        return temp;
+    }
+
+    public static void loadVariables(string jsonVariable)
+    {
+        globalVariablesStory.state.LoadJson(jsonVariable);
+
+        variables = new Dictionary<string, Ink.Runtime.Object>();
+        foreach (string name in globalVariablesStory.variablesState)
+        {
+            Ink.Runtime.Object value = globalVariablesStory.variablesState.GetVariableWithName(name);
             variables.Add(name, value);
             Debug.Log("Initialized global dialogue variable: " + name + "=" + value);
         }
@@ -44,7 +71,7 @@ public class DialogueVariableObserver
 
     }
 
-    private void VariablesToStory(Story story)
+    public static void VariablesToStory(Story story)
     {
         foreach(KeyValuePair<string,Ink.Runtime.Object>variable in variables)
         {

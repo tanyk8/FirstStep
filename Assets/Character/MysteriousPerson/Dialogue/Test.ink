@@ -1,11 +1,11 @@
-INCLUDE ../../../Script/globals.ink
-INCLUDE ../../../Script/globalfunction.ink
+INCLUDE ../../../Script/Dialogue/globals.ink
+INCLUDE ../../../Script/Dialogue/globalfunction.ink
 
 VAR ID=2
 ->main
 
 === main ===
-I am the duplicate? #speaker:??? #portrait:portrait_npc_mysterious #layout:layout_left #questtrigger:none
+I am the duplicate? #speaker:?? #portrait:portrait_npc_mysterious #layout:layout_left #questtrigger:none #logtype:mono
 {
 -quest_tutorial2_status=="inprogress"&&quest_tutorial2_progress=="2":
     +[Get this]
@@ -32,13 +32,16 @@ I am the duplicate? #speaker:??? #portrait:portrait_npc_mysterious #layout:layou
         -else:
             ->questcheck
         }
+    +[Battle]
+    You engaged in battle#battle:start
+    ->END 
     +[Nothing]
     Ok then bye
     ->END
 }
 
 ===questupdate===
-No tell the original that he is stupid #questtrigger:updateprogressvalue #receivequest_id:2
+No tell the original that he is stupid #questtrigger:updateprogressvalue #quest_id:2
 ~quest_tutorial2_progress="3"
 ->END
 
@@ -49,7 +52,7 @@ No tell the original that he is stupid #questtrigger:updateprogressvalue #receiv
     -else:
     Please accept
     +[Yes]
-        Thanks  #questtrigger:start #givequest_id:2
+        Thanks  #questtrigger:start #quest_id:2
         ~quest_tutorial2_status="inprogress"
         ~quest_tutorial2_progress="1"
         ->DONE
@@ -62,7 +65,7 @@ No tell the original that he is stupid #questtrigger:updateprogressvalue #receiv
 ===questinprogress===
 Are you done? 1/3
 +[Complete quest]
-    Let me check #questtrigger:proceedprogress
+    Let me check #questtrigger:proceedprogress #quest_id:2
     {proceed_progress:
         Thank you my bro 2/3
         ~proceed_progress=false
@@ -79,9 +82,9 @@ why
 === questinprogress2 ===
 Are you done? 2/3
 +[Complete quest]
-    Let me check #questtrigger:proceedprogress
+    Let me check #questtrigger:proceedprogress #quest_id:2
     {proceed_progress:
-        Thank you my bro 3/3 #questtrigger:complete #givequest_id:2
+        Thank you my bro 3/3 #questtrigger:complete #quest_id:2
         ~proceed_progress=false
         -else:
         No you are not done!!!

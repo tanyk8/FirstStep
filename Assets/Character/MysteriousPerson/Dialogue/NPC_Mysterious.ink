@@ -1,12 +1,12 @@
-INCLUDE ../../../Script/globals.ink
-INCLUDE ../../../Script/globalfunction.ink
+INCLUDE ../../../Script/Dialogue/globals.ink
+INCLUDE ../../../Script/Dialogue/globalfunction.ink
 
 VAR ID=1
 
 ->main
 
 === main ===
-Hi, how may I help you today? #speaker:??? #portrait:portrait_npc_mysterious #layout:layout_left #questtrigger:none
+Hi, how may I help you today? #speaker:??? #portrait:portrait_npc_mysterious #layout:layout_left #questtrigger:none #logtype:mono
 {
 -quest_tutorial2_status=="inprogress"&&quest_tutorial2_progress=="1":
     +[Talk]
@@ -46,12 +46,12 @@ Hi, how may I help you today? #speaker:??? #portrait:portrait_npc_mysterious #la
 
 
 ===chosen(playerchoice)===
-You chose <b><color=\#5B81FF>{playerchoice}</color></b>!
+You chose <b><color=\#5B81FF>{playerchoice}</color></b>! #logtype:di
 ->END
 
 
 ===questupdate===
-Ok tell the duplicate that he is stupid#questtrigger:updateprogressvalue #receivequest_id:2
+Ok tell the duplicate that he is stupid#questtrigger:updateprogressvalue #quest_id:2
 
 ->END
 

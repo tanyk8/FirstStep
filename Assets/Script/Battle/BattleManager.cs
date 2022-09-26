@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 
 public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST }
@@ -19,7 +20,7 @@ public class BattleManager : MonoBehaviour
 
     private ListLayout listObjectRef;
 
-    //private static BattleManager instance;
+    private static BattleManager instance;
 
     [Header("Player")]
     [SerializeField] private GameObject playerGameObject;
@@ -56,9 +57,13 @@ public class BattleManager : MonoBehaviour
     [SerializeField] GameObject skillBtnObj;
     [SerializeField] GameObject backBtnObj;
 
+    [SerializeField] GameObject playerstatusbtn;
+    [SerializeField] GameObject enemystatusbtn;
 
 
-    /*private void Awake()
+    GameObject previousSelectedObject;
+
+    private void Awake()
     {
         if (instance != null)
         {
@@ -67,20 +72,42 @@ public class BattleManager : MonoBehaviour
         instance = this;
     }
 
+    private void Update()
+    {
+        if (state == BattleState.PLAYERTURN)
+        {
+            if (InputManager.getInstance().getSwitchPressed())
+            {
+                if (EventSystem.current.currentSelectedGameObject == playerstatusbtn || EventSystem.current.currentSelectedGameObject == enemystatusbtn)
+                {
+                    StartCoroutine(ListLayout.selectOption(previousSelectedObject));
+                    previousSelectedObject = null;
+                }
+                else
+                {
+                    previousSelectedObject = EventSystem.current.currentSelectedGameObject;
+                    StartCoroutine(ListLayout.selectOption(playerstatusbtn));
+                }
+            }
+        }
+    }
+
     public static BattleManager GetInstance()
     {
         return instance;
-    }*/
+    }
 
     private void Start()
     {
         listObjectRef = skillList.GetComponent<ListLayout>();
+
 
         
         state = BattleState.START;
 
         StartCoroutine(initiateBattle());
     }
+   
 
     IEnumerator initiateBattle()
     {
@@ -89,8 +116,8 @@ public class BattleManager : MonoBehaviour
         GameObject enemyGameObject= Instantiate(enemyPrefab, enemyLocation);
         enemy = enemyGameObject.GetComponent<Enemy>();
 
-        player=playerGameObject.GetComponent<Player>();
-
+        //player=playerGameObject.GetComponent<Player>();
+        player = Player.GetInstance();
 
         battle_status.text = battle_encountermessage;
 
@@ -106,7 +133,7 @@ public class BattleManager : MonoBehaviour
     void playerTurn()
     {
         setBtnStatus(true);
-        StartCoroutine(ListLayout.selectFirstOption(attBtnObj));
+        StartCoroutine(ListLayout.selectOption(attBtnObj));
         //EventSystem.current.SetSelectedGameObject(attBtnObj);
         battle_status.text = "Choose an action!";
     }
@@ -257,9 +284,10 @@ public class BattleManager : MonoBehaviour
             actionpanel.SetActive(true);
             statuspanel.SetActive(false);
 
-            listObjectRef.createBattleSkillList();
+            //listObjectRef.createBattleSkillList();
+            listObjectRef.createBattleSkillList(SkillManager.GetInstance().skilllist, "learnt");
 
-            StartCoroutine(ListLayout.selectFirstOption(backBtnObj));
+            StartCoroutine(ListLayout.selectOption(backBtnObj));
             //EventSystem.current.SetSelectedGameObject(backBtnObj);
         }
     }
@@ -273,7 +301,7 @@ public class BattleManager : MonoBehaviour
 
         setBtnStatus(true);
 
-        StartCoroutine(ListLayout.selectFirstOption(skillBtnObj));
+        StartCoroutine(ListLayout.selectOption(skillBtnObj));
         //EventSystem.current.SetSelectedGameObject(skillBtnObj);
     }
 
@@ -291,6 +319,8 @@ public class BattleManager : MonoBehaviour
         {
             return;
         }
+
+        SceneManager.LoadScene("Beginning");
     }
 
     void setBtnStatus(bool btnStatus)
@@ -301,5 +331,23 @@ public class BattleManager : MonoBehaviour
         runBtn.interactable = btnStatus;
     }
 
+    public void onPlayerStatusBtn()
+    {
 
+    }
+
+    public void onEnemyStatusBtn()
+    {
+
+    }
+
+    private IEnumerator enemyTalk()
+    {
+        //charge strong attack
+        //engage battle
+        //use certain skill
+
+        //or use dialogue
+        yield return new WaitForSeconds(1f);
+    }
 }
