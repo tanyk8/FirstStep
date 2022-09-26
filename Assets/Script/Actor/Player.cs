@@ -6,7 +6,6 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
 
-
     [SerializeField] private int stat_maxhealth;
     [SerializeField] private int stat_maxmentalpoint;
     [SerializeField] private int stat_mentalpower;

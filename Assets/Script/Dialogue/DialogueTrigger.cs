@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class DialogueTrigger : MonoBehaviour
 {
@@ -11,10 +12,11 @@ public class DialogueTrigger : MonoBehaviour
     [Header("Ink JSON")]
     [SerializeField] private TextAsset inkJSON;
 
-    [Header("DialogueManager")]
-    [SerializeField] private GameObject dialoguemanager;
+    //[Header("DialogueManager")]
+    //[SerializeField] private GameObject dialoguemanager;
 
     private bool playerInRange;
+    private bool eventIsnotNULL;
 
 
     private void Awake()
@@ -48,6 +50,7 @@ public class DialogueTrigger : MonoBehaviour
         {
             playerInRange = true;
             DialogueManager.GetInstance().updateTalkingActor += updateParentObjRef;
+            eventIsnotNULL = true;
         }
     }
 
@@ -60,12 +63,20 @@ public class DialogueTrigger : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        if (eventIsnotNULL)
+        {
+            DialogueManager.GetInstance().updateTalkingActor -= updateParentObjRef;
+        }
+    }
+
     private void updateParentObjRef()
     {
         //dialoguemanager.GetComponent<DialogueManager>().setTalkingActor(this.gameObject.transform.parent.gameObject);
         //Debug.Log(gameObject.transform.parent.gameObject);
 
-
+        Debug.Log(gameObject.transform.parent.gameObject);
         DialogueManager.GetInstance().setTalkingActor(gameObject.transform.parent.gameObject);
         
     }

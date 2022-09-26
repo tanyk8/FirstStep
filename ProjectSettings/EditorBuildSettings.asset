@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Battlescene.unity
     guid: 1a253ee1f9dbe184cb8f59553efbeab1
+  - enabled: 1
+    path: Assets/Scenes/FirstStage_Park.unity
+    guid: 1754ddd7d24ba6e42b7eeaafd06608b1
   m_configObjects: {}

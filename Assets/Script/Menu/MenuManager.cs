@@ -10,6 +10,7 @@ public class MenuManager : MonoBehaviour
 {
 
     [SerializeField] GameObject menuCanvas;
+    [SerializeField] GameObject eventsys;
 
     [Header("ContentPanel")]
     [SerializeField] GameObject characterPanel;
@@ -93,6 +94,7 @@ public class MenuManager : MonoBehaviour
     string lastSelectedInventoryBtn="";
     public string lastSelectedSaveLoadBtn = "";
 
+    public bool menuIsOpened { get; private set; }
 
     private void Awake()
     {
@@ -116,7 +118,8 @@ public class MenuManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        
+        DontDestroyOnLoad(menuCanvas);
+        DontDestroyOnLoad(eventsys);
     }
 
     public static MenuManager GetInstance()
@@ -138,11 +141,13 @@ public class MenuManager : MonoBehaviour
         {
             if (!menuCanvas.activeInHierarchy&& !DialogueManager.GetInstance().dialogueIsPlaying)
             {
+                menuIsOpened = true;
                 menuCanvas.SetActive(true);
                 StartCoroutine(ListLayout.selectOption(characterBtn));
             }
             else if (lastSelectedCharacterBtn!=""&&characterContentPanel.activeInHierarchy)
             {
+
                 characterEmptyMsg.SetActive(false);
                 characterAboutPanel.SetActive(false);
                 characterLeftPanel.SetActive(false);
@@ -163,7 +168,6 @@ public class MenuManager : MonoBehaviour
                     StartCoroutine(ListLayout.selectOption(characterStatusBtn));
                 }
                 lastSelectedCharacterBtn = "";
-                
             }
             else if (lastSelectedInventoryBtn != "" && inventoryContentPanel.activeInHierarchy)
             {
@@ -209,7 +213,7 @@ public class MenuManager : MonoBehaviour
                     StartCoroutine(ListLayout.selectOption(completedQuestBtn));
                 }
                 lastSelectedQuestBtn = "";
-                
+
             }
             else if (lastSelectedSaveLoadBtn!=""&&saveloadContentPanel.activeInHierarchy)
             {
@@ -264,11 +268,13 @@ public class MenuManager : MonoBehaviour
                 }
 
                 overlay.SetActive(false);
+
             }
             else
             {
 
                 menuCanvas.SetActive(false);
+                menuIsOpened = false;
             }
         }
 

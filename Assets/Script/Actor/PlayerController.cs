@@ -16,7 +16,6 @@ public class PlayerController : MonoBehaviour
     Animator animator;
     List<RaycastHit2D> castCollision = new List<RaycastHit2D>();
 
-    [SerializeField] GameObject menu;
 
     // Start is called before the first frame update
     void Start()
@@ -30,7 +29,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (DialogueManager.GetInstance().dialogueIsPlaying|| menu.activeInHierarchy)
+        if (DialogueManager.GetInstance().dialogueIsPlaying|| MenuManager.GetInstance().menuIsOpened)
         {
             animator.SetBool("isMoving", false);
             return;
@@ -80,7 +79,7 @@ public class PlayerController : MonoBehaviour
     {
         movementInput = movementValue.Get<Vector2>();
 
-        if (movementInput != Vector2.zero && !DialogueManager.GetInstance().dialogueIsPlaying&&!menu.activeInHierarchy)
+        if (movementInput != Vector2.zero && !DialogueManager.GetInstance().dialogueIsPlaying&&!MenuManager.GetInstance().menuIsOpened)
         {
             animator.SetFloat("Xinput", movementInput.x);
             animator.SetFloat("Yinput", movementInput.y);

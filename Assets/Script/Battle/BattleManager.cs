@@ -340,4 +340,14 @@ public class BattleManager : MonoBehaviour
     {
 
     }
+
+    private IEnumerator enemyTalk()
+    {
+        //charge strong attack
+        //engage battle
+        //use certain skill
+
+        //or use dialogue
+        yield return new WaitForSeconds(1f);
+    }
 }

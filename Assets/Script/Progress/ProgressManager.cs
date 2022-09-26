@@ -130,6 +130,9 @@ public class ProgressManager : MonoBehaviour
         
         StatusManager.GetInstance().updateStatus(progdata.statusList);
 
+        GameObject.Find("Player").transform.position=progdata.playerlocation;
+        
+
         Player.GetInstance().updatePlayer(progdata.player_maxhealth, progdata.player_maxmp, progdata.player_power, progdata.player_protection, progdata.player_currhealth, progdata.player_currmp);
         InventoryManager.GetInstance().updateInventory(progdata.inventoryList, progdata.itemDictionary);
         QuestManager.GetInstance().updateQuestManager(progdata.questList);

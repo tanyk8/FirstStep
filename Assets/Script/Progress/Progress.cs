@@ -37,6 +37,7 @@ public class Progress
         progressData.player_currhealth= player.getCurrent_Health();
         progressData.player_currmp= player.getCurrent_MentalPoint();
 
+        progressData.playerlocation = GameObject.Find("Player").transform.position;
 
         progressData.skillList = SkillManager.GetInstance().skilllist;
         progressData.statusList = StatusManager.GetInstance().statusList;

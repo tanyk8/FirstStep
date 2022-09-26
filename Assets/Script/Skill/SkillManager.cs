@@ -55,9 +55,9 @@ public class SkillManager : MonoBehaviour
         return instance;
     }
 
-    public int useSkill(string type, string name)
+    public int useSkill(int skillindex,string skillname)
     {
-        switch (type)
+        switch (skillname)
         {
             case "buff":
                 useSkill_Buff(name);

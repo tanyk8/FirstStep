@@ -52,7 +52,7 @@ public class ListLayout : MonoBehaviour
     [SerializeField] GameObject itemname;
     [SerializeField] GameObject itemdesc;
     [SerializeField] GameObject itembtn;
-
+    [SerializeField] GameObject itemusebtn;
 
     public ListLayout()
     {
@@ -461,12 +461,20 @@ public class ListLayout : MonoBehaviour
                 {
                     NewNav.selectOnUp = panel_listT.GetChild(count - 1).GetComponent<Button>();
                     NewNav.selectOnDown = panel_listT.GetChild(i + 1).GetComponent<Button>();
+                    //if (type == "use")
+                    //{
+                    //    NewNav.selectOnRight = itemusebtn.GetComponent<Button>();
+                    //    NewNav.selectOnLeft = itemusebtn.GetComponent<Button>();
+                    //}
                 }
-
-
 
                 //Assign the new navigation to your desired button or ui Object
                 panel_listT.GetChild(i).GetComponent<Button>().navigation = NewNav;
+
+                //Navigation useNav = new Navigation();
+                //useNav.mode = Navigation.Mode.Explicit;
+                //useNav.selectOnLeft = panel_listT.GetChild(i).GetComponent<Button>();
+                //useNav.selectOnRight = panel_listT.GetChild(i).GetComponent<Button>();
             }
 
             else if (i > 0 && i < totalElements - 1)
@@ -779,6 +787,11 @@ public class ListLayout : MonoBehaviour
     void listSkillClicked(int skillIndex)
     {
 
+    }
+
+    void listBattleSkillClicked(int skillindex)
+    {
+        SkillManager.GetInstance().useSkill(skillindex, panel_list.transform.GetChild(skillindex).GetComponent<Text>().text);
     }
 
     void listStatusClicked(int statusIndex)

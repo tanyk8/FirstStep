@@ -5,7 +5,7 @@ VAR ID=2
 ->main
 
 === main ===
-I am the duplicate? #speaker:??? #portrait:portrait_npc_mysterious #layout:layout_left #questtrigger:none
+I am the duplicate? #speaker:?? #portrait:portrait_npc_mysterious #layout:layout_left #questtrigger:none #logtype:mono
 {
 -quest_tutorial2_status=="inprogress"&&quest_tutorial2_progress=="2":
     +[Get this]
