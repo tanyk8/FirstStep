@@ -38,11 +38,13 @@ They tried to talk to me before... but I can't express myself... and they seemed
 But they actually tried to talk to you, they probably wanted to play with you.
 But...
 (The negative energy grows again)
+Maybe we should stop forcing him, let's give him some time.
 (The situation doesn't seem to be improving, maybe I should try to talk to the other kids)
 ->END
 
 ===afterspeaking===
 //Discuss on what they can do, maybe using note or paper to communicate, until he feels comfortable to speak
+//It takes time, just go with own pace no need to rush
 
 
 ->END

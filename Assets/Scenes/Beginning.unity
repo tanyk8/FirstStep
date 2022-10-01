@@ -250,11 +250,11 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 16662542}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1091545170}
+  m_Father: {fileID: 1813887079}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
@@ -2149,15 +2149,30 @@ MonoBehaviour:
   panel_listT: {fileID: 1168495636}
   backbtn: {fileID: 0}
   dialoguemanagerobj: {fileID: 48737230}
+  menuSkillDescription: {fileID: 0}
+  menuSkillDescPanel: {fileID: 0}
   mainQuestBtn: {fileID: 0}
   subQuestBtn: {fileID: 0}
   questname: {fileID: 0}
   questdesc: {fileID: 0}
   questprogress: {fileID: 0}
+  questRightPanel: {fileID: 0}
   itemname: {fileID: 0}
   itemdesc: {fileID: 0}
   itembtn: {fileID: 0}
   itemusebtn: {fileID: 0}
+  itemDescPanel: {fileID: 0}
+  itemDescription: {fileID: 0}
+  inventoryUseItemBtn: {fileID: 0}
+  itemListT: {fileID: 0}
+  itemRightPanel: {fileID: 0}
+  battleUseBtn: {fileID: 0}
+  descriptionText: {fileID: 0}
+  detailPanel_useBtn: {fileID: 0}
+  detailPanel_description: {fileID: 0}
+  statusBackBtn: {fileID: 0}
+  statusDescription: {fileID: 0}
+  statusDescriptionPanel: {fileID: 0}
 --- !u!114 &226386809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2993,15 +3008,30 @@ MonoBehaviour:
   panel_listT: {fileID: 633644957}
   backbtn: {fileID: 0}
   dialoguemanagerobj: {fileID: 48737230}
+  menuSkillDescription: {fileID: 0}
+  menuSkillDescPanel: {fileID: 0}
   mainQuestBtn: {fileID: 0}
   subQuestBtn: {fileID: 0}
   questname: {fileID: 0}
   questdesc: {fileID: 0}
   questprogress: {fileID: 0}
+  questRightPanel: {fileID: 0}
   itemname: {fileID: 0}
   itemdesc: {fileID: 0}
   itembtn: {fileID: 0}
   itemusebtn: {fileID: 0}
+  itemDescPanel: {fileID: 0}
+  itemDescription: {fileID: 0}
+  inventoryUseItemBtn: {fileID: 0}
+  itemListT: {fileID: 0}
+  itemRightPanel: {fileID: 0}
+  battleUseBtn: {fileID: 0}
+  descriptionText: {fileID: 0}
+  detailPanel_useBtn: {fileID: 0}
+  detailPanel_description: {fileID: 0}
+  statusBackBtn: {fileID: 0}
+  statusDescription: {fileID: 0}
+  statusDescriptionPanel: {fileID: 0}
 --- !u!114 &418023714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5950,7 +5980,7 @@ GameObject:
   - component: {fileID: 862306834}
   - component: {fileID: 862306833}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: QuestRightPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8589,15 +8619,30 @@ MonoBehaviour:
   panel_listT: {fileID: 1463290961}
   backbtn: {fileID: 0}
   dialoguemanagerobj: {fileID: 48737230}
+  menuSkillDescription: {fileID: 0}
+  menuSkillDescPanel: {fileID: 0}
   mainQuestBtn: {fileID: 1714769417}
   subQuestBtn: {fileID: 1357563892}
   questname: {fileID: 448327423}
   questdesc: {fileID: 2112582048}
   questprogress: {fileID: 1045681282}
+  questRightPanel: {fileID: 862306831}
   itemname: {fileID: 0}
   itemdesc: {fileID: 0}
   itembtn: {fileID: 0}
   itemusebtn: {fileID: 0}
+  itemDescPanel: {fileID: 0}
+  itemDescription: {fileID: 0}
+  inventoryUseItemBtn: {fileID: 0}
+  itemListT: {fileID: 0}
+  itemRightPanel: {fileID: 0}
+  battleUseBtn: {fileID: 0}
+  descriptionText: {fileID: 0}
+  detailPanel_useBtn: {fileID: 0}
+  detailPanel_description: {fileID: 0}
+  statusBackBtn: {fileID: 0}
+  statusDescription: {fileID: 0}
+  statusDescriptionPanel: {fileID: 0}
 --- !u!114 &1055669310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8862,9 +8907,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 16662543}
   - {fileID: 1212429415}
-  - {fileID: 1978481542}
+  - {fileID: 1813887079}
   m_Father: {fileID: 2138142817}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9572,85 +9616,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1146055700}
   m_CullTransparentMesh: 1
---- !u!1 &1156967240
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1156967241}
-  - component: {fileID: 1156967243}
-  - component: {fileID: 1156967242}
-  m_Layer: 5
-  m_Name: Text
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1156967241
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1156967240}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1978481542}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1156967242
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1156967240}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 10
-    m_MaxSize: 40
-    m_Alignment: 4
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: Cancel
---- !u!222 &1156967243
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1156967240}
-  m_CullTransparentMesh: 1
 --- !u!1 &1160545450
 GameObject:
   m_ObjectHideFlags: 0
@@ -9949,19 +9914,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1212429414}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1160545451}
   m_Father: {fileID: 1091545170}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
-  m_Pivot: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 50}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1212429416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10005,7 +9970,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1212429417}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2034797451}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: onUseItemBtn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1212429417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10190,7 +10167,7 @@ GameObject:
   - component: {fileID: 1256541919}
   - component: {fileID: 1256541918}
   m_Layer: 5
-  m_Name: SkillText
+  m_Name: DescText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17270,15 +17247,30 @@ MonoBehaviour:
   panel_listT: {fileID: 1982696515}
   backbtn: {fileID: 0}
   dialoguemanagerobj: {fileID: 48737230}
+  menuSkillDescription: {fileID: 1256541916}
+  menuSkillDescPanel: {fileID: 544547485}
   mainQuestBtn: {fileID: 1714769417}
   subQuestBtn: {fileID: 1357563892}
   questname: {fileID: 448327423}
   questdesc: {fileID: 2112582048}
   questprogress: {fileID: 1045681282}
+  questRightPanel: {fileID: 0}
   itemname: {fileID: 0}
   itemdesc: {fileID: 0}
   itembtn: {fileID: 0}
   itemusebtn: {fileID: 0}
+  itemDescPanel: {fileID: 0}
+  itemDescription: {fileID: 0}
+  inventoryUseItemBtn: {fileID: 0}
+  itemListT: {fileID: 0}
+  itemRightPanel: {fileID: 0}
+  battleUseBtn: {fileID: 0}
+  descriptionText: {fileID: 0}
+  detailPanel_useBtn: {fileID: 0}
+  detailPanel_description: {fileID: 0}
+  statusBackBtn: {fileID: 0}
+  statusDescription: {fileID: 0}
+  statusDescriptionPanel: {fileID: 0}
 --- !u!114 &1788677231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17628,6 +17620,82 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1801775302}
+  m_CullTransparentMesh: 1
+--- !u!1 &1813887078
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1813887079}
+  - component: {fileID: 1813887081}
+  - component: {fileID: 1813887080}
+  m_Layer: 5
+  m_Name: Panel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1813887079
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1813887078}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 16662543}
+  m_Father: {fileID: 1091545170}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 500}
+  m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &1813887080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1813887078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1813887081
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1813887078}
   m_CullTransparentMesh: 1
 --- !u!1 &1841071691
 GameObject:
@@ -18430,127 +18498,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1966876295}
   m_CullTransparentMesh: 1
---- !u!1 &1978481541
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1978481542}
-  - component: {fileID: 1978481545}
-  - component: {fileID: 1978481544}
-  - component: {fileID: 1978481543}
-  m_Layer: 5
-  m_Name: Button
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1978481542
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1978481541}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1156967241}
-  m_Father: {fileID: 1091545170}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
-  m_Pivot: {x: 1, y: 0}
---- !u!114 &1978481543
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1978481541}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 0
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 1978481544}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &1978481544
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1978481541}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &1978481545
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1978481541}
-  m_CullTransparentMesh: 1
 --- !u!1 &1982696514
 GameObject:
   m_ObjectHideFlags: 0
@@ -19286,15 +19233,18 @@ MonoBehaviour:
   characterSkillBtn: {fileID: 378906514}
   characterStatusBtn: {fileID: 842289521}
   skillListRef: {fileID: 1788677227}
+  skillListT: {fileID: 1982696515}
   inventoryContentPanel: {fileID: 2138142816}
   inventoryLeftPanel: {fileID: 830626680}
   inventoryRightPanel: {fileID: 1091545169}
   inventoryEmptyMsg: {fileID: 38938042}
   inventoryListRef: {fileID: 2091358616}
+  inventoryListT: {fileID: 562926137}
   inventoryAllBtn: {fileID: 85225820}
   inventoryUseBtn: {fileID: 656563513}
   inventoryETCBtn: {fileID: 1323193966}
   inventoryImportantBtn: {fileID: 1503622415}
+  inventoryUseItemBtn: {fileID: 1212429414}
   inprogQuestBtn: {fileID: 1714769417}
   completedQuestBtn: {fileID: 1357563892}
   questListPanel: {fileID: 138267531}
@@ -19302,11 +19252,23 @@ MonoBehaviour:
   questListRef: {fileID: 1055669306}
   emptyQuestMsg: {fileID: 1537339641}
   questContentPanel: {fileID: 1146055700}
+  questListT: {fileID: 1463290961}
   saveloadContentPanel: {fileID: 1261172422}
   saveloadListRef: {fileID: 418023711}
   saveBtn: {fileID: 44606152}
   loadBtn: {fileID: 1329372911}
+  lastSelectedQuestBtn: 
+  lastSelectedCharacterBtn: 
+  lastSelectedInventoryBtn: 
   lastSelectedSaveLoadBtn: 
+  lastSelectedSkill: 
+  lastSelectedSkillIndex: 0
+  lastSelectedStatus: 
+  lastSelectedStatusIndex: 0
+  lastSelectedItem: 
+  lastSelectedItemIndex: 0
+  lastSelectedQuest: 
+  lastSelectedQuestIndex: 0
 --- !u!4 &2034797452
 Transform:
   m_ObjectHideFlags: 0
@@ -19505,15 +19467,30 @@ MonoBehaviour:
   panel_listT: {fileID: 562926137}
   backbtn: {fileID: 0}
   dialoguemanagerobj: {fileID: 48737230}
+  menuSkillDescription: {fileID: 0}
+  menuSkillDescPanel: {fileID: 0}
   mainQuestBtn: {fileID: 0}
   subQuestBtn: {fileID: 0}
   questname: {fileID: 0}
   questdesc: {fileID: 0}
   questprogress: {fileID: 0}
+  questRightPanel: {fileID: 0}
   itemname: {fileID: 0}
   itemdesc: {fileID: 0}
   itembtn: {fileID: 0}
   itemusebtn: {fileID: 1212429414}
+  itemDescPanel: {fileID: 1813887078}
+  itemDescription: {fileID: 16662542}
+  inventoryUseItemBtn: {fileID: 1212429414}
+  itemListT: {fileID: 562926137}
+  itemRightPanel: {fileID: 1091545169}
+  battleUseBtn: {fileID: 0}
+  descriptionText: {fileID: 0}
+  detailPanel_useBtn: {fileID: 0}
+  detailPanel_description: {fileID: 0}
+  statusBackBtn: {fileID: 0}
+  statusDescription: {fileID: 0}
+  statusDescriptionPanel: {fileID: 0}
 --- !u!114 &2091358619
 MonoBehaviour:
   m_ObjectHideFlags: 0

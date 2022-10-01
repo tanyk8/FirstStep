@@ -164,6 +164,14 @@ public class SkillManager : MonoBehaviour
     {
         skilllist = listskill;
     }
+
+    public Skill getSkillWName(string name)
+    {
+        int index = 0;
+        index= skilllist.FindIndex(x => x.skillData.skill_name == name);
+
+        return skilllist.ElementAt(index);
+    }
     //load player skill(also check if skill learnt)
     //load enemy skill
 }

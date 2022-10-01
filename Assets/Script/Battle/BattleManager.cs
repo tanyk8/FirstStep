@@ -50,16 +50,52 @@ public class BattleManager : MonoBehaviour
     [SerializeField] GameObject actionpanel;
 
     [Header("ListLayout")]
-    [SerializeField] GameObject skillList;
+    [SerializeField] GameObject actionList;
+    [SerializeField] Transform actionListT;
 
     [Header("GameObject")]
     [SerializeField] GameObject attBtnObj;
     [SerializeField] GameObject skillBtnObj;
+    [SerializeField] GameObject itemBtnObj;
     [SerializeField] GameObject backBtnObj;
+
+    [SerializeField] public GameObject useBtnObj;
 
     [SerializeField] GameObject playerstatusbtn;
     [SerializeField] GameObject enemystatusbtn;
+    [SerializeField] GameObject status;
+    [SerializeField] GameObject statusempty;
+    [SerializeField] GameObject statusleft;
+    [SerializeField] GameObject statusright;
+    [SerializeField] GameObject statusListRef;
 
+    [SerializeField] GameObject descriptionText;
+    [SerializeField] GameObject detailPanel_usebtn;
+    [SerializeField] GameObject detailPanel_description;
+
+    [SerializeField] GameObject statusDescription;
+    [SerializeField] GameObject statusDescriptionPanel;
+    [SerializeField] Transform statusListT;
+    [SerializeField] GameObject statusTitle;
+    [SerializeField] GameObject statusBackBtn;
+
+    List<Status> enemystatus=new List<Status>();
+
+
+    string lastSelectedOption;
+    public string lastSelectedName;
+    public int lastSelectedIndex;
+
+    public string lastSelectedStatus;
+    public int lastSelectedStatusIndex;
+
+    string lastSelectedStatusBtn;
+
+
+    bool playerAttackCharge;
+    string tempAttackName;
+    bool enemyAttackCharge;
+    string tempEnemyAttackName;
 
     GameObject previousSelectedObject;
 
@@ -89,6 +125,67 @@ public class BattleManager : MonoBehaviour
                     StartCoroutine(ListLayout.selectOption(playerstatusbtn));
                 }
             }
+
+            if (SceneManager.GetActiveScene().name == "Battlescene"&&InputManager.getInstance().getMenuPressed() )
+            {
+                if (actionpanel.activeInHierarchy)
+                {
+                    if (EventSystem.current.currentSelectedGameObject == useBtnObj)
+                    {
+                        descriptionText.GetComponent<TextMeshProUGUI>().text = "";
+                        detailPanel_usebtn.SetActive(false);
+                        detailPanel_description.SetActive(false);
+                        StartCoroutine(ListLayout.selectOption(actionListT.GetChild(lastSelectedIndex).gameObject));
+                    }
+                    else if (lastSelectedOption == "skill")
+                    {
+                        statuspanel.SetActive(true);
+                        actionpanel.SetActive(false);
+
+                        listObjectRef.destroyListSelection();
+
+                        setBtnStatus(true);
+
+                        StartCoroutine(ListLayout.selectOption(skillBtnObj));
+                    }
+                    else if (lastSelectedOption == "item")
+                    {
+                        statuspanel.SetActive(true);
+                        actionpanel.SetActive(false);
+
+                        listObjectRef.destroyListSelection();
+
+                        setBtnStatus(true);
+
+                        StartCoroutine(ListLayout.selectOption(itemBtnObj));
+                    }
+                }
+
+                else if (status.activeInHierarchy)
+                {
+                    if (lastSelectedStatus != "")
+                    {
+                        statusDescription.GetComponent<TextMeshProUGUI>().text = "";
+                        statusDescriptionPanel.SetActive(false);
+                        StartCoroutine(ListLayout.selectOption(statusListT.GetChild(lastSelectedStatusIndex).gameObject));
+                        lastSelectedStatus = "";
+                    }
+                    else if (status.activeInHierarchy)
+                    {
+                        statusListRef.GetComponent<ListLayout>().destroyListSelection();
+                        status.SetActive(false);
+                        if (lastSelectedStatusBtn == "player")
+                        {
+                            StartCoroutine(ListLayout.selectOption(playerstatusbtn));
+                        }
+                        else if (lastSelectedStatusBtn == "enemy")
+                        {
+                            StartCoroutine(ListLayout.selectOption(enemystatusbtn));
+                        }
+                    }
+                }
+            }
+            
         }
     }
 
@@ -99,7 +196,7 @@ public class BattleManager : MonoBehaviour
 
     private void Start()
     {
-        listObjectRef = skillList.GetComponent<ListLayout>();
+        listObjectRef = actionList.GetComponent<ListLayout>();
 
 
         
@@ -111,6 +208,7 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator initiateBattle()
     {
+        statuspanel.SetActive(true);
         setBtnStatus(false);
 
         GameObject enemyGameObject= Instantiate(enemyPrefab, enemyLocation);
@@ -134,7 +232,6 @@ public class BattleManager : MonoBehaviour
     {
         setBtnStatus(true);
         StartCoroutine(ListLayout.selectOption(attBtnObj));
-        //EventSystem.current.SetSelectedGameObject(attBtnObj);
         battle_status.text = "Choose an action!";
     }
 
@@ -275,6 +372,13 @@ public class BattleManager : MonoBehaviour
             return;
         }
 
+        if (SkillManager.GetInstance().checkSkillEmpty("learnt"))
+        {
+            string[] tempmsg = { "You don't have any skills!", "Choose an action!" };
+            StartCoroutine(updateMsg(tempmsg));
+            return;
+        }
+
 
         if (statuspanel.activeInHierarchy)
         {
@@ -284,11 +388,10 @@ public class BattleManager : MonoBehaviour
             actionpanel.SetActive(true);
             statuspanel.SetActive(false);
 
-            //listObjectRef.createBattleSkillList();
             listObjectRef.createBattleSkillList(SkillManager.GetInstance().skilllist, "learnt");
 
             StartCoroutine(ListLayout.selectOption(backBtnObj));
-            //EventSystem.current.SetSelectedGameObject(backBtnObj);
+            lastSelectedOption = "skill";
         }
     }
 
@@ -296,13 +399,33 @@ public class BattleManager : MonoBehaviour
     {
         statuspanel.SetActive(true);
         actionpanel.SetActive(false);
+        descriptionText.GetComponent<TextMeshProUGUI>().text = "";
 
         listObjectRef.destroyListSelection();
-
         setBtnStatus(true);
 
-        StartCoroutine(ListLayout.selectOption(skillBtnObj));
-        //EventSystem.current.SetSelectedGameObject(skillBtnObj);
+        if (lastSelectedOption == "skill")
+        {
+            StartCoroutine(ListLayout.selectOption(skillBtnObj));
+        }
+        else if (lastSelectedOption == "item")
+        {
+            StartCoroutine(ListLayout.selectOption(itemBtnObj));
+        }
+    }
+
+    public void onStatusBackBtn()
+    {
+        statusListRef.GetComponent<ListLayout>().destroyListSelection();
+        status.SetActive(false);
+        if (lastSelectedStatusBtn == "player")
+        {
+            StartCoroutine(ListLayout.selectOption(playerstatusbtn));
+        }
+        else if (lastSelectedStatusBtn == "enemy")
+        {
+            StartCoroutine(ListLayout.selectOption(enemystatusbtn));
+        }
     }
 
     public void onItemBtn()
@@ -310,6 +433,28 @@ public class BattleManager : MonoBehaviour
         if (state != BattleState.PLAYERTURN)
         {
             return;
+        }
+
+        if (InventoryManager.GetInstance().checkInventoryEmpty("use"))
+        {
+            string[] tempmsg = { "You don't have any items!", "Choose an action!" };
+            StartCoroutine(updateMsg(tempmsg));
+            return;
+        }
+
+        if (statuspanel.activeInHierarchy)
+        {
+
+            setBtnStatus(false);
+
+            actionpanel.SetActive(true);
+            statuspanel.SetActive(false);
+
+            listObjectRef.createBattleItemList(InventoryManager.GetInstance().inventory);
+
+            StartCoroutine(ListLayout.selectOption(backBtnObj));
+
+            lastSelectedOption = "item";
         }
     }
 
@@ -333,21 +478,76 @@ public class BattleManager : MonoBehaviour
 
     public void onPlayerStatusBtn()
     {
-
+        statusTitle.GetComponent<TextMeshProUGUI>().text = "Player status";
+        status.SetActive(true);
+        if (StatusManager.GetInstance().checkStatusEmpty())
+        {
+            statusempty.SetActive(true);
+            statusleft.SetActive(false);
+            statusright.SetActive(false);
+            StartCoroutine(ListLayout.selectOption(statusBackBtn));
+        }
+        else
+        {
+            statusleft.SetActive(true);
+            statusDescription.GetComponent<TextMeshProUGUI>().text = "";
+            statusright.SetActive(true);
+            statusListRef.GetComponent<ListLayout>().createBattleStatusList(StatusManager.GetInstance().statusList);
+            
+        }
+        lastSelectedStatusBtn = "player";
     }
 
     public void onEnemyStatusBtn()
     {
-
+        statusTitle.GetComponent<TextMeshProUGUI>().text = "Enemy status";
+        status.SetActive(true);
+        if (enemystatus.Count==0)
+        {
+            statusempty.SetActive(true);
+            statusleft.SetActive(false);
+            statusright.SetActive(false);
+            StartCoroutine(ListLayout.selectOption(statusBackBtn));
+            
+        }
+        else
+        {
+            statusleft.SetActive(true);
+            statusright.SetActive(true);
+            statusListRef.GetComponent<ListLayout>().createBattleStatusList(enemystatus);
+        }
+        lastSelectedStatusBtn = "enemy";
     }
 
-    private IEnumerator enemyTalk()
+    public void onUseBtn()
+    {
+        if (lastSelectedOption == "skill")
+        {
+            //use skill based on lastSelectedName
+            Debug.Log("Use skill " + lastSelectedName);
+        }
+        else if (lastSelectedOption == "item")
+        {
+            Debug.Log("Use item " + lastSelectedName);
+            //use item based on lastSelectedName
+        }
+    }
+
+    private IEnumerator updateMsg(string[] msg)
     {
         //charge strong attack
         //engage battle
         //use certain skill
 
         //or use dialogue
-        yield return new WaitForSeconds(1f);
+        for(int x = 0; x < msg.Length; x++)
+        {
+            battle_status.text = msg[x];
+
+            yield return new WaitForSeconds(2f);
+        }
+
+
+        
     }
 }

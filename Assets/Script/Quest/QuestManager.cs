@@ -269,4 +269,12 @@ public class QuestManager : MonoBehaviour
     {
         return this;
     }
+
+    public Quest getQuestWName(string name)
+    {
+        int index = 0;
+        index = questlist.FindIndex(x => x.questData.quest_name == name);
+
+        return questlist.ElementAt(index);
+    }
 }

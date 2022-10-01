@@ -68,4 +68,14 @@ public class StatusManager : MonoBehaviour
     {
         statusList = liststatus;
     }
+
+    public Status getStatusWName(string name)
+    {
+        int index=0;
+
+
+        index=statusList.FindIndex(x => x.statusData.status_name == name);
+
+        return statusList.ElementAt(index);
+    }
 }

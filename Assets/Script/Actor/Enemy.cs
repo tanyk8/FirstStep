@@ -12,6 +12,10 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private int current_health;
 
+
+    //List skill
+    //List dialogue maybe like when battle start etc
+
     public bool receiveDamage(int damage)
     {
         current_health -= damage;

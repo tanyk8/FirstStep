@@ -105,7 +105,9 @@ public class DialogueManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            
             DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(dialogueCanvas);
         }
         else if (instance != this)
         {
@@ -113,7 +115,7 @@ public class DialogueManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        DontDestroyOnLoad(dialogueCanvas);
+        
 
         dialoguevariableobserver = new DialogueVariableObserver(loadGlobalsJSON);
     }

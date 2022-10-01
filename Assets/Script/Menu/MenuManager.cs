@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
@@ -58,6 +59,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] GameObject characterStatusBtn;
 
     [SerializeField] GameObject skillListRef;
+    [SerializeField] Transform skillListT;
 
     [Header("Inventory")]
     [SerializeField] GameObject inventoryContentPanel;
@@ -66,11 +68,14 @@ public class MenuManager : MonoBehaviour
     [SerializeField] GameObject inventoryEmptyMsg;
 
     [SerializeField] GameObject inventoryListRef;
+    [SerializeField] Transform inventoryListT;
 
     [SerializeField] GameObject inventoryAllBtn;
     [SerializeField] GameObject inventoryUseBtn;
     [SerializeField] GameObject inventoryETCBtn;
     [SerializeField] GameObject inventoryImportantBtn;
+
+    [SerializeField] GameObject inventoryUseItemBtn;
 
     [Header("Quest")]
     [SerializeField] GameObject inprogQuestBtn;
@@ -80,6 +85,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] GameObject questListRef;
     [SerializeField] GameObject emptyQuestMsg;
     [SerializeField] GameObject questContentPanel;
+    [SerializeField] Transform questListT;
 
     [Header("SaveLoad")]
     [SerializeField] GameObject saveloadContentPanel;
@@ -89,10 +95,22 @@ public class MenuManager : MonoBehaviour
 
     private static MenuManager instance;
 
-    string lastSelectedQuestBtn="";
-    string lastSelectedCharacterBtn="";
-    string lastSelectedInventoryBtn="";
+    public string lastSelectedQuestBtn="";
+    public string lastSelectedCharacterBtn="";
+    public string lastSelectedInventoryBtn="";
     public string lastSelectedSaveLoadBtn = "";
+
+    public string lastSelectedSkill = "";
+    public int lastSelectedSkillIndex = 0;
+
+    public string lastSelectedStatus = "";
+    public int lastSelectedStatusIndex = 0;
+
+    public string lastSelectedItem = "";
+    public int lastSelectedItemIndex = 0;
+
+    public string lastSelectedQuest = "";
+    public int lastSelectedQuestIndex = 0;
 
     public bool menuIsOpened { get; private set; }
 
@@ -110,6 +128,8 @@ public class MenuManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(menuCanvas);
+            //DontDestroyOnLoad(eventsys);
             DontDestroyOnLoad(gameObject);
         }
         else if (instance != this)
@@ -118,8 +138,7 @@ public class MenuManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        DontDestroyOnLoad(menuCanvas);
-        DontDestroyOnLoad(eventsys);
+        
     }
 
     public static MenuManager GetInstance()
@@ -137,7 +156,7 @@ public class MenuManager : MonoBehaviour
     void Update()
     {
 
-        if (InputManager.getInstance().getMenuPressed())
+        if (SceneManager.GetActiveScene().name != "Battlescene"&& InputManager.getInstance().getMenuPressed())
         {
             if (!menuCanvas.activeInHierarchy&& !DialogueManager.GetInstance().dialogueIsPlaying)
             {
@@ -147,73 +166,128 @@ public class MenuManager : MonoBehaviour
             }
             else if (lastSelectedCharacterBtn!=""&&characterContentPanel.activeInHierarchy)
             {
+                if (characterRightPanel.activeInHierarchy)
+                {
+                    characterRightPanel.SetActive(false);
+                    if (lastSelectedCharacterBtn == "skill")
+                    {
+                        StartCoroutine(ListLayout.selectOption(skillListT.GetChild(lastSelectedSkillIndex).gameObject));
+                    }
+                    
+                    else if (lastSelectedCharacterBtn == "status")
+                    {
+                        StartCoroutine(ListLayout.selectOption(skillListT.GetChild(lastSelectedStatusIndex).gameObject));
+                    }
+                }
+                else
+                {
+                    characterEmptyMsg.SetActive(false);
+                    characterAboutPanel.SetActive(false);
+                    characterLeftPanel.SetActive(false);
+                    characterRightPanel.SetActive(false);
+                    characterContentPanel.SetActive(false);
+                    skillListRef.GetComponent<ListLayout>().destroyListSelection();
 
-                characterEmptyMsg.SetActive(false);
-                characterAboutPanel.SetActive(false);
-                characterLeftPanel.SetActive(false);
-                characterRightPanel.SetActive(false);
-                characterContentPanel.SetActive(false);
-                skillListRef.GetComponent<ListLayout>().destroyListSelection();
+                    if (lastSelectedCharacterBtn == "about")
+                    {
+                        StartCoroutine(ListLayout.selectOption(characterAboutBtn));
+                    }
+                    else if (lastSelectedCharacterBtn == "skill")
+                    {
+                        StartCoroutine(ListLayout.selectOption(characterSkillBtn));
+                    }
+                    else if (lastSelectedCharacterBtn == "status")
+                    {
+                        StartCoroutine(ListLayout.selectOption(characterStatusBtn));
+                    }
+                    lastSelectedCharacterBtn = "";
+                }
 
-                if (lastSelectedCharacterBtn == "about")
-                {
-                    StartCoroutine(ListLayout.selectOption(characterAboutBtn));
-                }
-                else if (lastSelectedCharacterBtn == "skill")
-                {
-                    StartCoroutine(ListLayout.selectOption(characterSkillBtn));
-                }
-                else if (lastSelectedCharacterBtn == "status")
-                {
-                    StartCoroutine(ListLayout.selectOption(characterStatusBtn));
-                }
-                lastSelectedCharacterBtn = "";
+
+                
             }
             else if (lastSelectedInventoryBtn != "" && inventoryContentPanel.activeInHierarchy)
             {
-                inventoryLeftPanel.SetActive(false);
-                inventoryRightPanel.SetActive(false);
-                inventoryEmptyMsg.SetActive(false);
-                inventoryContentPanel.SetActive(false);
-                inventoryListRef.GetComponent<ListLayout>().destroyListSelection();
+                if (inventoryRightPanel.activeInHierarchy)
+                {
+                    inventoryRightPanel.SetActive(false);
+                    if (lastSelectedInventoryBtn == "all")
+                    {
+                        StartCoroutine(ListLayout.selectOption(inventoryListT.GetChild(lastSelectedItemIndex).gameObject));
+                    }
+                    else if (lastSelectedInventoryBtn == "use")
+                    {
+                        StartCoroutine(ListLayout.selectOption(inventoryListT.GetChild(lastSelectedItemIndex).gameObject));
+                    }
+                    else if (lastSelectedInventoryBtn == "etc")
+                    {
+                        StartCoroutine(ListLayout.selectOption(inventoryListT.GetChild(lastSelectedItemIndex).gameObject));
+                    }
+                    else if (lastSelectedInventoryBtn == "important")
+                    {
+                        StartCoroutine(ListLayout.selectOption(inventoryListT.GetChild(lastSelectedItemIndex).gameObject));
+                    }
+                }
+                else
+                {
+                    inventoryLeftPanel.SetActive(false);
+                    inventoryRightPanel.SetActive(false);
+                    inventoryEmptyMsg.SetActive(false);
+                    inventoryContentPanel.SetActive(false);
+                    inventoryListRef.GetComponent<ListLayout>().destroyListSelection();
 
-                if (lastSelectedInventoryBtn == "all")
-                {
-                    StartCoroutine(ListLayout.selectOption(inventoryAllBtn));
+                    if (lastSelectedInventoryBtn == "all")
+                    {
+                        StartCoroutine(ListLayout.selectOption(inventoryAllBtn));
+                    }
+                    else if (lastSelectedInventoryBtn == "use")
+                    {
+                        StartCoroutine(ListLayout.selectOption(inventoryUseBtn));
+                    }
+                    else if (lastSelectedInventoryBtn == "etc")
+                    {
+                        StartCoroutine(ListLayout.selectOption(inventoryETCBtn));
+                    }
+                    else if (lastSelectedInventoryBtn == "important")
+                    {
+                        StartCoroutine(ListLayout.selectOption(inventoryImportantBtn));
+                    }
+                    lastSelectedInventoryBtn = "";
                 }
-                else if (lastSelectedInventoryBtn == "use")
-                {
-                    StartCoroutine(ListLayout.selectOption(inventoryUseBtn));
-                }
-                else if (lastSelectedInventoryBtn == "etc")
-                {
-                    StartCoroutine(ListLayout.selectOption(inventoryETCBtn));
-                }
-                else if (lastSelectedInventoryBtn == "important")
-                {
-                    StartCoroutine(ListLayout.selectOption(inventoryImportantBtn));
-                }
-                lastSelectedInventoryBtn = "";
+                
             }
             else if (lastSelectedQuestBtn!=""&&questContentPanel.activeInHierarchy)
             {
-
-                emptyQuestMsg.SetActive(false);
-                questListPanel.SetActive(false);
-                questInfoPanel.SetActive(false);
-                questContentPanel.SetActive(false);
-
-                questListRef.GetComponent<ListLayout>().destroyListSelection();
-                if (lastSelectedQuestBtn == "inprog")
+                if (questInfoPanel.activeInHierarchy)
                 {
-                    StartCoroutine(ListLayout.selectOption(inprogQuestBtn));
+                    questInfoPanel.SetActive(false);
+                    if (lastSelectedQuestBtn == "inprog")
+                    {
+                        StartCoroutine(ListLayout.selectOption(questListT.GetChild(lastSelectedQuestIndex).gameObject));
+                    }
+                    else if (lastSelectedQuestBtn== "completed")
+                    {
+                        StartCoroutine(ListLayout.selectOption(questListT.GetChild(lastSelectedQuestIndex).gameObject));
+                    }
                 }
-                else if(lastSelectedQuestBtn == "completed")
+                else
                 {
-                    StartCoroutine(ListLayout.selectOption(completedQuestBtn));
-                }
-                lastSelectedQuestBtn = "";
+                    emptyQuestMsg.SetActive(false);
+                    questListPanel.SetActive(false);
+                    questInfoPanel.SetActive(false);
+                    questContentPanel.SetActive(false);
 
+                    questListRef.GetComponent<ListLayout>().destroyListSelection();
+                    if (lastSelectedQuestBtn == "inprog")
+                    {
+                        StartCoroutine(ListLayout.selectOption(inprogQuestBtn));
+                    }
+                    else if (lastSelectedQuestBtn == "completed")
+                    {
+                        StartCoroutine(ListLayout.selectOption(completedQuestBtn));
+                    }
+                    lastSelectedQuestBtn = "";
+                }
             }
             else if (lastSelectedSaveLoadBtn!=""&&saveloadContentPanel.activeInHierarchy)
             {
@@ -331,12 +405,12 @@ public class MenuManager : MonoBehaviour
             if (SkillManager.GetInstance().checkSkillEmpty("learnt"))
             {
                 characterEmptyMsg.SetActive(true);
-                StartCoroutine(ListLayout.selectOption(null));
+                StartCoroutine(ListLayout.selectOption(characterEmptyMsg));
             }
             else
             {
                 characterLeftPanel.SetActive(true);
-                characterRightPanel.SetActive(true);
+                //characterRightPanel.SetActive(true);
                 skillListRef.GetComponent<ListLayout>().createSkillList(SkillManager.GetInstance().skilllist, "learnt");
             }
 
@@ -352,12 +426,12 @@ public class MenuManager : MonoBehaviour
             if (StatusManager.GetInstance().checkStatusEmpty())
             {
                 characterEmptyMsg.SetActive(true);
-                StartCoroutine(ListLayout.selectOption(null));
+                StartCoroutine(ListLayout.selectOption(characterEmptyMsg));
             }
             else
             {
                 characterLeftPanel.SetActive(true);
-                characterRightPanel.SetActive(true);
+                //characterRightPanel.SetActive(true);
                 skillListRef.GetComponent<ListLayout>().createStatusList(StatusManager.GetInstance().statusList);
             }
             
@@ -381,6 +455,7 @@ public class MenuManager : MonoBehaviour
         if (!inventoryContentPanel.activeInHierarchy)
         {
             inventoryContentPanel.SetActive(true);
+            inventoryUseItemBtn.SetActive(false);
             
             if (InventoryManager.GetInstance().checkInventoryEmpty("all"))
             {
@@ -390,7 +465,7 @@ public class MenuManager : MonoBehaviour
             else
             {
                 inventoryLeftPanel.SetActive(true);
-                inventoryRightPanel.SetActive(true);
+                //inventoryRightPanel.SetActive(true);
                 inventoryListRef.GetComponent<ListLayout>().createInventoryList(InventoryManager.GetInstance().inventory, "all");
             }
             lastSelectedInventoryBtn = "all";
@@ -411,8 +486,10 @@ public class MenuManager : MonoBehaviour
             else
             {
                 inventoryLeftPanel.SetActive(true);
-                inventoryRightPanel.SetActive(true);
+                //inventoryRightPanel.SetActive(true);
+                //inventoryUseItemBtn.SetActive(true);
                 inventoryListRef.GetComponent<ListLayout>().createInventoryList(InventoryManager.GetInstance().inventory, "use");
+
             }
             lastSelectedInventoryBtn = "use";
         }
@@ -423,6 +500,7 @@ public class MenuManager : MonoBehaviour
         if (!inventoryContentPanel.activeInHierarchy)
         {
             inventoryContentPanel.SetActive(true);
+            inventoryUseItemBtn.SetActive(false);
 
             if (InventoryManager.GetInstance().checkInventoryEmpty("etc"))
             {
@@ -432,7 +510,7 @@ public class MenuManager : MonoBehaviour
             else
             {
                 inventoryLeftPanel.SetActive(true);
-                inventoryRightPanel.SetActive(true);
+                //inventoryRightPanel.SetActive(true);
                 inventoryListRef.GetComponent<ListLayout>().createInventoryList(InventoryManager.GetInstance().inventory, "etc");
             }
             lastSelectedInventoryBtn = "etc";
@@ -444,6 +522,7 @@ public class MenuManager : MonoBehaviour
         if (!inventoryContentPanel.activeInHierarchy)
         {
             inventoryContentPanel.SetActive(true);
+            inventoryUseItemBtn.SetActive(false);
 
             if (InventoryManager.GetInstance().checkInventoryEmpty("important"))
             {
@@ -453,11 +532,16 @@ public class MenuManager : MonoBehaviour
             else
             {
                 inventoryLeftPanel.SetActive(true);
-                inventoryRightPanel.SetActive(true);
+                //inventoryRightPanel.SetActive(true);
                 inventoryListRef.GetComponent<ListLayout>().createInventoryList(InventoryManager.GetInstance().inventory, "important");
             }
             lastSelectedInventoryBtn = "important";
         }
+    }
+
+    public void onUseItemBtn()
+    {
+        Debug.Log("Use item " + lastSelectedItem);
     }
 
     public void onQuestBtn()
@@ -477,12 +561,12 @@ public class MenuManager : MonoBehaviour
             if (QuestManager.GetInstance().checkQuestListEmpty("inprog"))
             {
                 emptyQuestMsg.SetActive(true);
-                StartCoroutine(ListLayout.selectOption(null));
+                StartCoroutine(ListLayout.selectOption(emptyQuestMsg));
             }
             else
             {
                 questListPanel.SetActive(true);
-                questInfoPanel.SetActive(true);
+                //questInfoPanel.SetActive(true);
                 questListRef.GetComponent<ListLayout>().createQuestList(QuestManager.GetInstance().questlist, "inprog");
             }
             lastSelectedQuestBtn = "inprog";
@@ -497,12 +581,12 @@ public class MenuManager : MonoBehaviour
             if (QuestManager.GetInstance().checkQuestListEmpty("completed"))
             {
                 emptyQuestMsg.SetActive(true);
-                StartCoroutine(ListLayout.selectOption(null));
+                StartCoroutine(ListLayout.selectOption(emptyQuestMsg));
             }
             else
             {
                 questListPanel.SetActive(true);
-                questInfoPanel.SetActive(true);
+                //questInfoPanel.SetActive(true);
                 questListRef.GetComponent<ListLayout>().createQuestList(QuestManager.GetInstance().questlist, "completed");
             }
             lastSelectedQuestBtn = "completed";
