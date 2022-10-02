@@ -159,24 +159,50 @@ public class Player : MonoBehaviour
         }
     }
 
-    void playerBuff(string skill_name)
+    public int playerSkillHeal(Skill skill)
     {
+        int original = 0;
+        int after = 0;
 
+        original = current_health;
+        current_health += stat_maxhealth*(skill.skillData.skill_power-100)/100;
+
+        if (current_health > stat_maxhealth)
+        {
+            current_health = stat_maxhealth;
+            
+        }
+        after = current_health;
+        Debug.Log(after+ "-" +original);
+        return (after-original);
     }
 
-    void playerDebuff(string debuff_name)
+    public int playerItemHeal(InventoryItem inventoryitem)
     {
+        int original = 0;
+        int after = 0;
 
+        original = current_health;
+        current_health += stat_maxhealth * (inventoryitem.itemData.item_value-100)/100;
+        
+
+        if (current_health > stat_maxhealth)
+        {
+            current_health = stat_maxhealth;
+        }
+        after = current_health;
+        Debug.Log(after + "-" + original);
+        return (after - original);
     }
 
-    void useSkill()
+    public void updatePlayerMP(Skill skill)
     {
-        //base on skill cost
-        //deal damage to enemy
-    }
+        current_mentalpoint -= skill.skillData.skill_cost;
 
-    void battleSetPlayerStat()
-    {
-        //load player stat in battle
+        if (current_mentalpoint < 0)
+        {
+            current_mentalpoint = 0;
+        }
+
     }
 }

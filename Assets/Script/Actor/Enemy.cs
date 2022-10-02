@@ -12,6 +12,8 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private int current_health;
 
+    [SerializeField] public EnemyData enemydata;
+
 
     //List skill
     //List dialogue maybe like when battle start etc
@@ -30,6 +32,25 @@ public class Enemy : MonoBehaviour
             return false;
         }
     }
+
+    public int enemySkillHeal(EnemySkill enemyskill)
+    {
+        int original = 0;
+        int after = 0;
+
+        original = current_health;
+        current_health += stat_maxhealth * (enemyskill.enemyskill_power - 100) / 100;
+
+        if (current_health > stat_maxhealth)
+        {
+            current_health = stat_maxhealth;
+
+        }
+        after = current_health;
+        Debug.Log(after + "-" + original);
+        return (after - original);
+    }
+
 
     public void battleSetEnemyStat()
     {
@@ -59,6 +80,9 @@ public class Enemy : MonoBehaviour
     {
         return stat_defence;
     }
+
+
+
 
     //enemy buff and debuff/ heal
 }

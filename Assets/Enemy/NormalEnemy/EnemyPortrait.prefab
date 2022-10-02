@@ -93,3 +93,4 @@ MonoBehaviour:
   stat_damage: 58
   stat_defence: 10
   current_health: 1300
+  enemydata: {fileID: 11400000, guid: 919779796065e6c4faa2c317a07e9bb8, type: 2}

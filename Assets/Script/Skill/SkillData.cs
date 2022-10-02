@@ -13,6 +13,7 @@ public class SkillData : ScriptableObject
 
     public int skill_power;
     public int skill_cost;
-
+    public int skill_cureID;
+    public int skill_statusID;
     
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 public class EnemyData : ScriptableObject
 {
     public string enemy_name;
+    public Sprite enemy_sprite;
     
     public int enemy_maxhealth;
     public int enemy_currenthealth;
@@ -13,11 +14,7 @@ public class EnemyData : ScriptableObject
     public int enemy_damage;
     public int enemy_defence;
 
-    public ESkill[] enemy_skilllist;
+    public EnemySkill[] enemy_skilllist;
 
-    public struct ESkill
-    {
-        string enemy_skillname;
-        float enemy_skillvalue;
-    }
+
 }

@@ -9,14 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d04882de7d6c7b44fac98343c5c4b8a1, type: 3}
-  m_Name: item2
+  m_Script: {fileID: 11500000, guid: 2d785233de56fc44e8ece5e09db32ac0, type: 3}
+  m_Name: skill4
   m_EditorClassIdentifier: 
-  item_ID: 2
-  item_name: Donut
-  item_icon: {fileID: 0}
-  item_description: item2
-  item_type: use
-  item_usetype: heal
-  item_value: 110
-  item_statusID: 0
+  skill_ID: 4
+  skill_name: Light of Hope
+  skill_type: cure
+  skill_description: Dispel debuff
+  skill_power: 0
+  skill_cost: 0
+  skill_cureID: 0
+  skill_statusID: 0

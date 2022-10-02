@@ -9,11 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d04882de7d6c7b44fac98343c5c4b8a1, type: 3}
-  m_Name: Shard of Light
+  m_Script: {fileID: 11500000, guid: b6c73cd7f3b51184c97d8d47aeca09d2, type: 3}
+  m_Name: enemyskill1
   m_EditorClassIdentifier: 
-  item_ID: 1
-  item_name: Shard of Light
-  item_icon: {fileID: 0}
-  item_description: shard
-  item_type: important
+  enemyskill_ID: 1
+  enemyskill_name: Negative Corrosion
+  enemyskill_type: damage
+  enemyskill_description: 
+  enemyskill_power: 500
+  enemyskill_cost: 0
+  enemyskill_statusID: 0

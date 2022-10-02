@@ -19,19 +19,19 @@ public class BattleUIManager : MonoBehaviour
     [SerializeField] private Image fill;
 
 
-    /*private void Awake()
-    {
-        if (instance != null)
-        {
-            Debug.LogWarning("Found more than one Battle Manager in the scene");
-        }
-        instance = this;
-    }
+    //private void Awake()
+    //{
+    //    if (instance != null)
+    //    {
+    //        Debug.LogWarning("Found more than one Battle Manager in the scene");
+    //    }
+    //    instance = this;
+    //}
 
-    public static BattleUIManager GetInstance()
-    {
-        return instance;
-    }*/
+    //public static BattleUIManager GetInstance()
+    //{
+    //    return instance;
+    //}
 
 
     public void setEnemyHUD(Enemy enemy)
@@ -73,4 +73,10 @@ public class BattleUIManager : MonoBehaviour
         fill.color = gradient.Evaluate(slider_hp.normalizedValue);
     }
 
+    public void setPlayerMP(int mp, Player player)
+    {
+        slider_mp.value = mp;
+        mp_text.text = player.getCurrent_MentalPoint() + "/" + player.getStat_MaxMentalPoint();
+        //fill.color = gradient.Evaluate(slider_mp.normalizedValue);
+    }
 }

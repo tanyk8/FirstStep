@@ -1329,7 +1329,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Player Status
+  m_text: Player status
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4077,15 +4077,23 @@ MonoBehaviour:
   panel_listT: {fileID: 1797860769}
   backbtn: {fileID: 1334774935}
   dialoguemanagerobj: {fileID: 0}
+  menuSkillDescription: {fileID: 0}
+  menuSkillDescPanel: {fileID: 0}
   mainQuestBtn: {fileID: 0}
   subQuestBtn: {fileID: 0}
   questname: {fileID: 0}
   questdesc: {fileID: 0}
   questprogress: {fileID: 0}
+  questRightPanel: {fileID: 0}
   itemname: {fileID: 0}
   itemdesc: {fileID: 0}
   itembtn: {fileID: 0}
   itemusebtn: {fileID: 0}
+  itemDescPanel: {fileID: 0}
+  itemDescription: {fileID: 0}
+  inventoryUseItemBtn: {fileID: 0}
+  itemListT: {fileID: 0}
+  itemRightPanel: {fileID: 0}
   battleUseBtn: {fileID: 1760796439}
   descriptionText: {fileID: 1599480889}
   detailPanel_useBtn: {fileID: 1959677061}
@@ -4093,6 +4101,7 @@ MonoBehaviour:
   statusBackBtn: {fileID: 0}
   statusDescription: {fileID: 0}
   statusDescriptionPanel: {fileID: 0}
+  statusActor: {fileID: 0}
 --- !u!114 &1379087516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4891,15 +4900,23 @@ MonoBehaviour:
   panel_listT: {fileID: 394929136}
   backbtn: {fileID: 1334774935}
   dialoguemanagerobj: {fileID: 0}
+  menuSkillDescription: {fileID: 0}
+  menuSkillDescPanel: {fileID: 0}
   mainQuestBtn: {fileID: 0}
   subQuestBtn: {fileID: 0}
   questname: {fileID: 0}
   questdesc: {fileID: 0}
   questprogress: {fileID: 0}
+  questRightPanel: {fileID: 0}
   itemname: {fileID: 0}
   itemdesc: {fileID: 0}
   itembtn: {fileID: 0}
   itemusebtn: {fileID: 0}
+  itemDescPanel: {fileID: 0}
+  itemDescription: {fileID: 0}
+  inventoryUseItemBtn: {fileID: 0}
+  itemListT: {fileID: 0}
+  itemRightPanel: {fileID: 0}
   battleUseBtn: {fileID: 0}
   descriptionText: {fileID: 0}
   detailPanel_useBtn: {fileID: 0}
@@ -4907,6 +4924,7 @@ MonoBehaviour:
   statusBackBtn: {fileID: 1384857384}
   statusDescription: {fileID: 1995925703}
   statusDescriptionPanel: {fileID: 948468105}
+  statusActor: {fileID: 383047986}
 --- !u!114 &1674347134
 MonoBehaviour:
   m_ObjectHideFlags: 0

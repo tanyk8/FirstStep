@@ -27,7 +27,7 @@ Get ready for battle.
 ===afterbattle===
 I used some magic to calm you down a little, you feeling better?
 ...yes ...?! I- I can speak...
-Good for you
+Great!
 ...So who are you? My mother told me not to talk to strangers.
 But you are already talking to me.
 ?! (He then closes his mouth with both hands)

@@ -1,7 +1,6 @@
 
 ->normal
 
-
 ===normal===
 Sigh...
 (You feel a faint negative energy from the person, do you want to try talking to him?)
@@ -61,7 +60,10 @@ What do you think...?
     Next time remember that making wrong choices could result in powering up the enemy.
     Let's not panic and try to calm him down first, thank god you have his favourite food.
     Let's try to cheer him up with it.
-    Ah- actually I was just joking. Hey do you want to try this chocolate?
+    He- Hey do you want to try this chocolate?
+    (You can feel him become excited as he sees the chocolate bar in your hands)
+    Isn't that the chocolate bar from the famous brand?!
+    Ye- yeah, actually I got it from that person but I am allergic to chocolate. Since you like chocolate, do you want it? 
     Really? Can I have it? How did you know that I like chocolate?
     Let's not care about the details and enjoy your chocolate.
     Umm okay... thanks!
@@ -102,6 +104,11 @@ Okay... if you say so...
 ===progress3===
 Thank you, people were praising my music talent and thanks to you I feel a little more confident.
 Maybe you're right I should just try to prepare whatever I can and stop being too worried about it.
+Well then, since you seem okay already, I think I'll take my leave. Have a nice day.
+Wa- ?! He's gone...
+Ok now you're invisible again.
+Since he has calm down quite abit, and now that the negative energy has been weakened, let's purify it.
+Prepare for battle!
 //Enter battle
 ->END
 

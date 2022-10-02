@@ -165,16 +165,17 @@ public class DialogueManager : MonoBehaviour
             completeQuestTrigger += questManager.GetComponent<QuestManager>().completeQuest;
         }
 
+        monologueFrame.SetActive(false);
+        dialogueFrame.SetActive(true);
+        portraitFrame.SetActive(true);
+        speakerFrame.SetActive(true);
 
         displayNameText.text = "?0?";
         portraitAnimator.Play("default");
         layoutAnimator.Play("layout_left");
         dialoguetype = "di";
 
-        monologueFrame.SetActive(false);
-        dialogueFrame.SetActive(true);
-        portraitFrame.SetActive(true);
-        speakerFrame.SetActive(true);
+        
 
 
         ContinueStory();

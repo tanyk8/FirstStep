@@ -14,7 +14,7 @@ public class InventoryManager : MonoBehaviour
 
     private void Start()
     {
-        ItemData shard=Resources.Load<ItemData>("Item/Shard of Light");
+        ItemData shard=Resources.Load<ItemData>("Item/item1");
         Debug.Log(shard.item_name);
         Add(shard);
         ItemData item2 = Resources.Load<ItemData>("Item/item2");

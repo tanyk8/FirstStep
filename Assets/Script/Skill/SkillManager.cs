@@ -19,9 +19,28 @@ public class SkillManager : MonoBehaviour
         skilllist.Add(skill);
 
         SkillData testskill2 = Resources.Load<SkillData>("Skill/skill2");
+        Debug.Log(testskill2.skill_name);
         Skill skill2 = new Skill(testskill2);
         skill2.updateSkillLearnt();
         skilllist.Add(skill2);
+
+        SkillData testskill3 = Resources.Load<SkillData>("Skill/skill3");
+        Debug.Log(testskill3.skill_name);
+        Skill skill3 = new Skill(testskill3);
+        skill3.updateSkillLearnt();
+        skilllist.Add(skill3);
+
+        SkillData testskill4 = Resources.Load<SkillData>("Skill/skill4");
+        Debug.Log(testskill4.skill_name);
+        Skill skill4 = new Skill(testskill4);
+        skill4.updateSkillLearnt();
+        skilllist.Add(skill4);
+
+        SkillData testskill5 = Resources.Load<SkillData>("Skill/skill5");
+        Debug.Log(testskill5.skill_name);
+        Skill skill5 = new Skill(testskill5);
+        skill5.updateSkillLearnt();
+        skilllist.Add(skill5);
     }
 
     private void Awake()

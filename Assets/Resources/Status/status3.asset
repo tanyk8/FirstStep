@@ -10,12 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1e0712d8dd5ac574bbdd1a81ba6cdaa2, type: 3}
-  m_Name: status1
+  m_Name: status3
   m_EditorClassIdentifier: 
-  status_ID: 1
-  status_name: Be Confident
-  status_description: You feel more confident which strengthens your power against
-    negative energy.
-  status_value: 110
-  status_duration: 2
-  status_type: playerstatus_dmg
+  status_ID: 3
+  status_name: Positive Aura
+  status_description: The positive aura emitting from you has weakened the enemy.
+  status_value: 85
+  status_duration: 3
+  status_type: enemystatus_dmg

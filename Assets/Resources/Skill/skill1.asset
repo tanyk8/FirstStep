@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: skill1
   m_EditorClassIdentifier: 
   skill_ID: 1
-  skill_name: testskill
-  skill_type: attack
-  skill_description: attack
-  skill_power: 1
-  skill_cost: 1
+  skill_name: Positive strike
+  skill_type: damage
+  skill_description: Using your positive energy to push back the negative emotion
+  skill_power: 300
+  skill_cost: 70
+  skill_cureID: 0
+  skill_statusID: 0

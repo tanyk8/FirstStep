@@ -73,6 +73,8 @@ public class ListLayout : MonoBehaviour
     [SerializeField] GameObject statusBackBtn;
     [SerializeField] GameObject statusDescription;
     [SerializeField] GameObject statusDescriptionPanel;
+
+    [SerializeField] GameObject statusActor;
     
 
     public ListLayout()
@@ -397,7 +399,6 @@ public class ListLayout : MonoBehaviour
 
         for (int i = 0; i < count; i++)
         {
-
             panel_list = Instantiate(template_listitem, panel_listT);
             panel_list.transform.GetChild(0).GetComponent<Text>().text = statusList.ElementAt(i).statusData.status_name;
 
@@ -1053,18 +1054,36 @@ public class ListLayout : MonoBehaviour
 
     void listBattleStatusClicked(int statusindex)
     {
-        BattleManager.GetInstance().lastSelectedStatus = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text;
-        BattleManager.GetInstance().lastSelectedStatusIndex = statusindex;
+        if(statusActor.GetComponent<TextMeshProUGUI>().text=="Player status")
+        {
+            BattleManager.GetInstance().lastSelectedStatus = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text;
+            BattleManager.GetInstance().lastSelectedStatusIndex = statusindex;
 
-        Status tempstatus = null;
-        tempstatus = StatusManager.GetInstance().getStatusWName(BattleManager.GetInstance().lastSelectedStatus);
+            Status tempstatus = null;
+            tempstatus = StatusManager.GetInstance().getStatusWName(BattleManager.GetInstance().lastSelectedStatus);
+
+
+
+            statusDescriptionPanel.SetActive(true);
+            statusDescription.transform.GetComponent<TextMeshProUGUI>().text = BattleManager.GetInstance().lastSelectedStatus + "<br>" + tempstatus.statusData.status_description;
+
+            StartCoroutine(selectOption(statusDescription));
+        }
+        else if(statusActor.GetComponent<TextMeshProUGUI>().text == "Enemy status")
+        {
+            BattleManager.GetInstance().lastSelectedStatus = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text;
+            BattleManager.GetInstance().lastSelectedStatusIndex = statusindex;
+
+            Status tempstatus = null;
+            tempstatus = BattleManager.GetInstance().getEnemyStatusWName(BattleManager.GetInstance().lastSelectedStatus);
+
+            statusDescriptionPanel.SetActive(true);
+            statusDescription.transform.GetComponent<TextMeshProUGUI>().text = BattleManager.GetInstance().lastSelectedStatus + "<br>" + tempstatus.statusData.status_description;
+
+            StartCoroutine(selectOption(statusDescription));
+        }
 
         
-
-        statusDescriptionPanel.SetActive(true);
-        statusDescription.transform.GetComponent<TextMeshProUGUI>().text = BattleManager.GetInstance().lastSelectedStatus + "<br>" + tempstatus.statusData.status_description;
-
-        StartCoroutine(selectOption(statusDescription));
     }
 
     void listStatusClicked(int statusIndex)

@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d785233de56fc44e8ece5e09db32ac0, type: 3}
-  m_Name: skill2
+  m_Name: skill5
   m_EditorClassIdentifier: 
-  skill_ID: 2
-  skill_name: Mental rest
-  skill_type: heal
-  skill_description: Relaxing your mental heals your mental helath
-  skill_power: 105
-  skill_cost: 20
+  skill_ID: 5
+  skill_name: Positive Aura
+  skill_type: debuff
+  skill_description: Creates a positive aura around yourself, waekening negative
+    energy.
+  skill_power: 0
+  skill_cost: 0
   skill_cureID: 0
-  skill_statusID: 0
+  skill_statusID: 3
