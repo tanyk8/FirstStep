@@ -1,7 +1,8 @@
 using System.IO;
 using UnityEngine;
 using System.Linq;
-
+using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 public class ProgressManager : MonoBehaviour
 {
 
@@ -21,7 +22,7 @@ public class ProgressManager : MonoBehaviour
     private string defaultinkpath = "";
     private string inkpath = "";
 
-
+    public string gameProgress ="opening";
 
     private void Awake()
     {
@@ -48,6 +49,7 @@ public class ProgressManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
 
+
     }
 
     public static ProgressManager GetInstance()
@@ -57,7 +59,9 @@ public class ProgressManager : MonoBehaviour
 
     private void Start()
     {
-        for(int x = 0; x < TOTALSLOT; x++)
+        
+
+        for (int x = 0; x < TOTALSLOT; x++)
         {
             progressArray[x] = new Progress();
         }
@@ -122,6 +126,9 @@ public class ProgressManager : MonoBehaviour
 
     public void loadProgress(Progress progress)
     {
+        SceneManager.LoadScene(progress.progressData.sceneName);
+
+
         ProgressData progdata = progress.progressData;
 
         DialogueVariableObserver.loadVariables(progress.inkVariableData);

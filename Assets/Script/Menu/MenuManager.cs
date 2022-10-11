@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using UnityEngine.Playables;
 
 public class MenuManager : MonoBehaviour
 {
@@ -158,7 +159,7 @@ public class MenuManager : MonoBehaviour
 
         if (SceneManager.GetActiveScene().name != "Battlescene"&& InputManager.getInstance().getMenuPressed())
         {
-            if (!menuCanvas.activeInHierarchy&& !DialogueManager.GetInstance().dialogueIsPlaying)
+            if (!TimelineManager.GetInstance().dontmove&&!menuCanvas.activeInHierarchy&& !DialogueManager.GetInstance().dialogueIsPlaying&& TimelineManager.GetInstance().getPlayState() != PlayState.Playing)
             {
                 menuIsOpened = true;
                 menuCanvas.SetActive(true);
@@ -460,7 +461,7 @@ public class MenuManager : MonoBehaviour
             if (InventoryManager.GetInstance().checkInventoryEmpty("all"))
             {
                 inventoryEmptyMsg.SetActive(true);
-                StartCoroutine(ListLayout.selectOption(null));
+                StartCoroutine(ListLayout.selectOption(inventoryEmptyMsg));
             }
             else
             {
@@ -477,11 +478,12 @@ public class MenuManager : MonoBehaviour
         if (!inventoryContentPanel.activeInHierarchy)
         {
             inventoryContentPanel.SetActive(true);
+            inventoryUseItemBtn.SetActive(false);
 
             if (InventoryManager.GetInstance().checkInventoryEmpty("use"))
             {
                 inventoryEmptyMsg.SetActive(true);
-                StartCoroutine(ListLayout.selectOption(null));
+                StartCoroutine(ListLayout.selectOption(inventoryEmptyMsg));
             }
             else
             {
@@ -505,7 +507,7 @@ public class MenuManager : MonoBehaviour
             if (InventoryManager.GetInstance().checkInventoryEmpty("etc"))
             {
                 inventoryEmptyMsg.SetActive(true);
-                StartCoroutine(ListLayout.selectOption(null));
+                StartCoroutine(ListLayout.selectOption(inventoryEmptyMsg));
             }
             else
             {
@@ -527,7 +529,7 @@ public class MenuManager : MonoBehaviour
             if (InventoryManager.GetInstance().checkInventoryEmpty("important"))
             {
                 inventoryEmptyMsg.SetActive(true);
-                StartCoroutine(ListLayout.selectOption(null));
+                StartCoroutine(ListLayout.selectOption(inventoryEmptyMsg));
             }
             else
             {
@@ -542,6 +544,66 @@ public class MenuManager : MonoBehaviour
     public void onUseItemBtn()
     {
         Debug.Log("Use item " + lastSelectedItem);
+        InventoryItem tempitem = null;
+        tempitem = InventoryManager.GetInstance().getItemWName(lastSelectedItem);
+
+        if (tempitem.itemData.item_type == "use")
+        {
+
+            switch (tempitem.itemData.item_usetype)
+            {
+                case "heal":
+                    int temp = player.playerItemHeal(tempitem);
+
+                    break;
+                case "cure":
+                    StatusManager.GetInstance().item_CureStatus(tempitem);
+
+                    break;
+            }
+        }
+
+        InventoryManager.GetInstance().inventory.Remove(tempitem);
+
+        inventoryRightPanel.SetActive(false);
+        inventoryListRef.GetComponent<ListLayout>().destroyListSelection();
+        
+        if (lastSelectedInventoryBtn == "all")
+        {
+            inventoryUseItemBtn.SetActive(false);
+
+            if (InventoryManager.GetInstance().checkInventoryEmpty("all"))
+            {
+                inventoryEmptyMsg.SetActive(true);
+                StartCoroutine(ListLayout.selectOption(inventoryEmptyMsg));
+            }
+            else
+            {
+                inventoryLeftPanel.SetActive(true);
+                //inventoryRightPanel.SetActive(true);
+                inventoryListRef.GetComponent<ListLayout>().createInventoryList(InventoryManager.GetInstance().inventory, "all");
+            }
+            lastSelectedInventoryBtn = "all";
+        }
+        else if (lastSelectedInventoryBtn == "use")
+        {
+            inventoryUseItemBtn.SetActive(false);
+
+            if (InventoryManager.GetInstance().checkInventoryEmpty("use"))
+            {
+                inventoryEmptyMsg.SetActive(true);
+                StartCoroutine(ListLayout.selectOption(inventoryEmptyMsg));
+            }
+            else
+            {
+                inventoryLeftPanel.SetActive(true);
+                //inventoryRightPanel.SetActive(true);
+                //inventoryUseItemBtn.SetActive(true);
+                inventoryListRef.GetComponent<ListLayout>().createInventoryList(InventoryManager.GetInstance().inventory, "use");
+
+            }
+            lastSelectedInventoryBtn = "use";
+        }
     }
 
     public void onQuestBtn()

@@ -1142,6 +1142,7 @@ public class ListLayout : MonoBehaviour
 
             for (int x = 0; x < tempquest.quest_progress; x++)
             {
+
                 if (tempquest.questData.quest_totalprogress - 1 > x && tempquest.quest_progress - 1 == x)
                 {
                     temp += tempquest.questData.quest_progress[x].description + "<br>";

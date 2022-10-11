@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Playables;
 
 public class PlayerController : MonoBehaviour
 {
@@ -29,8 +30,9 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (DialogueManager.GetInstance().dialogueIsPlaying|| MenuManager.GetInstance().menuIsOpened)
+        if (TimelineManager.GetInstance().dontmove||DialogueManager.GetInstance().dialogueIsPlaying|| MenuManager.GetInstance().menuIsOpened|| TimelineManager.GetInstance().getPlayState() == PlayState.Playing)
         {
+            
             animator.SetBool("isMoving", false);
             return;
         }
@@ -79,7 +81,7 @@ public class PlayerController : MonoBehaviour
     {
         movementInput = movementValue.Get<Vector2>();
 
-        if (movementInput != Vector2.zero && !DialogueManager.GetInstance().dialogueIsPlaying&&!MenuManager.GetInstance().menuIsOpened)
+        if (!TimelineManager.GetInstance().dontmove&&movementInput != Vector2.zero && !DialogueManager.GetInstance().dialogueIsPlaying&&!MenuManager.GetInstance().menuIsOpened&& TimelineManager.GetInstance().getPlayState() != PlayState.Playing)
         {
             animator.SetFloat("Xinput", movementInput.x);
             animator.SetFloat("Yinput", movementInput.y);
