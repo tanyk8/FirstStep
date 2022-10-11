@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: status1
   m_EditorClassIdentifier: 
   status_ID: 1
-  status_name: teststatus
-  status_description: test
-  status_value: 2
+  status_name: Be Confident
+  status_description: You feel more confident which strengthens your power against
+    negative energy.
+  status_value: 110
   status_duration: 2
-  status_type: buff
+  status_type: playerstatus_dmg

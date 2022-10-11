@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffdeb5024a6959e41a1e91110f8ba445, type: 3}
+  m_Name: quest103
+  m_EditorClassIdentifier: 
+  quest_ID: 103
+  quest_giver: 
+  quest_name: Clear the second gate
+  quest_type: main
+  quest_description: desc
+  quest_rewardType: none
+  quest_reward: 0
+  quest_totalprogress: 7
+  quest_progress:
+  - description: Enter the second gate
+    requirementType: talk
+    requirement: 1
+  - description: Find the source of shadow energy
+    requirementType: talk
+    requirement: 1
+  - description: Help the person
+    requirementType: talk
+    requirement: 1
+  - description: Defeat the shadow minion
+    requirementType: talk
+    requirement: 1
+  - description: Find the shadow's main source
+    requirementType: talk
+    requirement: 1
+  - description: Talk to mysterious person
+    requirementType: talk
+    requirement: 1

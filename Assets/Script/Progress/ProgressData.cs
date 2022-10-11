@@ -14,6 +14,7 @@ public class ProgressData
     public int player_currmp;
 
     public Vector3 playerlocation;
+    public string sceneName;
 
     public List<Skill> skillList;
     public List<Status> statusList;

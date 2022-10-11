@@ -14,11 +14,11 @@ public class InventoryManager : MonoBehaviour
 
     private void Start()
     {
-        ItemData shard=Resources.Load<ItemData>("Item/Shard of Light");
+        ItemData shard=Resources.Load<ItemData>("Item/item1");
         Debug.Log(shard.item_name);
         Add(shard);
-        //ItemData item2 = Resources.Load<ItemData>("Item/item2");
-        //Add(item2);
+        ItemData item2 = Resources.Load<ItemData>("Item/item2");
+        Add(item2);
     }
 
     private void Awake()
@@ -139,6 +139,16 @@ public class InventoryManager : MonoBehaviour
     {
         return this;
     }
+
+    public InventoryItem getItemWName(string name) 
+    {
+        int index=0;
+
+        index = inventory.FindIndex(x => x.itemData.item_name == name);
+
+        return inventory.ElementAt(index);
+
+    } 
     //shard of courage
     //mental potion (overuse will give debuff)
 }

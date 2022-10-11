@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 public class Progress
 {
@@ -38,6 +39,7 @@ public class Progress
         progressData.player_currmp= player.getCurrent_MentalPoint();
 
         progressData.playerlocation = GameObject.Find("Player").transform.position;
+        progressData.sceneName = SceneManager.GetActiveScene().ToString();
 
         progressData.skillList = SkillManager.GetInstance().skilllist;
         progressData.statusList = StatusManager.GetInstance().statusList;

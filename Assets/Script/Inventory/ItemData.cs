@@ -11,4 +11,7 @@ public class ItemData : ScriptableObject
     public Sprite item_icon;
     public string item_description;
     public string item_type;
+    public string item_usetype;
+    public int item_value;
+    public int item_statusID;
 }

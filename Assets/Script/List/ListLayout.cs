@@ -40,6 +40,8 @@ public class ListLayout : MonoBehaviour
     [SerializeField] GameObject dialoguemanagerobj;
 
     [Header("Skill")]
+    [SerializeField] GameObject menuSkillDescription;
+    [SerializeField] GameObject menuSkillDescPanel;
 
     [Header("Quest")]
     [SerializeField] GameObject mainQuestBtn;
@@ -47,12 +49,33 @@ public class ListLayout : MonoBehaviour
     [SerializeField] TextMeshProUGUI questname;
     [SerializeField] TextMeshProUGUI questdesc;
     [SerializeField] TextMeshProUGUI questprogress;
+    [SerializeField] GameObject questRightPanel;
 
     [Header("Item")]
     [SerializeField] GameObject itemname;
     [SerializeField] GameObject itemdesc;
     [SerializeField] GameObject itembtn;
     [SerializeField] GameObject itemusebtn;
+
+    [SerializeField] GameObject itemDescPanel;
+    [SerializeField] GameObject itemDescription;
+    [SerializeField] GameObject inventoryUseItemBtn;
+    [SerializeField] Transform itemListT;
+    [SerializeField] GameObject itemRightPanel;
+
+
+    [Header("Battle")]
+    [SerializeField] GameObject battleUseBtn;
+    [SerializeField] GameObject descriptionText;
+    [SerializeField] GameObject detailPanel_useBtn;
+    [SerializeField] GameObject detailPanel_description;
+
+    [SerializeField] GameObject statusBackBtn;
+    [SerializeField] GameObject statusDescription;
+    [SerializeField] GameObject statusDescriptionPanel;
+
+    [SerializeField] GameObject statusActor;
+    
 
     public ListLayout()
     {
@@ -74,7 +97,7 @@ public class ListLayout : MonoBehaviour
                     panel_list = Instantiate(template_listitem, panel_listT);
                     panel_list.transform.GetChild(0).GetComponent<Text>().text = skillList.ElementAt(i).skillData.skill_name;
 
-                    panel_list.GetComponent<Button>().AddEventListener(i, listSkillClicked);
+                    panel_list.GetComponent<Button>().AddEventListener(count, listBattleSkillClicked);
                     count++;
 
                     if (count == 1)
@@ -95,7 +118,7 @@ public class ListLayout : MonoBehaviour
                     panel_list = Instantiate(template_listitem, panel_listT);
                     panel_list.transform.GetChild(0).GetComponent<Text>().text = skillList.ElementAt(i).skillData.skill_name;
 
-                    panel_list.GetComponent<Button>().AddEventListener(i, listSkillClicked);
+                    panel_list.GetComponent<Button>().AddEventListener(i, listBattleSkillClicked);
                     count++;
 
                     if (count == 1)
@@ -110,16 +133,20 @@ public class ListLayout : MonoBehaviour
 
         }
 
+        if (count != 0)
+        {
+            Navigation NewNavback = new Navigation();
+            NewNavback.mode = Navigation.Mode.Explicit;
 
-        Navigation NewNavback = new Navigation();
-        NewNavback.mode = Navigation.Mode.Explicit;
+            //Set what you want to be selected on down, up, left or right;
+            NewNavback.selectOnUp = panel_listT.GetChild(count - 1).GetComponent<Button>();
+            NewNavback.selectOnDown = panel_listT.GetChild(0).GetComponent<Button>();
 
-        //Set what you want to be selected on down, up, left or right;
-        NewNavback.selectOnUp = panel_listT.GetChild(count-1).GetComponent<Button>();
-        NewNavback.selectOnDown = panel_listT.GetChild(0).GetComponent<Button>();
 
-        //Assign the new navigation to your desired button or ui Object
-        backbtn.GetComponent<Button>().navigation = NewNavback;
+            //Assign the new navigation to your desired button or ui Object
+            backbtn.GetComponent<Button>().navigation = NewNavback;
+        }
+        
 
 
 
@@ -139,7 +166,12 @@ public class ListLayout : MonoBehaviour
                     NewNav.selectOnUp = backbtn.GetComponent<Button>();
                     NewNav.selectOnDown = panel_listT.GetChild(i + 1).GetComponent<Button>();
                 }
-                
+                else if (count == 1)
+                {
+                    NewNav.selectOnUp = backbtn.GetComponent<Button>();
+                    NewNav.selectOnDown = backbtn.GetComponent<Button>();
+                }
+
 
 
                 //Assign the new navigation to your desired button or ui Object
@@ -195,7 +227,7 @@ public class ListLayout : MonoBehaviour
                     panel_list = Instantiate(template_listitem, panel_listT);
                     panel_list.transform.GetChild(0).GetComponent<Text>().text = skillList.ElementAt(i).skillData.skill_name;
 
-                    panel_list.GetComponent<Button>().AddEventListener(i, listSkillClicked);
+                    panel_list.GetComponent<Button>().AddEventListener(count, listSkillClicked);
                     count++;
 
                     if (count == 1)
@@ -216,7 +248,7 @@ public class ListLayout : MonoBehaviour
                     panel_list = Instantiate(template_listitem, panel_listT);
                     panel_list.transform.GetChild(0).GetComponent<Text>().text = skillList.ElementAt(i).skillData.skill_name;
 
-                    panel_list.GetComponent<Button>().AddEventListener(i, listSkillClicked);
+                    panel_list.GetComponent<Button>().AddEventListener(count, listSkillClicked);
                     count++;
 
                     if (count == 1)
@@ -253,7 +285,7 @@ public class ListLayout : MonoBehaviour
                 panel_listT.GetChild(i).GetComponent<Button>().navigation = NewNav;
             }
 
-            else if (i > 0 && i < totalElements - 1)
+            else if (i > 0 && i < count - 1)
             {
                 //Create a new navigation
                 Navigation NewNav = new Navigation();
@@ -266,7 +298,7 @@ public class ListLayout : MonoBehaviour
                 //Assign the new navigation to your desired button or ui Object
                 panel_listT.GetChild(i).GetComponent<Button>().navigation = NewNav;
             }
-            else if (i == totalElements - 1)
+            else if (i == count - 1)
             {
                 //Create a new navigation
                 Navigation NewNav = new Navigation();
@@ -293,21 +325,21 @@ public class ListLayout : MonoBehaviour
         //skillList.Sort((p,q)=>p.skillData.skill_name.CompareTo(q.skillData.skill_name));
         //skillList.Sort((p, q) => p.skillData.skill_type.CompareTo(q.skillData.skill_type));
 
-
+        count = statusList.Count;
         
     
-        for (int i = 0; i < statusList.Count; i++)
+        for (int i = 0; i < count; i++)
         {
 
             panel_list = Instantiate(template_listitem, panel_listT);
             panel_list.transform.GetChild(0).GetComponent<Text>().text = statusList.ElementAt(i).statusData.status_name;
 
-            panel_list.GetComponent<Button>().AddEventListener(i, listSkillClicked);
+            panel_list.GetComponent<Button>().AddEventListener(i, listStatusClicked);
 
         }
         
 
-        for (int i = 0; i < statusList.Count; i++)
+        for (int i = 0; i < count; i++)
         {
             if (i == 0)
             {
@@ -326,7 +358,7 @@ public class ListLayout : MonoBehaviour
                 panel_listT.GetChild(i).GetComponent<Button>().navigation = NewNav;
             }
 
-            else if (i > 0 && i < totalElements - 1)
+            else if (i > 0 && i < count - 1)
             {
                 //Create a new navigation
                 Navigation NewNav = new Navigation();
@@ -339,7 +371,7 @@ public class ListLayout : MonoBehaviour
                 //Assign the new navigation to your desired button or ui Object
                 panel_listT.GetChild(i).GetComponent<Button>().navigation = NewNav;
             }
-            else if (i == totalElements - 1)
+            else if (i == count - 1)
             {
                 //Create a new navigation
                 Navigation NewNav = new Navigation();
@@ -355,7 +387,98 @@ public class ListLayout : MonoBehaviour
         }
 
         StartCoroutine(selectOption(panel_listT.GetChild(0).gameObject));
+
+        
     }
+
+    public void createBattleStatusList(List<Status> statusList)
+    {
+        int count = 0;
+
+        count=statusList.Count;
+
+        for (int i = 0; i < count; i++)
+        {
+            panel_list = Instantiate(template_listitem, panel_listT);
+            panel_list.transform.GetChild(0).GetComponent<Text>().text = statusList.ElementAt(i).statusData.status_name;
+
+            panel_list.GetComponent<Button>().AddEventListener(i, listBattleStatusClicked);
+
+        }
+
+        if (count != 0)
+        {
+            Navigation NewNavback = new Navigation();
+            NewNavback.mode = Navigation.Mode.Explicit;
+
+            //Set what you want to be selected on down, up, left or right;
+            NewNavback.selectOnUp = panel_listT.GetChild(count - 1).GetComponent<Button>();
+            NewNavback.selectOnDown = panel_listT.GetChild(0).GetComponent<Button>();
+
+
+            //Assign the new navigation to your desired button or ui Object
+            statusBackBtn.GetComponent<Button>().navigation = NewNavback;
+        }
+
+
+        for (int i = 0; i < count; i++)
+        {
+            if (i == 0)
+            {
+                //Create a new navigation
+                Navigation NewNav = new Navigation();
+                NewNav.mode = Navigation.Mode.Explicit;
+
+                //Set what you want to be selected on down, up, left or right;
+
+                if (count > 1)
+                {
+                    NewNav.selectOnUp = statusBackBtn.GetComponent<Button>();
+                    NewNav.selectOnDown = panel_listT.GetChild(i + 1).GetComponent<Button>();
+                }
+                else if (count == 1)
+                {
+                    NewNav.selectOnUp = statusBackBtn.GetComponent<Button>();
+                    NewNav.selectOnDown = statusBackBtn.GetComponent<Button>();
+                }
+                //Assign the new navigation to your desired button or ui Object
+                panel_listT.GetChild(i).GetComponent<Button>().navigation = NewNav;
+            }
+
+            else if (i > 0 && i < count - 1)
+            {
+                //Create a new navigation
+                Navigation NewNav = new Navigation();
+                NewNav.mode = Navigation.Mode.Explicit;
+
+                //Set what you want to be selected on down, up, left or right;
+                NewNav.selectOnUp = panel_listT.GetChild(i - 1).GetComponent<Button>();
+                NewNav.selectOnDown = panel_listT.GetChild(i + 1).GetComponent<Button>();
+
+                //Assign the new navigation to your desired button or ui Object
+                panel_listT.GetChild(i).GetComponent<Button>().navigation = NewNav;
+            }
+            else if (i == count - 1)
+            {
+                //Create a new navigation
+                Navigation NewNav = new Navigation();
+                NewNav.mode = Navigation.Mode.Explicit;
+
+                //Set what you want to be selected on down, up, left or right;
+                NewNav.selectOnUp = panel_listT.GetChild(i - 1).GetComponent<Button>();
+                NewNav.selectOnDown = statusBackBtn.GetComponent<Button>();
+
+                //Assign the new navigation to your desired button or ui Object
+                panel_listT.GetChild(i).GetComponent<Button>().navigation = NewNav;
+            }
+        }
+
+        StartCoroutine(selectOption(panel_listT.GetChild(0).gameObject));
+
+        
+
+    }
+
 
     public void createInventoryList(List<InventoryItem> inventoryList,string type)
     {
@@ -372,7 +495,7 @@ public class ListLayout : MonoBehaviour
                 panel_list = Instantiate(template_listitem, panel_listT);
                 panel_list.transform.GetChild(0).GetComponent<Text>().text = inventoryList.ElementAt(i).itemData.item_name;
 
-                panel_list.GetComponent<Button>().AddEventListener(i, listInventoryClicked);
+                panel_list.GetComponent<Button>().AddEventListener(count, listInventoryClicked);
                 count++;
 
                 if (count == 1)
@@ -392,7 +515,7 @@ public class ListLayout : MonoBehaviour
                     panel_list = Instantiate(template_listitem, panel_listT);
                     panel_list.transform.GetChild(0).GetComponent<Text>().text = inventoryList.ElementAt(i).itemData.item_name;
 
-                    panel_list.GetComponent<Button>().AddEventListener(i, listInventoryClicked);
+                    panel_list.GetComponent<Button>().AddEventListener(count, listInventoryClicked);
                     count++;
 
                     if (count == 1)
@@ -413,7 +536,7 @@ public class ListLayout : MonoBehaviour
                     panel_list = Instantiate(template_listitem, panel_listT);
                     panel_list.transform.GetChild(0).GetComponent<Text>().text = inventoryList.ElementAt(i).itemData.item_name;
 
-                    panel_list.GetComponent<Button>().AddEventListener(i, listInventoryClicked);
+                    panel_list.GetComponent<Button>().AddEventListener(count, listInventoryClicked);
                     count++;
 
                     if (count == 1)
@@ -434,7 +557,7 @@ public class ListLayout : MonoBehaviour
                     panel_list = Instantiate(template_listitem, panel_listT);
                     panel_list.transform.GetChild(0).GetComponent<Text>().text = inventoryList.ElementAt(i).itemData.item_name;
 
-                    panel_list.GetComponent<Button>().AddEventListener(i, listInventoryClicked);
+                    panel_list.GetComponent<Button>().AddEventListener(count, listInventoryClicked);
                     count++;
 
                     if (count == 1)
@@ -477,7 +600,7 @@ public class ListLayout : MonoBehaviour
                 //useNav.selectOnRight = panel_listT.GetChild(i).GetComponent<Button>();
             }
 
-            else if (i > 0 && i < totalElements - 1)
+            else if (i > 0 && i < count - 1)
             {
                 //Create a new navigation
                 Navigation NewNav = new Navigation();
@@ -490,7 +613,7 @@ public class ListLayout : MonoBehaviour
                 //Assign the new navigation to your desired button or ui Object
                 panel_listT.GetChild(i).GetComponent<Button>().navigation = NewNav;
             }
-            else if (i == totalElements - 1)
+            else if (i == count - 1)
             {
                 //Create a new navigation
                 Navigation NewNav = new Navigation();
@@ -509,9 +632,107 @@ public class ListLayout : MonoBehaviour
 
     }
 
+    public void createBattleItemList(List<InventoryItem> inventoryList)
+    {
+        InventoryItem inventoryItem = null;
+
+        int count = 0;
+
+        for (int i = 0; i < inventoryList.Count; i++)
+        {
+            if (inventoryList.ElementAt(i).itemData.item_type == "use")
+            {
+                panel_list = Instantiate(template_listitem, panel_listT);
+                panel_list.transform.GetChild(0).GetComponent<Text>().text = inventoryList.ElementAt(i).itemData.item_name;
+
+                panel_list.GetComponent<Button>().AddEventListener(count, listBattleItemClicked);
+                count++;
+
+                if (count == 1)
+                {
+                    inventoryItem = inventoryList.ElementAt(count - 1);
+                }
+            }
+
+
+        }
+
+        if (count != 0)
+        {
+            Navigation NewNavback = new Navigation();
+            NewNavback.mode = Navigation.Mode.Explicit;
+
+            //Set what you want to be selected on down, up, left or right;
+            NewNavback.selectOnUp = panel_listT.GetChild(count - 1).GetComponent<Button>();
+            NewNavback.selectOnDown = panel_listT.GetChild(0).GetComponent<Button>();
+
+
+            //Assign the new navigation to your desired button or ui Object
+            backbtn.GetComponent<Button>().navigation = NewNavback;
+        }
+        
+
+        for (int i = 0; i < count; i++)
+        {
+
+            if (i == 0)
+            {
+                //Create a new navigation
+                Navigation NewNav = new Navigation();
+                NewNav.mode = Navigation.Mode.Explicit;
+
+                //Set what you want to be selected on down, up, left or right;
+
+                if (count > 1)
+                {
+                    NewNav.selectOnUp = backbtn.GetComponent<Button>();
+                    NewNav.selectOnDown = panel_listT.GetChild(i + 1).GetComponent<Button>();
+                }
+                else if(count==1)
+                {
+                    NewNav.selectOnUp = backbtn.GetComponent<Button>();
+                    NewNav.selectOnDown = backbtn.GetComponent<Button>();
+                }
+
+
+
+                //Assign the new navigation to your desired button or ui Object
+                panel_listT.GetChild(i).GetComponent<Button>().navigation = NewNav;
+            }
+            else if (i > 0 && i < count - 1)
+            {
+                //Create a new navigation
+                Navigation NewNav = new Navigation();
+                NewNav.mode = Navigation.Mode.Explicit;
+
+                //Set what you want to be selected on down, up, left or right;
+                NewNav.selectOnUp = panel_listT.GetChild(i - 1).GetComponent<Button>();
+                NewNav.selectOnDown = panel_listT.GetChild(i + 1).GetComponent<Button>();
+
+                //Assign the new navigation to your desired button or ui Object
+                panel_listT.GetChild(i).GetComponent<Button>().navigation = NewNav;
+            }
+            else if (i == count - 1)
+            {
+                //Create a new navigation
+                Navigation NewNav = new Navigation();
+                NewNav.mode = Navigation.Mode.Explicit;
+
+                //Set what you want to be selected on down, up, left or right;
+                NewNav.selectOnUp = panel_listT.GetChild(i - 1).GetComponent<Button>();
+                NewNav.selectOnDown = backbtn.GetComponent<Button>();
+
+                //Assign the new navigation to your desired button or ui Object
+                panel_listT.GetChild(i).GetComponent<Button>().navigation = NewNav;
+            }
+        }
+
+        StartCoroutine(selectOption(backbtn));
+    }
+
     public void createQuestList(List<Quest> questList, string type)
     {
-        Quest quest= null;
+        //Quest quest= null;
 
         int count = 0;
 
@@ -524,13 +745,13 @@ public class ListLayout : MonoBehaviour
                     panel_list = Instantiate(template_listitem, panel_listT);
                     panel_list.transform.GetChild(0).GetComponent<Text>().text = questList.ElementAt(i).questData.quest_name;
 
-                    panel_list.GetComponent<Button>().AddEventListener(i, listQuestClicked);
+                    panel_list.GetComponent<Button>().AddEventListener(count, listQuestClicked);
                     count++;
 
-                    if (count == 1)
-                    {
-                        quest = questList.ElementAt(count - 1);
-                    }
+                    //if (count == 1)
+                    //{
+                    //    quest = questList.ElementAt(count - 1);
+                    //}
                 }
 
 
@@ -544,13 +765,13 @@ public class ListLayout : MonoBehaviour
                     panel_list = Instantiate(template_listitem, panel_listT);
                     panel_list.transform.GetChild(0).GetComponent<Text>().text = questList.ElementAt(i).questData.quest_name;
 
-                    panel_list.GetComponent<Button>().AddEventListener(i, listQuestClicked);
+                    panel_list.GetComponent<Button>().AddEventListener(count, listQuestClicked);
                     count++;
 
-                    if (count == 1)
-                    {
-                        quest = questList.ElementAt(count-1);
-                    }
+                    //if (count == 1)
+                    //{
+                    //    quest = questList.ElementAt(count-1);
+                    //}
                 }
 
                 
@@ -581,7 +802,7 @@ public class ListLayout : MonoBehaviour
                 panel_listT.GetChild(i).GetComponent<Button>().navigation = NewNav;
             }
 
-            else if (i > 0 && i < totalElements - 1)
+            else if (i > 0 && i < count - 1)
             {
                 //Create a new navigation
                 Navigation NewNav = new Navigation();
@@ -594,7 +815,7 @@ public class ListLayout : MonoBehaviour
                 //Assign the new navigation to your desired button or ui Object
                 panel_listT.GetChild(i).GetComponent<Button>().navigation = NewNav;
             }
-            else if (i == totalElements - 1)
+            else if (i == count - 1)
             {
                 //Create a new navigation
                 Navigation NewNav = new Navigation();
@@ -610,39 +831,39 @@ public class ListLayout : MonoBehaviour
         }
 
         StartCoroutine(selectOption(panel_listT.GetChild(0).gameObject));
-        string temp = "";
+        //string temp = "";
 
 
-        if (type == "inprog")
-        {
-            questname.text = quest.questData.quest_name;
-            questdesc.text = quest.questData.quest_description;
+        //if (type == "inprog")
+        //{
+        //    questname.text = quest.questData.quest_name;
+        //    questdesc.text = quest.questData.quest_description;
 
 
-            for (int x = 0; x < quest.quest_progress; x++)
-            {
-                if (quest.questData.quest_totalprogress-1>x&&quest.quest_progress-1==x)
-                {
-                    temp += quest.questData.quest_progress[x].description + "<br>";
-                }
-                else
-                {
-                    temp += "<s>" + quest.questData.quest_progress[x].description + "</s><br>";
-                }
+        //    for (int x = 0; x < quest.quest_progress; x++)
+        //    {
+        //        if (quest.questData.quest_totalprogress-1>x&&quest.quest_progress-1==x)
+        //        {
+        //            temp += quest.questData.quest_progress[x].description + "<br>";
+        //        }
+        //        else
+        //        {
+        //            temp += "<s>" + quest.questData.quest_progress[x].description + "</s><br>";
+        //        }
 
-            }
-        }
-        else if (type == "completed")
-        {
-            questname.text = quest.questData.quest_name;
-            questdesc.text = quest.questData.quest_description;
-            for (int x = 0; x < quest.quest_progress-1; x++)
-            {
-                temp += "<s>" + quest.questData.quest_progress[x].description + "</s><br>";
-            }
-        }
+        //    }
+        //}
+        //else if (type == "completed")
+        //{
+        //    questname.text = quest.questData.quest_name;
+        //    questdesc.text = quest.questData.quest_description;
+        //    for (int x = 0; x < quest.quest_progress-1; x++)
+        //    {
+        //        temp += "<s>" + quest.questData.quest_progress[x].description + "</s><br>";
+        //    }
+        //}
         
-        questprogress.text = temp;
+        //questprogress.text = temp;
 
 
     }
@@ -786,22 +1007,104 @@ public class ListLayout : MonoBehaviour
 
     void listSkillClicked(int skillIndex)
     {
+        MenuManager.GetInstance().lastSelectedSkill= EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text;
+        MenuManager.GetInstance().lastSelectedSkillIndex = skillIndex;
+
+        Skill tempskill = null;
+        tempskill = SkillManager.GetInstance().getSkillWName(MenuManager.GetInstance().lastSelectedSkill);
+
+        menuSkillDescription.transform.GetComponent<TextMeshProUGUI>().text = MenuManager.GetInstance().lastSelectedSkill + tempskill.skillData.skill_description;
+        menuSkillDescPanel.SetActive(true);
+        StartCoroutine(selectOption(menuSkillDescPanel));
 
     }
 
     void listBattleSkillClicked(int skillindex)
     {
-        SkillManager.GetInstance().useSkill(skillindex, panel_list.transform.GetChild(skillindex).GetComponent<Text>().text);
+        //switch to use btn
+        BattleManager.GetInstance().lastSelectedName = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text;
+        BattleManager.GetInstance().lastSelectedIndex = skillindex;
+
+        Skill tempskill = null;
+        tempskill = SkillManager.GetInstance().getSkillWName(BattleManager.GetInstance().lastSelectedName);
+
+
+        descriptionText.transform.GetComponent<TextMeshProUGUI>().text = BattleManager.GetInstance().lastSelectedName+"<br>"+tempskill.skillData.skill_description;
+        detailPanel_useBtn.SetActive(true);
+        detailPanel_description.SetActive(true);
+        StartCoroutine(selectOption(battleUseBtn));
+
+        //SkillManager.GetInstance().useSkill(skillindex, panel_list.transform.GetChild(skillindex).GetComponent<Text>().text);
+    }
+
+    void listBattleItemClicked(int itemindex)
+    {
+        BattleManager.GetInstance().lastSelectedName = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text;
+        BattleManager.GetInstance().lastSelectedIndex = itemindex;
+
+        InventoryItem tempitem = null;
+        tempitem = InventoryManager.GetInstance().getItemWName(BattleManager.GetInstance().lastSelectedName);
+
+        descriptionText.transform.GetComponent<TextMeshProUGUI>().text = BattleManager.GetInstance().lastSelectedName + "<br>" + tempitem.itemData.item_description;
+
+        detailPanel_useBtn.SetActive(true);
+        detailPanel_description.SetActive(true);
+        StartCoroutine(selectOption(battleUseBtn));
+    }
+
+    void listBattleStatusClicked(int statusindex)
+    {
+        if(statusActor.GetComponent<TextMeshProUGUI>().text=="Player status")
+        {
+            BattleManager.GetInstance().lastSelectedStatus = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text;
+            BattleManager.GetInstance().lastSelectedStatusIndex = statusindex;
+
+            Status tempstatus = null;
+            tempstatus = StatusManager.GetInstance().getStatusWName(BattleManager.GetInstance().lastSelectedStatus);
+
+
+
+            statusDescriptionPanel.SetActive(true);
+            statusDescription.transform.GetComponent<TextMeshProUGUI>().text = BattleManager.GetInstance().lastSelectedStatus + "<br>" + tempstatus.statusData.status_description;
+
+            StartCoroutine(selectOption(statusDescription));
+        }
+        else if(statusActor.GetComponent<TextMeshProUGUI>().text == "Enemy status")
+        {
+            BattleManager.GetInstance().lastSelectedStatus = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text;
+            BattleManager.GetInstance().lastSelectedStatusIndex = statusindex;
+
+            Status tempstatus = null;
+            tempstatus = BattleManager.GetInstance().getEnemyStatusWName(BattleManager.GetInstance().lastSelectedStatus);
+
+            statusDescriptionPanel.SetActive(true);
+            statusDescription.transform.GetComponent<TextMeshProUGUI>().text = BattleManager.GetInstance().lastSelectedStatus + "<br>" + tempstatus.statusData.status_description;
+
+            StartCoroutine(selectOption(statusDescription));
+        }
+
+        
     }
 
     void listStatusClicked(int statusIndex)
     {
+        MenuManager.GetInstance().lastSelectedStatus = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text;
+        MenuManager.GetInstance().lastSelectedStatusIndex = statusIndex;
 
+        Status tempstatus = null;
+        tempstatus = StatusManager.GetInstance().getStatusWName(MenuManager.GetInstance().lastSelectedStatus);
+
+        menuSkillDescription.transform.GetComponent<TextMeshProUGUI>().text = MenuManager.GetInstance().lastSelectedSkill + tempstatus.statusData.status_description;
+        menuSkillDescPanel.SetActive(true);
+        StartCoroutine(selectOption(menuSkillDescPanel));
     }
 
     void listItemClicked(int itemIndex)
     {
-        Debug.Log("item " + itemIndex + " clicked");
+        
+
+
+
     }
 
     void listChoiceClicked(int choiceIndex)
@@ -824,11 +1127,72 @@ public class ListLayout : MonoBehaviour
 
     void listQuestClicked(int questIndex)
     {
+        MenuManager.GetInstance().lastSelectedQuest = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text;
+        MenuManager.GetInstance().lastSelectedQuestIndex = questIndex;
 
+        Quest tempquest = null;
+        tempquest = QuestManager.GetInstance().getQuestWName(MenuManager.GetInstance().lastSelectedQuest);
+        string temp = "";
+
+        if (MenuManager.GetInstance().lastSelectedQuestBtn == "inprog")
+        {
+            questname.text = tempquest.questData.quest_name;
+            questdesc.text = tempquest.questData.quest_description;
+
+
+            for (int x = 0; x < tempquest.quest_progress; x++)
+            {
+
+                if (tempquest.questData.quest_totalprogress - 1 > x && tempquest.quest_progress - 1 == x)
+                {
+                    temp += tempquest.questData.quest_progress[x].description + "<br>";
+                }
+                else
+                {
+                    temp += "<s>" + tempquest.questData.quest_progress[x].description + "</s><br>";
+                }
+
+            }
+        }
+        else if (MenuManager.GetInstance().lastSelectedQuestBtn == "completed")
+        {
+            questname.text = tempquest.questData.quest_name;
+            questdesc.text = tempquest.questData.quest_description;
+            for (int x = 0; x < tempquest.quest_progress - 1; x++)
+            {
+                temp += "<s>" + tempquest.questData.quest_progress[x].description + "</s><br>";
+            }
+        }
+
+        questprogress.text = temp;
+
+        questRightPanel.SetActive(true);
+        StartCoroutine(selectOption(questRightPanel));
     }
 
     void listInventoryClicked(int inventoryIndex)
     {
+        Debug.Log("item " + inventoryIndex + " clicked");
+        MenuManager.GetInstance().lastSelectedItem = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text;
+        MenuManager.GetInstance().lastSelectedItemIndex = inventoryIndex;
+
+        InventoryItem tempitem = null;
+        tempitem = InventoryManager.GetInstance().getItemWName(MenuManager.GetInstance().lastSelectedItem);
+
+        itemRightPanel.SetActive(true);
+        itemDescPanel.SetActive(true);
+        itemDescription.transform.GetComponent<TextMeshProUGUI>().text = MenuManager.GetInstance().lastSelectedItem +"<br>"+ tempitem.itemData.item_description;
+
+        if (tempitem.itemData.item_type == "use")
+        {
+            inventoryUseItemBtn.SetActive(true);
+            StartCoroutine(selectOption(inventoryUseItemBtn));
+        }
+        else
+        {
+            StartCoroutine(selectOption(itemDescription));
+        }
+        
 
     }
 

@@ -16,13 +16,14 @@ public class DialogueTrigger : MonoBehaviour
     //[SerializeField] private GameObject dialoguemanager;
 
     private bool playerInRange;
-    private bool eventIsnotNULL;
+    //private bool eventIsnotNULL;
 
 
     private void Awake()
     {
         playerInRange = false;
         visualcue.SetActive(false);
+
 
     }
 
@@ -49,8 +50,8 @@ public class DialogueTrigger : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             playerInRange = true;
-            DialogueManager.GetInstance().updateTalkingActor += updateParentObjRef;
-            eventIsnotNULL = true;
+            //DialogueManager.GetInstance().updateTalkingActor += updateParentObjRef;
+            //eventIsnotNULL = true;
         }
     }
 
@@ -58,17 +59,17 @@ public class DialogueTrigger : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            DialogueManager.GetInstance().updateTalkingActor -= updateParentObjRef;
+            //DialogueManager.GetInstance().updateTalkingActor -= updateParentObjRef;
             playerInRange = false;
         }
     }
 
     private void OnDestroy()
     {
-        if (eventIsnotNULL)
-        {
-            DialogueManager.GetInstance().updateTalkingActor -= updateParentObjRef;
-        }
+        //if (eventIsnotNULL)
+        //{
+        //      DialogueManager.GetInstance().updateTalkingActor -= updateParentObjRef;
+        //}
     }
 
     private void updateParentObjRef()
@@ -76,8 +77,8 @@ public class DialogueTrigger : MonoBehaviour
         //dialoguemanager.GetComponent<DialogueManager>().setTalkingActor(this.gameObject.transform.parent.gameObject);
         //Debug.Log(gameObject.transform.parent.gameObject);
 
-        Debug.Log(gameObject.transform.parent.gameObject);
-        DialogueManager.GetInstance().setTalkingActor(gameObject.transform.parent.gameObject);
+        //Debug.Log(gameObject.transform.parent.gameObject);
+        //DialogueManager.GetInstance().setTalkingActor(gameObject.transform.parent.gameObject);
         
     }
 

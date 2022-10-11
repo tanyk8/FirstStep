@@ -12,16 +12,31 @@ public class SkillManager : MonoBehaviour
 
     private void Start()
     {
-        SkillData testskill = Resources.Load<SkillData>("Skill/skill1");
-        Debug.Log(testskill.skill_name);
-        Skill skill = new Skill(testskill);
-        skill.updateSkillLearnt();
-        skilllist.Add(skill);
+        //SkillData testskill = Resources.Load<SkillData>("Skill/skill1");
+        //Debug.Log(testskill.skill_name);
+        //Skill skill = new Skill(testskill);
+        //skill.updateSkillLearnt();
+        //skilllist.Add(skill);
 
-        SkillData testskill2 = Resources.Load<SkillData>("Skill/skill2");
-        Skill skill2 = new Skill(testskill2);
-        skill2.updateSkillLearnt();
-        skilllist.Add(skill2);
+        //SkillData testskill2 = Resources.Load<SkillData>("Skill/skill2");
+        //Debug.Log(testskill2.skill_name);
+        //Skill skill2 = new Skill(testskill2);
+        //skill2.updateSkillLearnt();
+        //skilllist.Add(skill2);
+
+        //SkillData testskill3 = Resources.Load<SkillData>("Skill/skill3");
+        //Debug.Log(testskill3.skill_name);
+        //Skill skill3 = new Skill(testskill3);
+        //skill3.updateSkillLearnt();
+        //skilllist.Add(skill3);
+
+        //SkillData testskill4 = Resources.Load<SkillData>("Skill/skill4");
+        //Debug.Log(testskill4.skill_name);
+        //Skill skill4 = new Skill(testskill4);
+        //skill4.updateSkillLearnt();
+        //skilllist.Add(skill4);
+
+        
     }
 
     private void Awake()
@@ -163,6 +178,14 @@ public class SkillManager : MonoBehaviour
     public void updateSkill(List<Skill> listskill)
     {
         skilllist = listskill;
+    }
+
+    public Skill getSkillWName(string name)
+    {
+        int index = 0;
+        index= skilllist.FindIndex(x => x.skillData.skill_name == name);
+
+        return skilllist.ElementAt(index);
     }
     //load player skill(also check if skill learnt)
     //load enemy skill

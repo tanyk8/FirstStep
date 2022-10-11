@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffdeb5024a6959e41a1e91110f8ba445, type: 3}
+  m_Name: quest101
+  m_EditorClassIdentifier: 
+  quest_ID: 101
+  quest_giver: ' '
+  quest_name: Where am I
+  quest_type: main
+  quest_description: You found yourself stuck in a endless void, you try to find
+    a way to escape
+  quest_rewardType: none
+  quest_reward: 0
+  quest_totalprogress: 2
+  quest_progress:
+  - description: Explore around the place to find clues
+    requirementType: talk
+    requirement: 3

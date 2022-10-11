@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using System;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using UnityEngine.Playables;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -43,6 +44,14 @@ public class DialogueManager : MonoBehaviour
     [Header("QuestManager")]
     [SerializeField] private GameObject questManager;
 
+    [Header("Animator")]
+    [SerializeField] private Animator mainenemyAnimator;
+    [SerializeField] private Animator darkauraAnimator;
+    [Header("AnimatorObj")]
+    [SerializeField] private GameObject mainenemyObj;
+
+
+    private Animator currentAnimator;
     private Story currentStory;
 
     public bool dialogueIsPlaying { get; private set; }
@@ -57,12 +66,14 @@ public class DialogueManager : MonoBehaviour
     private const string PORTRAIT_TAG = "portrait";
     private const string LAYOUT_TAG = "layout";
     private const string QUESTTRIGGER_TAG = "questtrigger";
-    //private const string GIVEQUEST_TAG = "givequest_id";
-    //private const string RECEIVEQUESTID_TAG = "receivequest_id";
     private const string QUESTID_TAG = "quest_id";
     private const string BATTLE_TAG = "battle";
     private const string PORTAL_TAG = "portal";
     private const string LOG_TAG = "logtype";
+    private const string CUTSCENE_TAG = "cutscene";
+    private const string ANIMATOR_TAG = "animator";
+    private const string ANIMATION_TAG = "animation";
+    private const string LEARNSKILL_TAG = "learnskill";
 
     public static event handleStartQuestT startQuestTrigger;
     public delegate void handleStartQuestT(QuestData questdata);
@@ -82,13 +93,15 @@ public class DialogueManager : MonoBehaviour
 
     private DialogueVariableObserver dialoguevariableobserver;
 
-    private GameObject talkingActor;
+    //private GameObject talkingActor;
 
     private bool initiateBattle;
     private bool changeScene;
     private string destination;
 
     private string dialoguetype;
+
+    public bool notInteractDialogue=false;
 
     private void Awake()
     {
@@ -105,7 +118,9 @@ public class DialogueManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            
             DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(dialogueCanvas);
         }
         else if (instance != this)
         {
@@ -113,7 +128,8 @@ public class DialogueManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        DontDestroyOnLoad(dialogueCanvas);
+
+        
 
         dialoguevariableobserver = new DialogueVariableObserver(loadGlobalsJSON);
     }
@@ -125,15 +141,21 @@ public class DialogueManager : MonoBehaviour
 
     private void Start()
     {
+        
+
         dialogueIsPlaying = false;
         dialogueCanvas.SetActive(false);
         dialoguechoicepanel.SetActive(false);
 
         layoutAnimator = dialoguePanel.GetComponent<Animator>();
+
+        
     }
 
     private void Update()
     {
+        
+
         if (!dialogueIsPlaying)
         {
             return;
@@ -146,8 +168,12 @@ public class DialogueManager : MonoBehaviour
 
     public void EnterDialogueMode(TextAsset inkJSON)
     {
-
-        updateTalkingActor?.Invoke();
+        if (!notInteractDialogue)
+        {
+            updateTalkingActor?.Invoke();
+        }
+        
+        
 
         currentStory = new Story(inkJSON.text);
         dialogueIsPlaying = true;
@@ -155,24 +181,34 @@ public class DialogueManager : MonoBehaviour
 
         dialoguevariableobserver.startListening(currentStory);
 
-        if (talkingActor.GetComponent<QuestGiver>() != null&&questManager.GetComponent<QuestManager>() != null)
-        {
-            startQuestTrigger += questManager.GetComponent<QuestManager>().startQuest;
-            updateQuestPV += questManager.GetComponent<QuestManager>().updateTalkProgressValue;
-            updateQuestTrigger += questManager.GetComponent<QuestManager>().updateQuestProgress;
-            completeQuestTrigger += questManager.GetComponent<QuestManager>().completeQuest;
-        }
+        //if (!notInteractDialogue)
+        //{
+        //    if(talkingActor.GetComponent<QuestGiver>() != null && questManager.GetComponent<QuestManager>() != null)
+        //    {
+        //        startQuestTrigger += questManager.GetComponent<QuestManager>().startQuest;
+        //        updateQuestPV += questManager.GetComponent<QuestManager>().updateTalkProgressValue;
+        //        updateQuestTrigger += questManager.GetComponent<QuestManager>().updateQuestProgress;
+        //        completeQuestTrigger += questManager.GetComponent<QuestManager>().completeQuest;
+        //    }
 
+        //}
+
+        startQuestTrigger += questManager.GetComponent<QuestManager>().startQuest;
+        updateQuestPV += questManager.GetComponent<QuestManager>().updateTalkProgressValue;
+        updateQuestTrigger += questManager.GetComponent<QuestManager>().updateQuestProgress;
+        completeQuestTrigger += questManager.GetComponent<QuestManager>().completeQuest;
+
+        monologueFrame.SetActive(false);
+        dialogueFrame.SetActive(true);
+        portraitFrame.SetActive(true);
+        speakerFrame.SetActive(true);
 
         displayNameText.text = "?0?";
         portraitAnimator.Play("default");
         layoutAnimator.Play("layout_left");
         dialoguetype = "di";
 
-        monologueFrame.SetActive(false);
-        dialogueFrame.SetActive(true);
-        portraitFrame.SetActive(true);
-        speakerFrame.SetActive(true);
+        
 
 
         ContinueStory();
@@ -185,22 +221,30 @@ public class DialogueManager : MonoBehaviour
 
         dialoguevariableobserver.stopListening(currentStory);
 
-        if (talkingActor.GetComponent<QuestGiver>() != null&& questManager.GetComponent<QuestManager>() != null)
-        {
-            startQuestTrigger -= questManager.GetComponent<QuestManager>().startQuest;
-            updateQuestPV -= questManager.GetComponent<QuestManager>().updateTalkProgressValue;
-            updateQuestTrigger -= questManager.GetComponent<QuestManager>().updateQuestProgress;
-            completeQuestTrigger -= questManager.GetComponent<QuestManager>().completeQuest;
-        }
+        //if (!notInteractDialogue)
+        //{
+        //    if (talkingActor.GetComponent<QuestGiver>() != null && questManager.GetComponent<QuestManager>() != null)
+        //    {
+        //        startQuestTrigger -= questManager.GetComponent<QuestManager>().startQuest;
+        //        updateQuestPV -= questManager.GetComponent<QuestManager>().updateTalkProgressValue;
+        //        updateQuestTrigger -= questManager.GetComponent<QuestManager>().updateQuestProgress;
+        //        completeQuestTrigger -= questManager.GetComponent<QuestManager>().completeQuest;
+        //    }
+        //}
 
 
- 
-        
+        startQuestTrigger -= questManager.GetComponent<QuestManager>().startQuest;
+        updateQuestPV -= questManager.GetComponent<QuestManager>().updateTalkProgressValue;
+        updateQuestTrigger -= questManager.GetComponent<QuestManager>().updateQuestProgress;
+        completeQuestTrigger -= questManager.GetComponent<QuestManager>().completeQuest;
+
 
         dialogueIsPlaying = false;
         //dialoguePanel.SetActive(false);
         dialogueCanvas.SetActive(false);
         dialogueText.text = "";
+
+        notInteractDialogue = false;
 
         if (initiateBattle)
         {
@@ -399,6 +443,33 @@ public class DialogueManager : MonoBehaviour
                     }
                     
                     break;
+                case CUTSCENE_TAG:
+                    PlayableAsset cutscene = Resources.Load<PlayableAsset>("Timeline/"+tagValue);
+                    
+                    TimelineManager.GetInstance().playTimeline(cutscene);
+
+                    break;
+                case ANIMATOR_TAG:
+                    if (tagValue == "mainenemyappear")
+                    {
+                        mainenemyObj.SetActive(true);
+                        darkauraAnimator.SetTrigger("Fadein");
+                        mainenemyAnimator.SetTrigger("Fadein");
+                    }
+                    
+
+                    break;
+                case ANIMATION_TAG:
+                    break;
+                case LEARNSKILL_TAG:
+                    if (tagValue == "starter")
+                    {
+                        SkillData testskill5 = Resources.Load<SkillData>("Skill/skill5");
+                        Skill skill5 = new Skill(testskill5);
+                        skill5.updateSkillLearnt();
+                        SkillManager.GetInstance().skilllist.Add(skill5);
+                    }
+                    break;
                 default:
                     Debug.LogWarning("Tag in switch case but not handled: "+tag);
                     break;
@@ -407,7 +478,8 @@ public class DialogueManager : MonoBehaviour
 
         if (questTrigger == "start")
         {
-            questData = talkingActor.GetComponent<QuestGiver>().getTargetQuestData(int.Parse(quest_id));
+            //questData = talkingActor.GetComponent<QuestGiver>().getTargetQuestData(int.Parse(quest_id));
+            questData = Resources.Load<QuestData>("Quest/quest"+quest_id);
             startQuestTrigger?.Invoke(questData);
         }
 
@@ -418,13 +490,15 @@ public class DialogueManager : MonoBehaviour
 
         if (questTrigger == "proceedprogress")
         {
-            questData = talkingActor.GetComponent<QuestGiver>().getTargetQuestData(int.Parse(quest_id));
+            //questData = talkingActor.GetComponent<QuestGiver>().getTargetQuestData(int.Parse(quest_id));
+            questData = Resources.Load<QuestData>("Quest/quest" + quest_id);
             updateQuestTrigger?.Invoke(questData, "proceedprogress");
         }
 
         if (questTrigger == "complete")
         {
-            questData = talkingActor.GetComponent<QuestGiver>().getTargetQuestData(int.Parse(quest_id));
+            //questData = talkingActor.GetComponent<QuestGiver>().getTargetQuestData(int.Parse(quest_id));
+            questData = Resources.Load<QuestData>("Quest/quest" + quest_id);
             completeQuestTrigger?.Invoke(questData);
         }
 
@@ -476,9 +550,9 @@ public class DialogueManager : MonoBehaviour
         return currentStory;
     }
 
-    public void setTalkingActor(GameObject talkingactor)
-    {
-        talkingActor = talkingactor;
-    }
+    //public void setTalkingActor(GameObject talkingactor)
+    //{
+    //    talkingActor = talkingactor;
+    //}
 
 }

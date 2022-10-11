@@ -109,8 +109,22 @@ public class QuestManager : MonoBehaviour
                 temp.EvaluateFunction("checkRequirement", questID, checkRequirement(questData, questID).ToString());
                 if (temp.variablesState.GetVariableWithName("proceed_progress").ToString() == "true")
                 {
-                    questlist.ElementAt(targetIndex).quest_progress++;
+                    //questlist.ElementAt(targetIndex).quest_progress++;
                 }
+            }
+        }
+        else if (type == "force")
+        {
+            if (questlist.ElementAt(targetIndex).quest_progress < questData.quest_totalprogress - 1)
+            {
+
+                questlist.ElementAt(targetIndex).quest_progress++;
+                questlist.ElementAt(targetIndex).resetProgressValue();
+
+            }
+            else if (questlist.ElementAt(targetIndex).quest_progress == questData.quest_totalprogress - 1)
+            {
+                //questlist.ElementAt(targetIndex).quest_progress++;
             }
         }
 
@@ -268,5 +282,13 @@ public class QuestManager : MonoBehaviour
     public QuestManager getQuestManager()
     {
         return this;
+    }
+
+    public Quest getQuestWName(string name)
+    {
+        int index = 0;
+        index = questlist.FindIndex(x => x.questData.quest_name == name);
+
+        return questlist.ElementAt(index);
     }
 }
