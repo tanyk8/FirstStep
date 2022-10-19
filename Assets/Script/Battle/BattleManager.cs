@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using Ink.Runtime;
 
 
 public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST }
@@ -17,7 +18,7 @@ public class BattleManager : MonoBehaviour
     private Player player;
     private Enemy enemy;
 
-    private string battle_encountermessage="A strong presences of negative energy has been sensed!";
+    private string battle_encountermessage="A strong presences of shadow energy has been sensed!";
 
     private ListLayout listObjectRef;
 
@@ -28,7 +29,8 @@ public class BattleManager : MonoBehaviour
 
 
     [Header("Enemy")]
-    [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] public GameObject[] enemyPrefabArray;
+    [SerializeField] public GameObject enemyPrefab;
     [SerializeField] private Transform enemyLocation;
     [SerializeField] private TextMeshProUGUI enemy_name;
 
@@ -264,14 +266,28 @@ public class BattleManager : MonoBehaviour
     {
         if (state == BattleState.WON)
         {
-            battle_status.text = "You have defeated the negative!";
+            string[] tempendmsg= { "You have purified the shadow!", "You received a shard of light" };
+            //if enemy prefab name is this, then this
+            if (enemyPrefab.name == "Enemy1")
+            {
+                //item shard of light
+                ItemData additemData = Resources.Load<ItemData>("Item/item1");
+                InventoryManager.GetInstance().Add(additemData);
+                //Story temp = DialogueManager.GetInstance().GetComponent<DialogueManager>().getStory();
+                //temp.EvaluateFunction("activatestagetwo", true);
+
+                ProgressManager.GetInstance().gameProgress = "progress9";
+            }
+            StartCoroutine(endBattleChoiceMsg_E(tempendmsg));
         }
         else if (state == BattleState.LOST)
         {
-            battle_status.text = "You have been defeated!";
+            string[] tempendmsg = { "It's too strong we have to retreat for now!" };
+            StartCoroutine(endBattleChoiceMsg_E(tempendmsg));
+
         }
 
-        StatusManager.GetInstance().statusList.Clear();
+        
 
     }
 
@@ -742,7 +758,8 @@ public class BattleManager : MonoBehaviour
             return;
         }
 
-        SceneManager.LoadScene("Beginning");
+        SceneManager.LoadScene(GameStateManager.GetInstance().lastscene);
+        GameStateManager.GetInstance().battleRun = true;
     }
 
     void setBtnStatus(bool btnStatus)
@@ -991,6 +1008,27 @@ public class BattleManager : MonoBehaviour
 
         state = BattleState.PLAYERTURN;
         playerTurn();
+
+    }
+
+    private IEnumerator endBattleChoiceMsg_E(string[] msg)
+    {
+        //charge strong attack
+        //engage battle
+        //use certain skill
+
+        //or use dialogue
+        for (int x = 0; x < msg.Length; x++)
+        {
+            battle_status.text = msg[x];
+
+            yield return new WaitForSeconds(2f);
+        }
+
+        StatusManager.GetInstance().statusList.Clear();
+        SceneManager.LoadScene(GameStateManager.GetInstance().lastscene);
+        GameStateManager.GetInstance().battleRun = true;
+
 
     }
 

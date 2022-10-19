@@ -8,10 +8,12 @@ public class InventoryItem
 {
     public ItemData itemData;
     public int stackSize;
+    public int id;
 
     public InventoryItem(ItemData item)
     {
         itemData = item;
+        id = item.item_ID;
         addToStack();
     }
 

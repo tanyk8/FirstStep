@@ -2,23 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
+[Serializable]
 public class InventoryManager : MonoBehaviour
 {
     [SerializeField] GameObject inventorymanager;
 
     private static InventoryManager instance;
 
+    [SerializeField] public ItemData[] itemDatas;
+
     public List<InventoryItem> inventory=new List<InventoryItem>();
     public Dictionary<ItemData, InventoryItem> itemDictionary=new Dictionary<ItemData, InventoryItem>();
 
     private void Start()
     {
-        ItemData shard=Resources.Load<ItemData>("Item/item1");
-        Debug.Log(shard.item_name);
-        Add(shard);
-        ItemData item2 = Resources.Load<ItemData>("Item/item2");
-        Add(item2);
+        //ItemData shard=Resources.Load<ItemData>("Item/item1");
+        //Debug.Log(shard.item_name);
+        //Add(shard);
+        //ItemData item2 = Resources.Load<ItemData>("Item/item2");
+        //Add(item2);
     }
 
     private void Awake()
@@ -64,6 +68,19 @@ public class InventoryManager : MonoBehaviour
             itemDictionary.Add(itemData, newItem);
 
         }
+        QuestManager qManager = QuestManager.GetInstance();
+        if (itemData.item_name == "Guitar pick" &&qManager.checkQuestExist(1)&&qManager.checkQuestInProgress(1)&&qManager.getCurrentProg(1)==2)
+        {
+            qManager.updateGatherProgressValue(1,getItemStackSize("Guitar pick"));
+        }
+        if (itemData.item_name == "Shard of Light" && qManager.checkQuestExist(102) && qManager.checkQuestInProgress(102) && qManager.getCurrentProg(102) == 4)
+        {
+            qManager.updateGatherProgressValue(102, getItemStackSize("Shard of Light"));
+        }
+        if (itemData.item_name == "Bag of chocolate" && qManager.checkQuestExist(2) && qManager.checkQuestInProgress(2) && qManager.getCurrentProg(2) == 3)
+        {
+            qManager.updateGatherProgressValue(2, getItemStackSize("Bag of chocolate"));
+        }
     }
 
     public void Remove(ItemData itemData)
@@ -77,6 +94,12 @@ public class InventoryManager : MonoBehaviour
                 itemDictionary.Remove(itemData);
             }
         }
+        QuestManager qManager = QuestManager.GetInstance();
+        if (itemData.item_name == "Guitar pick" && qManager.checkQuestExist(1) && qManager.checkQuestInProgress(1) && qManager.getCurrentProg(1) == 2)
+        {
+            qManager.updateGatherProgressValue(1, getItemStackSize("Guitar pick"));
+        }
+
     }
 
     public bool checkInventoryEmpty(string type)
@@ -131,6 +154,7 @@ public class InventoryManager : MonoBehaviour
 
     public void updateInventory(List<InventoryItem> inventorylist, Dictionary<ItemData, InventoryItem> itemdictionary)
     {
+        itemdictionary = new Dictionary<ItemData, InventoryItem>();
         inventory = inventorylist;
         itemDictionary = itemdictionary;
     }
@@ -149,6 +173,32 @@ public class InventoryManager : MonoBehaviour
         return inventory.ElementAt(index);
 
     } 
+
+    public int getItemStackSize(string name)
+    {
+        int index = 0;
+
+        index = inventory.FindIndex(x => x.itemData.item_name == name);
+
+        return inventory.ElementAt(index).stackSize;
+    }
+
+    public bool checkFulfillReq(string name,int requirement)
+    {
+        int index = 0;
+
+        index = inventory.FindIndex(x => x.itemData.item_name == name);
+
+        if (inventory.ElementAt(index).stackSize >= requirement)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     //shard of courage
     //mental potion (overuse will give debuff)
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 using System.Linq;
 using Ink.Runtime;
 using UnityEngine.Playables;
+using UnityEngine.Timeline;
+using UnityEngine.SceneManagement;
 
 public class LevelZero : MonoBehaviour
 {
@@ -16,31 +18,101 @@ public class LevelZero : MonoBehaviour
     [SerializeField] GameObject obj_gate3;
 
     [SerializeField] GameObject obj_openedgate1;
+    [SerializeField] GameObject obj_openedgate2;
 
     [SerializeField] GameObject obj_crystal;
 
     [SerializeField] GameObject player;
     [SerializeField] GameObject enemy;
-    [SerializeField] GameObject overlay;
-    [SerializeField] Animator overlayanimator;
+    [SerializeField] GameObject Toverlay;
+    [SerializeField] Animator Toverlayanimator;
 
+    [SerializeField] GameObject mainenemyObj;
     [SerializeField] Animator mainenemyAnimator;
     [SerializeField] Animator darkauraAnimator;
+
+    [SerializeField] GameObject magicObj;
+    [SerializeField] Animator magicAnimator;
 
     public bool continuestory = false;
     public bool callonce = true;
 
     private void Start()
     {
+        PlayableAsset magicatt = Resources.Load<PlayableAsset>("Timeline/MagicAttack");
+        TimelineManager.GetInstance().GetComponent<PlayableDirector>().playableAsset = magicatt;
+
+        var timelineAsset=TimelineManager.GetInstance().GetComponent<PlayableDirector>().playableAsset as TimelineAsset;
+        var trackList = timelineAsset.GetOutputTracks();
+
+        foreach (var track in trackList)
+        {
+            // check to see if this is the one you are looking for (by name, index etc)
+            if (track.name=="MagicActivate")
+            {
+                // bind the track to our new actor instance
+                TimelineManager.GetInstance().GetComponent<PlayableDirector>().SetGenericBinding(track, magicObj);
+            }
+            else if(track.name == "MagicAnimation")
+            {
+                TimelineManager.GetInstance().GetComponent<PlayableDirector>().SetGenericBinding(track, magicAnimator);
+            }
+
+        }
+
+        PlayableAsset openingcutscene = Resources.Load<PlayableAsset>("Timeline/Opening");
+        TimelineManager.GetInstance().GetComponent<PlayableDirector>().playableAsset = openingcutscene;
+
+        timelineAsset = TimelineManager.GetInstance().GetComponent<PlayableDirector>().playableAsset as TimelineAsset;
+        trackList = timelineAsset.GetOutputTracks();
+
+        foreach (var track in trackList)
+        {
+            // check to see if this is the one you are looking for (by name, index etc)
+            if (track.name == "Player")
+            {
+                TimelineManager.GetInstance().GetComponent<PlayableDirector>().SetGenericBinding(track, player);
+            }
+
+        }
+
+        Toverlay =GameObject.Find("TransitionOverlay").gameObject;
+        Toverlayanimator = GameObject.Find("TransitionOverlay").GetComponent<Animator>();
+
         if (ProgressManager.GetInstance().gameProgress == "opening")
         {
             //PlayableAsset opCutscene = Resources.Load<PlayableAsset>("Timeline/Opening");
             //TimelineManager.GetInstance().playTimeline(opCutscene);
             ProgressManager.GetInstance().gameProgress = "progress1";
         }
+
+        if (ProgressManager.GetInstance().loaded)
+        {
+            ProgressManager.GetInstance().loaded = false;
+            GameObject.Find("Player").transform.position = ProgressManager.GetInstance().loadedposition;
+        }
+
+        //Based on game state manager 
+        //if last scene name is park then set position at gate 1
+        else if(GameStateManager.GetInstance().updateOnce == true)
+        {
+            GameStateManager.GetInstance().updateOnce = false;
+
+            if (GameStateManager.GetInstance().lastscene == "FirstStage_Park")
+            {
+                player.transform.position = new Vector3(-0.885f, 0.65f, 0);
+            }
+
+        }
+
     }
     private void LateUpdate()
     {
+        if (ProgressManager.GetInstance().loading)
+        {
+            return;
+        }
+
         if (TimelineManager.GetInstance().getPlayState() != PlayState.Playing && ProgressManager.GetInstance().gameProgress == "progress1")
         {
             ProgressManager.GetInstance().gameProgress = "progress2";
@@ -51,22 +123,35 @@ public class LevelZero : MonoBehaviour
 
         if (!DialogueManager.GetInstance().dialogueIsPlaying&&callonce)
         {
-            if (QuestManager.GetInstance().questlist.Count!=0&&QuestManager.GetInstance().questlist.ElementAt(0).quest_progress == 1)
+            if(obj_void1.activeInHierarchy&&QuestManager.GetInstance().questlist.Count != 0 && QuestManager.GetInstance().questlist.ElementAt(0).questState != QuestState.INPROGRESS)
             {
-                if (!obj_void1.activeInHierarchy&&DialogueVariableObserver.variables["void_checked"].ToString() == "false")
+                obj_void1.SetActive(false);
+                obj_void2.SetActive(false);
+                obj_void3.SetActive(false);
+
+                obj_gate1.SetActive(false);
+                obj_gate2.SetActive(false);
+                obj_gate3.SetActive(false);
+
+                //obj_crystal.transform.GetChild(0).gameObject.SetActive(false);
+                //obj_crystal.transform.GetChild(1).gameObject.SetActive(false);
+            }
+            else if (QuestManager.GetInstance().questlist.Count != 0 && QuestManager.GetInstance().questlist.ElementAt(0).questState == QuestState.INPROGRESS && QuestManager.GetInstance().questlist.ElementAt(0).quest_progress == 1)
+            {
+                if (!obj_void1.activeInHierarchy && DialogueVariableObserver.variables["void_checked"].ToString() == "false")
                 {
 
                     obj_void1.SetActive(true);
                     obj_void2.SetActive(true);
                     obj_void3.SetActive(true);
                 }
-                else if(obj_void1.activeInHierarchy&& DialogueVariableObserver.variables["void_checked"].ToString() == "true")
+                else if (obj_void1.activeInHierarchy && DialogueVariableObserver.variables["void_checked"].ToString() == "true")
                 {
                     obj_void1.SetActive(false);
                     obj_void2.SetActive(false);
                     obj_void3.SetActive(false);
                 }
-                if (!obj_gate1.activeInHierarchy&&DialogueVariableObserver.variables["gate_checked"].ToString() == "false")
+                if (!obj_gate1.activeInHierarchy && DialogueVariableObserver.variables["gate_checked"].ToString() == "false")
                 {
                     obj_gate1.SetActive(true);
                     obj_gate2.SetActive(true);
@@ -78,72 +163,99 @@ public class LevelZero : MonoBehaviour
                     obj_gate2.SetActive(false);
                     obj_gate3.SetActive(false);
                 }
-                if (!obj_crystal.transform.GetChild(0).gameObject.activeInHierarchy&&DialogueVariableObserver.variables["crystal_checked"].ToString() == "false")
-                {
-                    obj_crystal.transform.GetChild(0).gameObject.SetActive(true);
-                    obj_crystal.transform.GetChild(1).gameObject.SetActive(true);
-                }
-                else if (obj_crystal.transform.GetChild(0).gameObject.activeInHierarchy && DialogueVariableObserver.variables["crystal_checked"].ToString() == "true")
-                {
-                    obj_crystal.transform.GetChild(0).gameObject.SetActive(false);
-                    obj_crystal.transform.GetChild(1).gameObject.SetActive(false);
-                }
-                
+                //if (!obj_crystal.transform.GetChild(0).gameObject.activeInHierarchy && DialogueVariableObserver.variables["crystal_checked"].ToString() == "false")
+                //{
+                //    obj_crystal.transform.GetChild(0).gameObject.SetActive(true);
+                //    obj_crystal.transform.GetChild(1).gameObject.SetActive(true);
+                //}
+                //else if (obj_crystal.transform.GetChild(0).gameObject.activeInHierarchy && DialogueVariableObserver.variables["crystal_checked"].ToString() == "true")
+                //{
+                //    obj_crystal.transform.GetChild(0).gameObject.SetActive(false);
+                //    obj_crystal.transform.GetChild(1).gameObject.SetActive(false);
+                //}
+
             }
 
-            if (QuestManager.GetInstance().questlist.Count != 0 && QuestManager.GetInstance().questlist.ElementAt(0).quest_progress == 1)
+            if (!obj_openedgate1.activeInHierarchy&&DialogueVariableObserver.variables["gate_portal1"].ToString() == "true")
             {
-                
-                if (QuestManager.GetInstance().questlist.ElementAt(0).quest_progressvalue == QuestManager.GetInstance().questlist.ElementAt(0).questData.quest_progress[0].requirement)
+                obj_openedgate1.SetActive(true);
+            }
+            else if (obj_openedgate1.activeInHierarchy && DialogueVariableObserver.variables["gate_portal1"].ToString() == "false")
+            {
+                obj_openedgate1.SetActive(false);
+            }
+
+            if(!obj_openedgate2.activeInHierarchy&& DialogueVariableObserver.variables["gate_portal2"].ToString() == "true")
+            {
+                obj_openedgate2.SetActive(true);
+            }
+            else if(obj_openedgate2.activeInHierarchy && DialogueVariableObserver.variables["gate_portal2"].ToString() == "false")
+            {
+                obj_openedgate2.SetActive(false);
+            }
+
+            if (ProgressManager.GetInstance().gameProgress == "progress2" && DialogueVariableObserver.variables["mainquest_progress"].ToString() == "1")
+            {
+                if (QuestManager.GetInstance().questlist.Count != 0 && QuestManager.GetInstance().questlist.ElementAt(0).quest_progress == 1)
+                {
+                    if (QuestManager.GetInstance().questlist.ElementAt(0).quest_progressvalue == QuestManager.GetInstance().questlist.ElementAt(0).questData.quest_progress[0].requirement)
+                    {
+                        callonce = false;
+                        QuestManager.GetInstance().questlist.ElementAt(0).quest_progress = 2;
+                        continuestory = false;
+
+                        QuestManager.GetInstance().updateQuestProgress(QuestManager.GetInstance().questlist.ElementAt(0).questData, "force");
+                        StartCoroutine(fadeTransition("moveplayer"));
+                    }
+                }
+
+                else if (continuestory && QuestManager.GetInstance().questlist.ElementAt(0).quest_progress==2)
                 {
                     callonce = false;
-                    QuestManager.GetInstance().questlist.ElementAt(0).quest_progress = 2;
                     continuestory = false;
-                    
-                    QuestManager.GetInstance().updateQuestProgress(QuestManager.GetInstance().questlist.ElementAt(0).questData,"force");
-                    StartCoroutine(fadeTransition("moveplayer"));
+                    TextAsset textAsset = Resources.Load<TextAsset>("Story/MainStoryPart1");
+                    DialogueManager.GetInstance().notInteractDialogue = true;
+                    DialogueManager.GetInstance().EnterDialogueMode(textAsset);
+                    TimelineManager.GetInstance().dontmove = false;
+                    ProgressManager.GetInstance().gameProgress = "progress3";
+                    callonce = true;
                 }
+
+            }
+
+            if(ProgressManager.GetInstance().gameProgress == "progress3" && DialogueVariableObserver.variables["mainquest_progress"].ToString() == "2")
+            {
+                if (!continuestory)//QuestManager.GetInstance().questlist.ElementAt(0).questState==QuestState.COMPLETED 
+                {
+                    callonce = false;
+                    StartCoroutine(fadeTransition("moveplayer2"));    
+                }
+                else if (continuestory)//QuestManager.GetInstance().questlist.ElementAt(0).questState==QuestState.COMPLETED && DialogueVariableObserver.variables["mainquest_progress"].ToString() == "2"
+                {
+                    callonce = false;
+                    continuestory = false;
+                    TextAsset textAsset = Resources.Load<TextAsset>("Story/MainStoryPart1");
+                    DialogueManager.GetInstance().notInteractDialogue = true;
+                    DialogueManager.GetInstance().EnterDialogueMode(textAsset);
+                    TimelineManager.GetInstance().dontmove = false;
+
+                    ProgressManager.GetInstance().gameProgress = "progress4";
+                    callonce = true;
+                }
+
                 
             }
 
-            else if (continuestory&& DialogueVariableObserver.variables["mainquest_progress"].ToString() == "1" && QuestManager.GetInstance().questlist.Count != 0 && QuestManager.GetInstance().questlist.ElementAt(0).quest_progress == 2)
+            if (ProgressManager.GetInstance().gameProgress == "progress4"&&DialogueVariableObserver.variables["mainquest_progress"].ToString() == "3")
             {
+
                 callonce = false;
                 continuestory = false;
-                TextAsset textAsset = Resources.Load<TextAsset>("Story/MainStoryPart1");
-                DialogueManager.GetInstance().notInteractDialogue = true;
-                DialogueManager.GetInstance().EnterDialogueMode(textAsset);
-                TimelineManager.GetInstance().dontmove = false;
-                callonce = true;
-            }
-
-            
-            
-            if (continuestory&& DialogueVariableObserver.variables["mainquest_progress"].ToString() == "2" && QuestManager.GetInstance().questlist.ElementAt(0).quest_progress == 2)
-            {
-                callonce = false;
-
-                
-                continuestory = false;
-                TextAsset textAsset = Resources.Load<TextAsset>("Story/MainStoryPart1");
-                DialogueManager.GetInstance().notInteractDialogue = true;
-                DialogueManager.GetInstance().EnterDialogueMode(textAsset);
-                TimelineManager.GetInstance().dontmove = false;
-
-                
-                callonce = true;
-            }
-            else if (DialogueVariableObserver.variables["mainquest_progress"].ToString() == "2" && QuestManager.GetInstance().questlist.ElementAt(0).quest_progress == 2)
-            {
-                callonce = false;
-                StartCoroutine(fadeTransition("moveplayer2"));
-            }
-
-            if (DialogueVariableObserver.variables["mainquest_progress"].ToString() == "3" && QuestManager.GetInstance().questlist.ElementAt(0).quest_progress == 2)
-            {
-                callonce = false;
                 obj_openedgate1.SetActive(true);
+                Debug.Log("open gate");
+                ProgressManager.GetInstance().gameProgress = "progress5";
                 callonce = true;
+                
             }
 
         }
@@ -153,28 +265,28 @@ public class LevelZero : MonoBehaviour
     public IEnumerator fadeTransition(string type)
     {
         TimelineManager.GetInstance().dontmove = true;
-        overlay.SetActive(true);
+        Toverlay.SetActive(true);
         //if (overlayanimator.GetCurrentAnimatorStateInfo(0).IsName("fadeout"))
         //{
 
         //}
         Debug.Log("fadein");
 
-        overlayanimator.SetTrigger("Fadein");
+        Toverlayanimator.SetTrigger("Fadein");
         yield return new WaitForSeconds(1.5f);
-        overlayanimator.ResetTrigger("Fadein");
+        Toverlayanimator.ResetTrigger("Fadein");
         addActions(type);
-        overlayanimator.SetTrigger("Fadeout");
+        Toverlayanimator.SetTrigger("Fadeout");
         yield return new WaitForSeconds(1.5f);
-        overlayanimator.ResetTrigger("Fadeout");
+        Toverlayanimator.ResetTrigger("Fadeout");
 
         Debug.Log("fadeout");
 
         continuestory = true;
         callonce = true;
-        overlayanimator.SetTrigger("Reset");
+        Toverlayanimator.SetTrigger("Reset");
         yield return new WaitForSeconds(1.5f);
-        overlayanimator.ResetTrigger("Reset");
+        Toverlayanimator.ResetTrigger("Reset");
         
 
     }
@@ -195,6 +307,15 @@ public class LevelZero : MonoBehaviour
         }
     }
 
+    public void performAction(string type)
+    {
+        if (type == "mainenemyappear")
+        {
+            mainenemyObj.SetActive(true);
+            darkauraAnimator.SetTrigger("Fadein");
+            mainenemyAnimator.SetTrigger("Fadein");
+        }
+    }
 
 
 }

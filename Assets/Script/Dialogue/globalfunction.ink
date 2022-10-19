@@ -2,14 +2,23 @@
 {questID:
     - 1:
     {complete=="True":
-    ~quest_tutorial_complete=true
-    ~quest_tutorial_status="done"
+    ~quest1_complete=true
+    ~quest1_status="complete"
     }
+    
+    - 102:
+    {complete=="True":
+    ~quest102_complete=true
+    ~quest102_status="complete"
+    }
+    
     - 2:
     {complete=="True":
-    ~quest_tutorial2_complete=true
-    ~quest_tutorial2_status="done"
+    ~quest2_complete=true
+    ~quest2_status="complete"
     }
+    
+    
 }
 
 ===function checkRequirement(questID,complete)===
@@ -20,6 +29,14 @@
         -else:
         ~proceed_progress=false
     }
+    
+    - 102:
+    {complete=="True":
+        ~proceed_progress=true
+        -else:
+        ~proceed_progress=false
+    }
+    
     - 2:
     {complete=="True":
         ~proceed_progress=true

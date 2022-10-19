@@ -2,6 +2,10 @@ INCLUDE ../../../Script/Dialogue/globals.ink
 INCLUDE ../../../Script/Dialogue/globalfunction.ink
 
 VAR ID=2
+VAR quest_tutorial2_status="inprogress"
+VAR quest_tutorial2_progress="2"
+VAR quest_tutorial2_complete=true
+
 ->main
 
 === main ===

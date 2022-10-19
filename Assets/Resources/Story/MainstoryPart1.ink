@@ -46,10 +46,10 @@ You feel great hatred and shadow energy from it.
 You feel pain and despair, not knowing what is happening to you, and you are only able to try and endure it.
 Are you okay?!#logtype:di #speaker:??? #portrait:portrait_npc_mysterious
 You suddenly heard a voice, somehow the voice made you feel slightly better.#logtype:mono
-You tried to stay awake but you were unable to resist, and you closed your eyes.
+You tried to stay awake but you were unable to resist, and you've fainted.
 ~mainquest_progress="2"
 ->END
-//wakes up
+
 ===progress2===
 As you open your eyes, you felt a sense of DeJa Vu as you find yourself lying on the same floor.#logtype:mono
 (Was the encounter a dream...?)#logtype:di #speaker:Yuuki #portrait:portrait_player
@@ -116,6 +116,7 @@ Well I am on the same boat with you, so let's do our best.#speaker:??? #portrait
 So currently I am only able to open the gate on the left side.
 The other 2 gates are too strong for me to unlock for now.
 (You hear the sturdy iron bar gets lifted up by itselves)#logtype:mono
+~gate_portal1=true
 Ok so you're good to go now, good luck!#logtype:di #speaker:??? #portrait:portrait_npc_mysterious #questtrigger:start #quest_id:102
 ~mainquest_progress="3"
 ->END

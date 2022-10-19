@@ -70,8 +70,10 @@ public class QuestManager : MonoBehaviour
 
     }
 
-    public void updateGatherProgressValue()
+    public void updateGatherProgressValue(int questid, int stacksize)
     {
+        questlist.ElementAt(findQuestIndexwithID(questid)).setProgressValue(stacksize);
+        
 
     }
 
@@ -93,8 +95,6 @@ public class QuestManager : MonoBehaviour
 
         if (type == "proceedprogress")
         {
-            
-
             if (questlist.ElementAt(targetIndex).quest_progress < questData.quest_totalprogress-1)
             {
                 temp.EvaluateFunction("checkRequirement", questID, checkRequirement(questData, questID).ToString());
@@ -127,7 +127,6 @@ public class QuestManager : MonoBehaviour
                 //questlist.ElementAt(targetIndex).quest_progress++;
             }
         }
-
 
         //int targetIndex = findQuestIndexwithID(receivequest_ID);
         //if (questlist.ElementAt(targetIndex).quest_progress < questlist.ElementAt(targetIndex).questData.quest_totalprogress)
@@ -183,6 +182,7 @@ public class QuestManager : MonoBehaviour
 
 
         requirement = questData.quest_progress.ElementAt(questlist.ElementAt(targetIndex).quest_progress - 1).requirement;
+        Debug.Log(questlist.ElementAt(targetIndex).quest_progressvalue+"/"+ requirement);
 
         if (questlist.ElementAt(targetIndex).quest_progressvalue >= requirement)
         {
@@ -290,5 +290,33 @@ public class QuestManager : MonoBehaviour
         index = questlist.FindIndex(x => x.questData.quest_name == name);
 
         return questlist.ElementAt(index);
+    }
+
+    public bool checkQuestExist(int id)
+    {
+        bool result = false;
+        if (questlist.Count != 0)
+        {
+            result = questlist.Exists(x => x.questData.quest_ID == id);
+        }
+        
+
+        return result;
+    }
+
+    public string getRequirmentType(int id,int progress)
+    {
+        int index = 0;
+        index = questlist.FindIndex(x => x.questData.quest_ID == id);
+
+        return questlist.ElementAt(index).questData.quest_progress[progress].requirementType;
+    }
+
+    public int getCurrentProg(int id)
+    {
+        int index = 0;
+        index = questlist.FindIndex(x => x.questData.quest_ID == id);
+
+        return questlist.ElementAt(index).quest_progress;
     }
 }

@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 [CreateAssetMenu]
+[Serializable]
 public class StatusData : ScriptableObject
 {
     public int status_ID;

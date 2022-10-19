@@ -13,20 +13,23 @@ MonoBehaviour:
   m_Name: quest1
   m_EditorClassIdentifier: 
   quest_ID: 1
-  quest_giver: NPC_mysterious_1
-  quest_name: Help me
-  quest_type: gather
-  quest_description: Gather item
-  quest_rewardType: stat
-  quest_reward: 10000
-  quest_totalprogress: 4
+  quest_giver: TutorialNPC
+  quest_name: Lost item
+  quest_type: sub
+  quest_description: Help the NPC to solve his problem
+  quest_rewardType: none
+  quest_reward: 0
+  quest_totalprogress: 5
   quest_progress:
-  - description: Gather 2 item
-    requirementType: item
-    requirement: 30
-  - description: Gather 3 item
-    requirementType: item
-    requirement: 60
-  - description: Gather 4 item
-    requirementType: item
-    requirement: 70
+  - description: Search the playground at the right side of the park
+    requirementType: talk
+    requirement: 5
+  - description: Go retrieve the guitar pick at the park entrance
+    requirementType: talk
+    requirement: 1
+  - description: Identify the root cause
+    requirementType: talk
+    requirement: 1
+  - description: Propose helping him to practice
+    requirementType: talk
+    requirement: 1

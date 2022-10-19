@@ -1,0 +1,251 @@
+INCLUDE ../../Script/Dialogue/globals.ink
+INCLUDE ../../Script/Dialogue/globalfunction.ink
+
+
+
+{
+-quest1_progress=="0":
+->main
+-quest1_progress=="1":
+->progress1
+-quest1_progress=="3":
+->progress3
+-quest1_progress=="4":
+->progress41
+-quest1_progress=="5":
+->progress5
+-quest1_progress=="6":
+->progress6
+-quest1_progress=="7":
+->progress7
+-quest1_progress=="8":
+->progress8
+}
+
+
+===main===
+(You sense a faint shadowy aura from the person)
++[Quest]
+Hey there you looked troubled, what seems to be the problem?#questtrigger:start #quest_id:1
+Oh hey umm… actually I lost something and I am trying to find it.
+Do you need help? I am rather free as I am just enjoying a walk around the park.
+Really? That would be a great help! Actually I’ve lost my favourite guitar pick and I just can’t find it anywhere.
+Hmm… when is the last time you saw it?
+…I think it was when I kept it in my wallet after practicing here hours ago. That’s why I came back here trying to find it.
+Then what about the places you’ve went after practicing?
+I think I’ve went to the playground for a walk to get some inspiration for my new song.
+Maybe I can try to go there and search for it.
+Ok thanks man!
+~quest1_progress="1"
+->END
++[Cancel]->END
+
+===progress1===
+(Report to him?)
++[Quest]
+    Have you found it yet?#questtrigger:proceedprogress #quest_id:1
+    {proceed_progress:
+        I tried to find it at the playground but no luck.
+        ~proceed_progress=false
+        ~quest1_progress="2"
+        ->progress2
+        -else:
+        (I haven't finish searching yet)
+    }
+    ->END
++[Cancel]->END
+
+===progress2===
+Oh ok… damn where did I dropped it…
+(Hey is it possible to locate it with your powers?)
+Well I can sense the linking bond between the item and the owner. 
+But I would need him create a strong emotion trail, so that I could use that emotion energy to track it.
+How could he do that?
+Maybe you can try to ask more details about it so that he would think more about it.
+Is it really an important stuff?
+Yeah it’s actually a present from my father, the reason that I like to play guitar is all thanks to him.
+My father is lead vocal and guitarist of the “Step Up Party” band.
+His band became famous recently.
+I admire him and he is my inspiration, I dreamed of being like him.
+Actually there will be a community music event happening soon.
+So I was thinking of creating a new song here.
+But I accidently lost the guitar pick today, ... I need it to play my music.
+Wow what a strong bond of emotion, seems like I found it, it is near the fountain located at the park entrance.
+I see, but don't worry I'll help you to find it since I still have time.
+Thanks… I really appreciate it.
+~quest1_progress="3"
+->END
+
+===progress3===
+(Report to him?)
++[Quest]
+    Oh you're back, so did you find it?#questtrigger:proceedprogress #quest_id:1
+    {proceed_progress:
+        You took the guitar pick and showed to him.
+        Hey I’ve found it, it’s on the border wall of the fountain.
+        ~proceed_progress=false
+        ~quest1_progress="3"
+        ->progress4
+        -else:
+        (I haven't finish searching yet)
+    }
+    ->END
++[Cancel]->END
+
+===progress4===
+Really?! Oh, I think I did take it out again before leaving the park and there was an urgent matter.#removeitem:item3
+//item3 is guitarpick
+Maybe that is when I forgot to put it back in my wallet and ran off.
+Thank you very much!!
+No problem. 
+(Hmm... the shadow energy is not decreasing at all)
+Maybe that is not the root cause, we need to find out what is the actual thing that is troubling him.
+Some people aren't even aware of their own problems.
+Identifying and understanding a problem is crucial for solving problems.
+So maybe we can help him identify his worries using my powers.
+I will link you to his mind and maybe you can find some clues.
+~quest1_progress="4"
+->progress41
+===progress41===
+I can link you with him any time, are you ready?
++[Yes]
+~quest1_progress="5"
+You feel a strange power linking you and the person.#portal:SQ_1_backstory //tag trigger minigame quiz continue:enable/disable
+->END
++[No]
+->END
+
+
+===progress5===
+Well from the looks of it, seems like the upcoming event is causing some anxiety for him.
+And seems like the anxiety is starting to affect his daily life.
+That is proably the root source of shadow energy which shadow beings like to feed on.
+Is there any way to help him?
+If we're able to change his thoughts on the matter to be more optimistic about it, maybe he would feel better.
+Easier said than done, it's not like we are professionals.
+Even if we are not professionals there are still things that we can help to make them feel better.
+Before that, just to make sure you are clear on what we are dealing with, let me ask you a few question.
+->quiz1
+===quiz1===
+Do you know what is anxiety?//definition of anxiety
++[Yes]
+->quiz11
++[No]
+Well let me explain
+Anxiety is an emotion characterized by feelings of tension, worried thoughts, and physical changes like increased blood pressure.
+->quiz2
+
+===quiz11===
+Well then, can you describe about anxiety?
++[Anxiety is an emotion characterized by feelings of tension, worried thoughts, and physical changes like increased blood pressure.]
+Good job!
+The other option was actually the definition for fear.
++[A basic, intense emotion aroused by the detection of imminent threat, involving an immediate alarm reaction that mobilizes the organism by triggering a set of physiological changes.]
+This is actually the definition for fear.
+-Fear is actually different from anxiety.//Both taken from APA dictionary
+->quiz12
+===quiz12===
+Fear is considered an appropriate short-term response to a present, clearly identifiable threat
+For example like when you are in a dangerous situation
+The risk of being hurt in that situation may cause fear in you.
+Meanwhile anxiety is future-oriented, long-term response focused on a diffuse threat.
+The thing that cause anxiety may not be a present threat, and it also have long term effects on you.
+->quiz2
+
+===quiz2===
+Moving on to the next question
+Is anxiety same as anxiety disorder?//comparing normal anxiety and disorder
++[Yes]
+Actually both are different.
++[No]
+Correct, both are different.
+-Anxiety is a rather normal thing that anyone could have any point in their life.
+You may feel worried and anxious about sitting an exam, having medical test or job interview.
+Anxiety only becomes a problem when it becomes unmanagable and start to affect your daily life.
+From that point, it is considered an anxiety disorder.
+->quiz3
+
+===quiz3===
+Do you think this person have anxiety disorder?
++[Yes]
++[No]
+-We do know it is starting to affect his daily life as he have some trouble sleeping and eating.
+But whether if it is anxiety disorder, it is best to let the professionals decide such as visiting a psychiatrist.
+All we can do is try our best to help him to solve his problems for now.
+->quiz4
+
+===quiz4===
+Do you know what is the possible cause of his anxiety?//negativity and low confidence
++[Failing to meet other's expectation]
++[Possibility of making mistakes with the performace]
++[No experience playing before other people]
++[All of above]
+-Basically all may be the cause of his anxiety for the event.
+Low self-esteem as he think that he could not meet expectations
+and have low confidence in his abilities.
+Pessimistic thoughts on he might not be able to finish his performance
+And making mistakes due to reasons such as nervourness.
+Fear of unknown as it will be his first time showing his performance in front of other people
+Not knowing how other people think of his performance.
+->quiz5
+===quiz5===
+What do you think can help him to ease his anxiety?
+*[Cheer him up]
+Well it's a good choice but it would only have temporary effect.
+->quiz5
+*[Giving advice for his performance]
+(I don't really know much about music... maybe there's other option)
+->quiz5
+*[Help him practice]
+Yeah, I think that's the most realistic thing we can do for him for now.
+Since he never played before others, maybe that's why he is not sure whether he is good enough or not.
+From the looks of his memories, he seem to have trained decently by his father.
+He also likes playing music apparently.
+So he probably just need someone else's approval on his abilities
+Maybe that will help him to be more confident.
+Well then since it's decided, let's try proposing to help him with his practice.#questtrigger_type:force #questtrigger:proceedprogress #quest_id:1
+~quest1_progress="6"
+->END
+
+
+
+===progress6===
+Hey, what don't you try to play a song for me?
+Eh…? But…
+So that you can feel more confident on the playing in front of others.
+...! H- how did you know that I am feeling anxious of playing before others.
+Hmm I would say that it's my little magic, just ignore the details.
+Even though I don't play music but I do often listen to many songs.
+Maybe I can give some advice from an audience standpoint.
+Y- you won't laugh at me if I didn't play well or be better than my father...?
+Why would I, not to mention I don't even know how to play music at all.
+You are already better than me when it comes to music.
+Believe in yourself and the things that you've learnt.
+Thank you… I think I’ll try.
+Let me get my guitar.
+(He quickly left the park and went to get his guitar)
+~quest1_progress="7"
+->END
+
+===progress7===
+After a while, he thanked everyone and other people left.
+He started to keep his stuff while you approach him.
+I always thought that I must be as good as my father to impress people.
+surprisingly people actually liked my performance!
+He was rather excited and happy that people liked his performance.
+Thank you... if it wasn't for you I would probably still be worried whether I can play well or not.
+Now I think I have more confidence to be on stage.
+Yeah no problem! Good luck with your debut live.
+I think I'll be leaving for now, I just remembered that I have something to do.
+Oh ok, next time if we meet I'll repay you somehow.
+We bid farewell and he returns to tidying up his stuff.#questtrigger_type:force #questtrigger:proceedprogress #quest_id:1
+He's not looking, I think I'll switch you back to invisible.
+Ok so let's find that shadow, it should had went north west.#questtrigger_type:force #questtrigger:proceedprogress #quest_id:102
+Let's go and purify it.#questtrigger:complete #quest_id:1
+~quest1_progress="8"
+~mainquest_progress="6"
+->END
+
+===progress8===
+Time to practice more just like what he said
+->END

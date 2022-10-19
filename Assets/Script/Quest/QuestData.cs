@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 [CreateAssetMenu]
+[Serializable]
 public class QuestData : ScriptableObject
 {
     public int quest_ID;

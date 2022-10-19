@@ -24,6 +24,12 @@ public class ProgressManager : MonoBehaviour
 
     public string gameProgress ="opening";
 
+    public bool loaded;
+    public Vector3 loadedposition;
+    public bool loading;
+
+    public bool stageOne_newpos=false;
+
     private void Awake()
     {
         //if (instance != null)
@@ -117,32 +123,90 @@ public class ProgressManager : MonoBehaviour
         string json = reader.ReadToEnd();
 
         Progress data = JsonUtility.FromJson<Progress>(json);
-
+        loading = true;
         loadProgress(data);
+        loading = false;
         //Debug.Log(data.progressData.questList.Count);
         //Debug.Log(data.progressData.questList.ElementAt(0).questState);
         //Debug.Log(data.progressData.questList.ElementAt(0).questData.quest_progress[0].description);
     }
 
+    public string loadDateTime(int index)
+    {
+        setPath(index);
+        if (File.Exists(path))
+        {
+            using StreamReader reader = new StreamReader(path);
+            string json = reader.ReadToEnd();
+
+            Progress data = JsonUtility.FromJson<Progress>(json);
+
+            return data.saveDate + "|" + data.saveTime;
+        }
+        else
+        {
+            return "-";
+        }
+
+    }
+
     public void loadProgress(Progress progress)
     {
         SceneManager.LoadScene(progress.progressData.sceneName);
-
+        Debug.Log("Load " + progress.progressData.sceneName);
 
         ProgressData progdata = progress.progressData;
 
         DialogueVariableObserver.loadVariables(progress.inkVariableData);
 
-        SkillManager.GetInstance().updateSkill(progdata.skillList);
-        
-        StatusManager.GetInstance().updateStatus(progdata.statusList);
-
-        GameObject.Find("Player").transform.position=progdata.playerlocation;
-        
 
         Player.GetInstance().updatePlayer(progdata.player_maxhealth, progdata.player_maxmp, progdata.player_power, progdata.player_protection, progdata.player_currhealth, progdata.player_currmp);
+        
+        for(int x = 0; x < progdata.inventoryList.Count; x++)
+        {
+            ItemData tempItemData = Resources.Load<ItemData>("Item/item" + progdata.inventoryList.ElementAt(x).id);
+            //InventoryManager.GetInstance().inventory.ElementAt(x).itemData = tempItemData;
+            progdata.inventoryList.ElementAt(x).itemData = tempItemData;
+            
+        }
         InventoryManager.GetInstance().updateInventory(progdata.inventoryList, progdata.itemDictionary);
+
+        
+        for (int x = 0; x < progdata.questList.Count; x++)
+        {
+            QuestData tempQuestData = Resources.Load<QuestData>("Quest/quest" + progdata.questList.ElementAt(x).id);
+            //QuestManager.GetInstance().questlist.ElementAt(x).questData = tempQuestData;
+            progdata.questList.ElementAt(x).questData = tempQuestData;
+            
+        }
         QuestManager.GetInstance().updateQuestManager(progdata.questList);
+
+        
+        for (int x = 0; x < progdata.skillList.Count; x++)
+        {
+            SkillData tempSkillData = Resources.Load<SkillData>("Skill/skill" + progdata.skillList.ElementAt(x).id);
+            //SkillManager.GetInstance().skilllist.ElementAt(x).skillData = tempSkillData;
+            progdata.skillList.ElementAt(x).skillData = tempSkillData;
+        }
+        SkillManager.GetInstance().updateSkill(progdata.skillList);
+        
+        for (int x = 0; x < progdata.statusList.Count; x++)
+        {
+            StatusData tempStatusData = Resources.Load<StatusData>("Status/status" + progdata.statusList.ElementAt(x).id);
+            //StatusManager.GetInstance().statusList.ElementAt(x).statusData = tempStatusData;
+            progdata.statusList.ElementAt(x).statusData = tempStatusData;
+        }
+        StatusManager.GetInstance().updateStatus(progdata.statusList);
+
+        loadedposition = progdata.playerlocation;
+        gameProgress = progress.currentgameprogress;
+        stageOne_newpos = progress.stageOne_newpos;
+
+
+        loaded = true;
+
+        
+
 
     }
 

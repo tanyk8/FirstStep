@@ -14,6 +14,7 @@ public class Quest
     public QuestState questState;
     public int quest_progress;
     public int quest_progressvalue;
+    public int id;
 
     
 
@@ -23,6 +24,7 @@ public class Quest
         questState = QuestState.NONE;
         quest_progress = 0;
         quest_progressvalue = 0;
+        id = questData.quest_ID;
     }
     
     public void updateQuestState()
@@ -50,6 +52,19 @@ public class Quest
     public void addProgressValue()
     {
         quest_progressvalue++;
+    }
+    public void minusProgressValue()
+    {
+        quest_progressvalue--;
+        if (quest_progressvalue < 0)
+        {
+            quest_progressvalue = 0;
+        }
+    }
+
+    public void setProgressValue(int amount)
+    {
+        quest_progressvalue = amount;
     }
 
     public void resetProgressValue()

@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine.EventSystems;
 using Ink.Runtime;
 using System.Linq;
+using System.IO;
 
 
 public static class BtnExtension
@@ -25,7 +26,7 @@ public static class BtnExtension
 public class ListLayout : MonoBehaviour
 {
 
-    private int totalElements;
+    //private int totalElements;
 
 
     [Header("ListLayout")]
@@ -79,7 +80,7 @@ public class ListLayout : MonoBehaviour
 
     public ListLayout()
     {
-        totalElements = 0;
+        //totalElements = 0;
     }
 
     public void createBattleSkillList(List<Skill> skillList,string type)
@@ -877,6 +878,19 @@ public class ListLayout : MonoBehaviour
         {
             panel_list = Instantiate(template_listitem, panel_listT);
             panel_list.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Save Data "+i;
+            string temp=ProgressManager.GetInstance().loadDateTime(i);
+            if (temp == "-")
+            {
+                panel_list.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "-";
+                panel_list.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "-";
+            }
+            else
+            {
+                string[] temparray=temp.Split('|');
+                panel_list.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = temparray[0];
+                panel_list.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = temparray[1];
+            }
+            
 
             panel_list.GetComponent<Button>().AddEventListener(i, listProgressClicked);
         }
@@ -902,7 +916,7 @@ public class ListLayout : MonoBehaviour
                 panel_listT.GetChild(i).GetComponent<Button>().navigation = NewNav;
             }
 
-            else if (i > 0 && i < totalElements - 1)
+            else if (i > 0 && i < total - 1)
             {
                 //Create a new navigation
                 Navigation NewNav = new Navigation();
@@ -915,7 +929,7 @@ public class ListLayout : MonoBehaviour
                 //Assign the new navigation to your desired button or ui Object
                 panel_listT.GetChild(i).GetComponent<Button>().navigation = NewNav;
             }
-            else if (i == totalElements - 1)
+            else if (i == total - 1)
             {
                 //Create a new navigation
                 Navigation NewNav = new Navigation();
@@ -1202,11 +1216,24 @@ public class ListLayout : MonoBehaviour
         {
             Debug.Log("save "+ progressIndex);
             ProgressManager.GetInstance().SavetoFile(progressIndex);
+            destroyListSelection();
+            MenuManager.GetInstance().closeMenu();
         }
         else if(MenuManager.GetInstance().lastSelectedSaveLoadBtn=="load")
         {
             Debug.Log("load " + progressIndex);
-            ProgressManager.GetInstance().LoadfromFile(progressIndex);
+            string path = Application.dataPath + System.IO.Path.AltDirectorySeparatorChar + "save" + System.IO.Path.AltDirectorySeparatorChar + "savedata" + progressIndex + ".json";
+            if (File.Exists(path))
+            {
+                ProgressManager.GetInstance().LoadfromFile(progressIndex);
+                destroyListSelection();
+                MenuManager.GetInstance().closeMenu();
+            }
+            else
+            {
+                Debug.Log("File don't exist");
+            }
+            
         }
     }
 

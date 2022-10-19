@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Ink.Runtime;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using System;
-using System.Linq;
 using UnityEngine.SceneManagement;
 using UnityEngine.Playables;
 
@@ -44,11 +41,14 @@ public class DialogueManager : MonoBehaviour
     [Header("QuestManager")]
     [SerializeField] private GameObject questManager;
 
-    [Header("Animator")]
-    [SerializeField] private Animator mainenemyAnimator;
-    [SerializeField] private Animator darkauraAnimator;
-    [Header("AnimatorObj")]
-    [SerializeField] private GameObject mainenemyObj;
+    //[Header("Animator")]
+    //[SerializeField] private Animator mainenemyAnimator;
+    //[SerializeField] private Animator darkauraAnimator;
+    //[Header("AnimatorObj")]
+    //[SerializeField] private GameObject mainenemyObj;
+
+    [Header("cutscene")]
+    [SerializeField] private GameObject cutscene;
 
 
     private Animator currentAnimator;
@@ -66,6 +66,7 @@ public class DialogueManager : MonoBehaviour
     private const string PORTRAIT_TAG = "portrait";
     private const string LAYOUT_TAG = "layout";
     private const string QUESTTRIGGER_TAG = "questtrigger";
+    private const string QUESTTRITYPE_TAG = "questtrigger_type";
     private const string QUESTID_TAG = "quest_id";
     private const string BATTLE_TAG = "battle";
     private const string PORTAL_TAG = "portal";
@@ -74,6 +75,10 @@ public class DialogueManager : MonoBehaviour
     private const string ANIMATOR_TAG = "animator";
     private const string ANIMATION_TAG = "animation";
     private const string LEARNSKILL_TAG = "learnskill";
+    private const string GETITEM_TAG = "getitem";
+    private const string REMOVEITEM_TAG = "removeitem";
+    private const string CALLFUNCTION_TAG = "callfunction";
+    private const string ENEMY_TAG = "enemy";
 
     public static event handleStartQuestT startQuestTrigger;
     public delegate void handleStartQuestT(QuestData questdata);
@@ -121,6 +126,7 @@ public class DialogueManager : MonoBehaviour
             
             DontDestroyOnLoad(gameObject);
             DontDestroyOnLoad(dialogueCanvas);
+            DontDestroyOnLoad(cutscene);
         }
         else if (instance != this)
         {
@@ -249,19 +255,41 @@ public class DialogueManager : MonoBehaviour
         if (initiateBattle)
         {
             initiateBattle = false;
+            GameStateManager.GetInstance().position= GameObject.Find("Player").transform.position;
             SceneManager.LoadScene("Battlescene");
         }
         else if (changeScene)
         {
 
             changeScene = false;
+
             switch (destination)
             {
                 case "FirstStage_Park":
                     destination = "";
                     UnityEngine.SceneManagement.SceneManager.LoadScene("FirstStage_Park");
                     break;
-
+                case "Beginning":
+                    destination = "";
+                    UnityEngine.SceneManagement.SceneManager.LoadScene("Beginning");
+                    
+                    break;
+                case "SQ_1_backstory":
+                    destination = "";
+                    UnityEngine.SceneManagement.SceneManager.LoadScene("SQ_1_backstory");
+                    break;
+                case "SecondStage_Hallway":
+                    destination = "";
+                    UnityEngine.SceneManagement.SceneManager.LoadScene("SecondStage_Hallway");
+                    break;
+                case "SQ_2_backstory":
+                    destination = "";
+                    UnityEngine.SceneManagement.SceneManager.LoadScene("SQ_2_backstory");
+                    break;
+                case "SQ_2_mindworld":
+                    destination = "";
+                    UnityEngine.SceneManagement.SceneManager.LoadScene("SQ_2_mindworld");
+                    break;
             }
         }
     }
@@ -388,6 +416,7 @@ public class DialogueManager : MonoBehaviour
     {
         string quest_id = "";
         string questTrigger = "";
+        string questTrigger_type = "";
         string battle="";
         string portal = "";
 
@@ -416,6 +445,9 @@ public class DialogueManager : MonoBehaviour
                 case QUESTTRIGGER_TAG:
                     questTrigger = tagValue;
                     break;
+                case QUESTTRITYPE_TAG:
+                    questTrigger_type = tagValue;
+                    break;
                 case QUESTID_TAG:
                     quest_id = tagValue;
                     break;
@@ -424,6 +456,7 @@ public class DialogueManager : MonoBehaviour
                     break;
                 case PORTAL_TAG:
                     portal = tagValue;
+                    Debug.Log(tagValue);
                     break;
                 case LOG_TAG:
                     dialoguetype = tagValue;
@@ -452,14 +485,15 @@ public class DialogueManager : MonoBehaviour
                 case ANIMATOR_TAG:
                     if (tagValue == "mainenemyappear")
                     {
-                        mainenemyObj.SetActive(true);
-                        darkauraAnimator.SetTrigger("Fadein");
-                        mainenemyAnimator.SetTrigger("Fadein");
+                        //mainenemyObj.SetActive(true);
+                        //darkauraAnimator.SetTrigger("Fadein");
+                        //mainenemyAnimator.SetTrigger("Fadein");
+                        LevelZero lvlzero = GameObject.Find("LevelManager").GetComponent<LevelZero>();
+
+                        lvlzero.performAction(tagValue);
                     }
                     
 
-                    break;
-                case ANIMATION_TAG:
                     break;
                 case LEARNSKILL_TAG:
                     if (tagValue == "starter")
@@ -469,6 +503,18 @@ public class DialogueManager : MonoBehaviour
                         skill5.updateSkillLearnt();
                         SkillManager.GetInstance().skilllist.Add(skill5);
                     }
+                    break;
+
+                case GETITEM_TAG:
+                    ItemData additemData = Resources.Load<ItemData>("Item/"+tagValue);
+                    InventoryManager.GetInstance().Add(additemData);
+                    break;
+                case REMOVEITEM_TAG:
+                    ItemData removeitemData = Resources.Load<ItemData>("Item/" + tagValue);
+                    InventoryManager.GetInstance().Remove(removeitemData);
+                    break;
+                case ENEMY_TAG:
+                    GameStateManager.GetInstance().enemy = tagValue;
                     break;
                 default:
                     Debug.LogWarning("Tag in switch case but not handled: "+tag);
@@ -492,7 +538,15 @@ public class DialogueManager : MonoBehaviour
         {
             //questData = talkingActor.GetComponent<QuestGiver>().getTargetQuestData(int.Parse(quest_id));
             questData = Resources.Load<QuestData>("Quest/quest" + quest_id);
-            updateQuestTrigger?.Invoke(questData, "proceedprogress");
+            if (questTrigger_type == "")
+            {
+                updateQuestTrigger?.Invoke(questData, "proceedprogress");
+            }
+            else if (questTrigger_type == "force")
+            {
+                updateQuestTrigger?.Invoke(questData, "force");
+            }
+            
         }
 
         if (questTrigger == "complete")

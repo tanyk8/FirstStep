@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 
 [CreateAssetMenu]
+[Serializable]
 public class ItemData : ScriptableObject
 {
     public int item_ID;
