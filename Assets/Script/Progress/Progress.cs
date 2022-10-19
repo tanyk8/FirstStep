@@ -17,6 +17,8 @@ public class Progress
 
     public string saveDate;
     public string saveTime;
+    public string currentgameprogress;
+    public bool stageOne_newpos;
 
     private DialogueVariableObserver dialoguevariableobserver;
     public Progress()
@@ -39,7 +41,7 @@ public class Progress
         progressData.player_currmp= player.getCurrent_MentalPoint();
 
         progressData.playerlocation = GameObject.Find("Player").transform.position;
-        progressData.sceneName = SceneManager.GetActiveScene().ToString();
+        progressData.sceneName = SceneManager.GetActiveScene().name;
 
         progressData.skillList = SkillManager.GetInstance().skilllist;
         progressData.statusList = StatusManager.GetInstance().statusList;
@@ -66,7 +68,8 @@ public class Progress
         saveDate = System.DateTime.Now.ToString("dd/MM/yyyy");
         saveTime = System.DateTime.Now.ToString("hh:mm:ss");
 
-
+        currentgameprogress = ProgressManager.GetInstance().gameProgress;
+        stageOne_newpos = ProgressManager.GetInstance().stageOne_newpos;
     }
 
 

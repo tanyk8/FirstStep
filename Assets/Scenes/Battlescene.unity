@@ -2970,6 +2970,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerGameObject: {fileID: 0}
+  enemyPrefabArray:
+  - {fileID: 1872516373546507086, guid: e41ab53802e44ef41a009a289bc10987, type: 3}
   enemyPrefab: {fileID: 1872516373546507086, guid: e41ab53802e44ef41a009a289bc10987, type: 3}
   enemyLocation: {fileID: 1818065291}
   enemy_name: {fileID: 2011603513}

@@ -19,7 +19,7 @@ MonoBehaviour:
   quest_description: desc
   quest_rewardType: none
   quest_reward: 0
-  quest_totalprogress: 7
+  quest_totalprogress: 6
   quest_progress:
   - description: Enter the second gate
     requirementType: talk
@@ -33,9 +33,6 @@ MonoBehaviour:
   - description: Defeat the shadow minion
     requirementType: talk
     requirement: 1
-  - description: Find the shadow's main source
-    requirementType: talk
-    requirement: 1
-  - description: Talk to mysterious person
+  - description: Talk to crystal
     requirementType: talk
     requirement: 1

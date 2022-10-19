@@ -729,4 +729,13 @@ public class MenuManager : MonoBehaviour
     {
 
     }
+
+    public void closeMenu()
+    {
+        saveloadContentPanel.SetActive(false);
+        saveloadPanel.SetActive(false);
+        overlay.SetActive(false);
+        menuCanvas.SetActive(false);
+        menuIsOpened = false;
+    }
 }

@@ -5,6 +5,12 @@ TextureImporter:
   - first:
       213: -4463690688444432225
     second: Icon_talk
+  - first:
+      213: -6434242948832498816
+    second: UI_16x16_1
+  - first:
+      213: -3641771302436733350
+    second: UI_16x16_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -114,7 +120,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -122,6 +128,48 @@ TextureImporter:
       bones: []
       spriteID: f900d00f7f8cd02c0800000000000000
       internalID: -4463690688444432225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_16x16_1
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 111
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08be64cc02af4b6a0800000000000000
+      internalID: -6434242948832498816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UI_16x16_3
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 128
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5efb0d9b44d57dc0800000000000000
+      internalID: -3641771302436733350
       vertices: []
       indices: 
       edges: []

@@ -14,16 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   quest_ID: 2
   quest_giver: NPC_mysterious_2
-  quest_name: Get this
+  quest_name: Talk normally
   quest_type: sub
-  quest_description: Gather item
+  quest_description: help him to solve his problem
   quest_rewardType: stat
   quest_reward: 100
-  quest_totalprogress: 3
+  quest_totalprogress: 5
   quest_progress:
-  - description: talk to original
+  - description: Try to communicate with him
     requirementType: talk
     requirement: 1
-  - description: talk to duplicate
+  - description: Discuss on the task
+    requirementType: talk
+    requirement: 1
+  - description: Find chocolate
+    requirementType: talk
+    requirement: 1
+  - description: find the girl and request for help
     requirementType: talk
     requirement: 1

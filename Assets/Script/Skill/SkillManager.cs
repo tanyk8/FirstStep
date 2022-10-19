@@ -8,6 +8,8 @@ public class SkillManager : MonoBehaviour
 
     public List<Skill> skilllist=new List<Skill>();
 
+    [SerializeField] public SkillData[] skillData;
+
     private static SkillManager instance;
 
     private void Start()

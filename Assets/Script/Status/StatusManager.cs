@@ -9,7 +9,7 @@ public class StatusManager : MonoBehaviour
 
     private static StatusManager instance;
 
-
+    [SerializeField] public StatusManager[] statusManager;
     private void Start()
     {
         //StatusData teststatus = Resources.Load<StatusData>("Status/status1");
