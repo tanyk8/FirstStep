@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 
 public class TimelineManager : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public class TimelineManager : MonoBehaviour
     private void Awake()
     {
         director = GetComponent<PlayableDirector>();
+
+        
         if (instance == null)
         {
             instance = this;
@@ -29,6 +32,15 @@ public class TimelineManager : MonoBehaviour
             Destroy(instance.gameObject);
             instance = this;
             DontDestroyOnLoad(gameObject);
+        }
+
+        
+    }
+    private void Update()
+    {
+        if (SceneManager.GetActiveScene().name == "TitleScreen")
+        {
+            Destroy(gameObject);
         }
     }
 

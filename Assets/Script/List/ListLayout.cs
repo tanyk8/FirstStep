@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 using Ink.Runtime;
 using System.Linq;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 
 public static class BtnExtension
@@ -27,7 +28,7 @@ public class ListLayout : MonoBehaviour
 {
 
     //private int totalElements;
-
+    [SerializeField] GameObject backloadbtn;
 
     [Header("ListLayout")]
     [SerializeField] GameObject template_listitem;
@@ -947,6 +948,103 @@ public class ListLayout : MonoBehaviour
         StartCoroutine(selectOption(panel_listT.GetChild(0).gameObject));
     }
 
+    public void createTitleLoadList()
+    {
+        Progress[] progressArray = new Progress[20];
+        for (int x = 0; x < 20; x++)
+        {
+            progressArray[x] = new Progress();
+        }
+
+        //Progress progress = null;
+        int total = progressArray.Length;
+        Debug.Log(progressArray.Length);
+        for (int i = 0; i < total; i++)
+        {
+            panel_list = Instantiate(template_listitem, panel_listT);
+            panel_list.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Save Data " + i;
+            string temp = loadTitleDateTime(i);
+            if (temp == "-")
+            {
+                panel_list.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "-";
+                panel_list.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "-";
+            }
+            else
+            {
+                string[] temparray = temp.Split('|');
+                panel_list.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = temparray[0];
+                panel_list.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = temparray[1];
+            }
+
+
+            panel_list.GetComponent<Button>().AddEventListener(i, listLoadTitleClicked);
+        }
+
+
+        Navigation NewNavback = new Navigation();
+        NewNavback.mode = Navigation.Mode.Explicit;
+
+        //Set what you want to be selected on down, up, left or right;
+        NewNavback.selectOnUp = panel_listT.GetChild(20 - 1).GetComponent<Button>();
+        NewNavback.selectOnDown = panel_listT.GetChild(0).GetComponent<Button>();
+
+
+        //Assign the new navigation to your desired button or ui Object
+        backloadbtn.GetComponent<Button>().navigation = NewNavback;
+
+
+        for (int i = 0; i < total; i++)
+        {
+            if (i == 0)
+            {
+                //Create a new navigation
+                Navigation NewNav = new Navigation();
+                NewNav.mode = Navigation.Mode.Explicit;
+
+                //Set what you want to be selected on down, up, left or right;
+
+
+                NewNav.selectOnUp = backloadbtn.GetComponent<Button>();
+                NewNav.selectOnDown = panel_listT.GetChild(i + 1).GetComponent<Button>();
+
+
+
+
+                //Assign the new navigation to your desired button or ui Object
+                panel_listT.GetChild(i).GetComponent<Button>().navigation = NewNav;
+            }
+
+            else if (i > 0 && i < total - 1)
+            {
+                //Create a new navigation
+                Navigation NewNav = new Navigation();
+                NewNav.mode = Navigation.Mode.Explicit;
+
+                //Set what you want to be selected on down, up, left or right;
+                NewNav.selectOnUp = panel_listT.GetChild(i - 1).GetComponent<Button>();
+                NewNav.selectOnDown = panel_listT.GetChild(i + 1).GetComponent<Button>();
+
+                //Assign the new navigation to your desired button or ui Object
+                panel_listT.GetChild(i).GetComponent<Button>().navigation = NewNav;
+            }
+            else if (i == total - 1)
+            {
+                //Create a new navigation
+                Navigation NewNav = new Navigation();
+                NewNav.mode = Navigation.Mode.Explicit;
+
+                //Set what you want to be selected on down, up, left or right;
+                NewNav.selectOnUp = panel_listT.GetChild(i - 1).GetComponent<Button>();
+                NewNav.selectOnDown = backloadbtn.GetComponent<Button>();
+
+                //Assign the new navigation to your desired button or ui Object
+                panel_listT.GetChild(i).GetComponent<Button>().navigation = NewNav;
+            }
+        }
+
+        StartCoroutine(selectOption(panel_listT.GetChild(0).gameObject));
+    }
+
     public void createChoiceList(int numChoice,List<Choice> choiceList)
     {
         for (int i = 0; i < numChoice; i++)
@@ -1113,11 +1211,22 @@ public class ListLayout : MonoBehaviour
         StartCoroutine(selectOption(menuSkillDescPanel));
     }
 
-    void listItemClicked(int itemIndex)
+    public string loadTitleDateTime(int index)
     {
-        
+        string path = Application.dataPath + System.IO.Path.AltDirectorySeparatorChar + "save" + System.IO.Path.AltDirectorySeparatorChar + "savedata" + index + ".json";
+        if (File.Exists(path))
+        {
+            using StreamReader reader = new StreamReader(path);
+            string json = reader.ReadToEnd();
 
+            Progress data = JsonUtility.FromJson<Progress>(json);
 
+            return data.saveDate + "|" + data.saveTime;
+        }
+        else
+        {
+            return "-";
+        }
 
     }
 
@@ -1154,7 +1263,7 @@ public class ListLayout : MonoBehaviour
             questdesc.text = tempquest.questData.quest_description;
 
 
-            for (int x = 0; x < tempquest.quest_progress; x++)
+            for (int x = tempquest.quest_progress-1; x >= 0; x--)
             {
 
                 if (tempquest.questData.quest_totalprogress - 1 > x && tempquest.quest_progress - 1 == x)
@@ -1170,9 +1279,10 @@ public class ListLayout : MonoBehaviour
         }
         else if (MenuManager.GetInstance().lastSelectedQuestBtn == "completed")
         {
+            Debug.Log(tempquest.questData.quest_ID+""+tempquest.quest_progress);
             questname.text = tempquest.questData.quest_name;
             questdesc.text = tempquest.questData.quest_description;
-            for (int x = 0; x < tempquest.quest_progress - 1; x++)
+            for (int x = tempquest.quest_progress - 2; x >= 0; x--)
             {
                 temp += "<s>" + tempquest.questData.quest_progress[x].description + "</s><br>";
             }
@@ -1234,6 +1344,23 @@ public class ListLayout : MonoBehaviour
                 Debug.Log("File don't exist");
             }
             
+        }
+    }
+
+    void listLoadTitleClicked(int progressIndex)
+    {
+        Debug.Log("load " + progressIndex);
+        string path = Application.dataPath + System.IO.Path.AltDirectorySeparatorChar + "save" + System.IO.Path.AltDirectorySeparatorChar + "savedata" + progressIndex + ".json";
+        if (File.Exists(path))
+        {
+            destroyListSelection();
+            SoundManager.GetInstance().loadfromtitle = true;
+            SoundManager.GetInstance().loadfromtitleindex = progressIndex;
+            SceneManager.LoadScene("Loading");
+        }
+        else
+        {
+            Debug.Log("File don't exist");
         }
     }
 

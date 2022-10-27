@@ -55,6 +55,8 @@ public class ProgressManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
 
+        
+
 
     }
 
@@ -70,6 +72,14 @@ public class ProgressManager : MonoBehaviour
         for (int x = 0; x < TOTALSLOT; x++)
         {
             progressArray[x] = new Progress();
+        }
+    }
+
+    private void Update()
+    {
+        if (SceneManager.GetActiveScene().name == "TitleScreen")
+        {
+            Destroy(gameObject);
         }
     }
 
@@ -169,9 +179,10 @@ public class ProgressManager : MonoBehaviour
             progdata.inventoryList.ElementAt(x).itemData = tempItemData;
             
         }
-        InventoryManager.GetInstance().updateInventory(progdata.inventoryList, progdata.itemDictionary);
+        //InventoryManager.GetInstance().updateInventory(progdata.inventoryList, progdata.itemDictionary);
+        InventoryManager.GetInstance().updateInventory(progdata.inventoryList);
 
-        
+
         for (int x = 0; x < progdata.questList.Count; x++)
         {
             QuestData tempQuestData = Resources.Load<QuestData>("Quest/quest" + progdata.questList.ElementAt(x).id);

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -40,6 +40,14 @@ public class Player : MonoBehaviour
         //    DontDestroyOnLoad(gameObject);
         //}
 
+    }
+
+    private void Update()
+    {
+        if (SceneManager.GetActiveScene().name == "TitleScreen")
+        {
+            Destroy(gameObject);
+        }
     }
 
     public static Player GetInstance()

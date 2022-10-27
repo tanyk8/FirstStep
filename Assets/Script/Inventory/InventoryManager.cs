@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
+using UnityEngine.SceneManagement;
 
 [Serializable]
 public class InventoryManager : MonoBehaviour
@@ -14,7 +15,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] public ItemData[] itemDatas;
 
     public List<InventoryItem> inventory=new List<InventoryItem>();
-    public Dictionary<ItemData, InventoryItem> itemDictionary=new Dictionary<ItemData, InventoryItem>();
+    //public Dictionary<ItemData, InventoryItem> itemDictionary=new Dictionary<ItemData, InventoryItem>();
 
     private void Start()
     {
@@ -37,6 +38,7 @@ public class InventoryManager : MonoBehaviour
         //    instance = this;
         //    DontDestroyOnLoad(gameObject);
         //}
+
         if (instance == null)
         {
             instance = this;
@@ -48,6 +50,15 @@ public class InventoryManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
+        
+        
+    }
+    private void Update()
+    {
+        if (SceneManager.GetActiveScene().name == "TitleScreen")
+        {
+            Destroy(gameObject);
+        }
     }
 
     public static InventoryManager GetInstance()
@@ -57,23 +68,47 @@ public class InventoryManager : MonoBehaviour
 
     public void Add(ItemData itemData)
     {
-        if (itemDictionary.TryGetValue(itemData,out InventoryItem item))
+        bool found = false;
+        int foundindex = 0;
+        for(int x = 0; x < inventory.Count; x++)
         {
-            item.addToStack();
+            if(inventory.ElementAt(x).itemData.item_ID == itemData.item_ID)
+            {
+                found = true;
+                foundindex = x;
+            }
+            
+        }
+
+        if (found)
+        {
+            inventory.ElementAt(foundindex).addToStack();
         }
         else
         {
             InventoryItem newItem = new InventoryItem(itemData);
             inventory.Add(newItem);
-            itemDictionary.Add(itemData, newItem);
-
         }
+        
+
+
+        //if (itemDictionary.TryGetValue(itemData,out InventoryItem item))
+        //{
+        //    item.addToStack();
+        //}
+        //else
+        //{
+        //    InventoryItem newItem = new InventoryItem(itemData);
+        //    inventory.Add(newItem);
+        //    itemDictionary.Add(itemData, newItem);
+
+        //}
         QuestManager qManager = QuestManager.GetInstance();
         if (itemData.item_name == "Guitar pick" &&qManager.checkQuestExist(1)&&qManager.checkQuestInProgress(1)&&qManager.getCurrentProg(1)==2)
         {
             qManager.updateGatherProgressValue(1,getItemStackSize("Guitar pick"));
         }
-        if (itemData.item_name == "Shard of Light" && qManager.checkQuestExist(102) && qManager.checkQuestInProgress(102) && qManager.getCurrentProg(102) == 4)
+        if (itemData.item_name == "Shard of Light" && qManager.checkQuestExist(102) && qManager.checkQuestInProgress(102) && qManager.getCurrentProg(102) == 5)
         {
             qManager.updateGatherProgressValue(102, getItemStackSize("Shard of Light"));
         }
@@ -81,19 +116,47 @@ public class InventoryManager : MonoBehaviour
         {
             qManager.updateGatherProgressValue(2, getItemStackSize("Bag of chocolate"));
         }
+        if (itemData.item_name == "Shard of Light" && qManager.checkQuestExist(103) && qManager.checkQuestInProgress(103) && qManager.getCurrentProg(103) == 5)
+        {
+            qManager.updateGatherProgressValue(103, getItemStackSize("Shard of Light"));
+        }
     }
 
     public void Remove(ItemData itemData)
     {
-        if (itemDictionary.TryGetValue(itemData, out InventoryItem item))
+        bool found = false;
+        int foundindex = 0;
+        for (int x = 0; x < inventory.Count; x++)
         {
-            item.removeFromStack();
-            if (item.stackSize == 0)
+            if (inventory.ElementAt(x).itemData.item_ID == itemData.item_ID)
             {
-                inventory.Remove(item);
-                itemDictionary.Remove(itemData);
+                found = true;
+                foundindex = x;
+            }
+
+        }
+
+        if (found)
+        {
+            inventory.ElementAt(foundindex).removeFromStack();
+            if (inventory.ElementAt(foundindex).stackSize == 0)
+            {
+                inventory.RemoveAt(foundindex);
             }
         }
+
+
+
+        //if (itemDictionary.TryGetValue(itemData, out InventoryItem item))
+        //{
+
+        //    item.removeFromStack();
+        //    if (item.stackSize == 0)
+        //    {
+        //        inventory.Remove(item);
+        //        itemDictionary.Remove(itemData);
+        //    }
+        //}
         QuestManager qManager = QuestManager.GetInstance();
         if (itemData.item_name == "Guitar pick" && qManager.checkQuestExist(1) && qManager.checkQuestInProgress(1) && qManager.getCurrentProg(1) == 2)
         {
@@ -152,11 +215,12 @@ public class InventoryManager : MonoBehaviour
     }
 
 
-    public void updateInventory(List<InventoryItem> inventorylist, Dictionary<ItemData, InventoryItem> itemdictionary)
+    public void updateInventory(List<InventoryItem> inventorylist)
     {
-        itemdictionary = new Dictionary<ItemData, InventoryItem>();
+        //Dictionary<ItemData, InventoryItem> itemdictionary
+        //itemdictionary = new Dictionary<ItemData, InventoryItem>();
         inventory = inventorylist;
-        itemDictionary = itemdictionary;
+        //itemDictionary = itemdictionary;
     }
 
     public InventoryManager getInventoryManager()

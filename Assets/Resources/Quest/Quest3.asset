@@ -12,12 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffdeb5024a6959e41a1e91110f8ba445, type: 3}
   m_Name: quest3
   m_EditorClassIdentifier: 
-  quest_ID: 0
+  quest_ID: 3
   quest_giver: 
-  quest_name: 
-  quest_type: 
-  quest_description: 
-  quest_rewardType: 
-  quest_reward: 0
-  quest_totalprogress: 0
-  quest_progress: []
+  quest_name: An athlete's worries
+  quest_type: sub
+  quest_description: test
+  quest_rewardType: stat
+  quest_reward: 100
+  quest_totalprogress: 4
+  quest_progress:
+  - description: Close curtain
+    requirementType: talk
+    requirement: 2
+  - description: Identify the cause
+    requirementType: talk
+    requirement: 1
+  - description: Teach relaxation methods
+    requirementType: talk
+    requirement: 1

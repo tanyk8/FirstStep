@@ -223,6 +223,24 @@ public class BattleManager : MonoBehaviour
         statuspanel.SetActive(true);
         setBtnStatus(false);
 
+        if (GameStateManager.GetInstance().enemy == "firststage")
+        {
+           enemyPrefab = enemyPrefabArray[0];
+        }
+        else if (GameStateManager.GetInstance().enemy == "secondstage")
+        {
+            enemyPrefab = enemyPrefabArray[1];
+        }
+        else if (GameStateManager.GetInstance().enemy == "finalstage")
+        {
+            enemyPrefab = enemyPrefabArray[2];
+        }
+        else if (GameStateManager.GetInstance().enemy == "finalstage2")
+        {
+            enemyPrefab = enemyPrefabArray[3];
+        }
+
+
         GameObject enemyGameObject= Instantiate(enemyPrefab, enemyLocation);
         enemy = enemyGameObject.GetComponent<Enemy>();
 
@@ -234,7 +252,7 @@ public class BattleManager : MonoBehaviour
         enemyHUD.setEnemyHUD(enemy);
         playerHUD.setPlayerHUD(player);
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
 
         state = BattleState.PLAYERTURN;
         playerTurn();
@@ -266,23 +284,62 @@ public class BattleManager : MonoBehaviour
     {
         if (state == BattleState.WON)
         {
-            string[] tempendmsg= { "You have purified the shadow!", "You received a shard of light" };
+
             //if enemy prefab name is this, then this
             if (enemyPrefab.name == "Enemy1")
             {
                 //item shard of light
-                ItemData additemData = Resources.Load<ItemData>("Item/item1");
-                InventoryManager.GetInstance().Add(additemData);
+                //ItemData additemData = Resources.Load<ItemData>("Item/item1");
+                //InventoryManager.GetInstance().Add(additemData);
                 //Story temp = DialogueManager.GetInstance().GetComponent<DialogueManager>().getStory();
                 //temp.EvaluateFunction("activatestagetwo", true);
-
+                string[] tempendmsg = { "You have purified the shadow!", "You received a shard of light" };
                 ProgressManager.GetInstance().gameProgress = "progress9";
+                player.setCurrent_Health(player.getStat_MaxHealth());
+                StartCoroutine(endBattleChoiceMsg_E(tempendmsg));
             }
-            StartCoroutine(endBattleChoiceMsg_E(tempendmsg));
+            else if (enemyPrefab.name == "Enemy2")
+            {
+                //item shard of light
+                //ItemData additemData = Resources.Load<ItemData>("Item/item1");
+                //InventoryManager.GetInstance().Add(additemData);
+                //Story temp = DialogueManager.GetInstance().GetComponent<DialogueManager>().getStory();
+                //temp.EvaluateFunction("activatestagetwo", true);
+                string[] tempendmsg = { "You have purified the shadow!", "You received a shard of light" };
+                ProgressManager.GetInstance().gameProgress = "progress19";
+                player.setCurrent_Health(player.getStat_MaxHealth());
+                StartCoroutine(endBattleChoiceMsg_E(tempendmsg));
+            }
+            else if (enemyPrefab.name == "Shadow")
+            {
+                //item shard of light
+                //ItemData additemData = Resources.Load<ItemData>("Item/item1");
+                //InventoryManager.GetInstance().Add(additemData);
+                //Story temp = DialogueManager.GetInstance().GetComponent<DialogueManager>().getStory();
+                //temp.EvaluateFunction("activatestagetwo", true);
+                string[] tempendmsg = { "You have purified the shadow!" };
+                ProgressManager.GetInstance().gameProgress = "progress25";
+                player.setCurrent_Health(player.getStat_MaxHealth());
+                StartCoroutine(endBattleChoiceMsg_E(tempendmsg));
+            }
+            else if (enemyPrefab.name == "Shadow Final Form")
+            {
+                //item shard of light
+                //ItemData additemData = Resources.Load<ItemData>("Item/item1");
+                //InventoryManager.GetInstance().Add(additemData);
+                //Story temp = DialogueManager.GetInstance().GetComponent<DialogueManager>().getStory();
+                //temp.EvaluateFunction("activatestagetwo", true);
+                string[] tempendmsg = { "You have purified the shadow!" };
+                ProgressManager.GetInstance().gameProgress = "progress28";
+                player.setCurrent_Health(player.getStat_MaxHealth());
+                StartCoroutine(endBattleChoiceMsg_E(tempendmsg));
+            }
+            
         }
         else if (state == BattleState.LOST)
         {
             string[] tempendmsg = { "It's too strong we have to retreat for now!" };
+            player.setCurrent_Health(player.getStat_MaxHealth());
             StartCoroutine(endBattleChoiceMsg_E(tempendmsg));
 
         }
@@ -757,7 +814,7 @@ public class BattleManager : MonoBehaviour
         {
             return;
         }
-
+        player.setCurrent_Health(player.getStat_MaxHealth());
         SceneManager.LoadScene(GameStateManager.GetInstance().lastscene);
         GameStateManager.GetInstance().battleRun = true;
     }

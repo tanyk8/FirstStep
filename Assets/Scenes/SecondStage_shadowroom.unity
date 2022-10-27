@@ -419,7 +419,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visualcue: {fileID: 13361710}
-  inkJSON: {fileID: 4900000, guid: ace500d744d012b45abf56673f2c5a56, type: 3}
+  inkJSON: {fileID: 4900000, guid: 977dde81151d5fc49bf38eaac02f4e56, type: 3}
   triggertype: 
 --- !u!61 &552423814
 BoxCollider2D:
@@ -527,8 +527,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 901556240}
-  - component: {fileID: 901556239}
   - component: {fileID: 901556238}
+  - component: {fileID: 901556239}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -572,17 +572,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 901556237}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7559eab49bb847e42bccedfc8ef270f9, type: 3}
+  m_Script: {fileID: 11500000, guid: da082e0bb8ac9e84ea26ac49eaab3a01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 554907146}
-  girlnpctrigger: {fileID: 0}
-  shadowaura: {fileID: 0}
+  shadowaura_after: {fileID: 1238598817}
   continuestory: 0
   callonce: 1
-  Toverlay: {fileID: 0}
-  Toverlayanimator: {fileID: 0}
-  lvltwodirector: {fileID: 901556238}
 --- !u!4 &901556240
 Transform:
   m_ObjectHideFlags: 0
@@ -6449,16 +6445,6 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: 8, y: -7, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 0
-      m_TileSpriteIndex: 0
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
   - first: {x: 9, y: -7, z: 0}
     second:
       serializedVersion: 2
@@ -6919,16 +6905,6 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: 6, y: 1, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 0
-      m_TileSpriteIndex: 0
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
   - first: {x: 9, y: 1, z: 0}
     second:
       serializedVersion: 2
@@ -7199,16 +7175,6 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
-  - first: {x: 8, y: 6, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 0
-      m_TileSpriteIndex: 0
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 0
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
   - first: {x: 9, y: 6, z: 0}
     second:
       serializedVersion: 2
@@ -7421,13 +7387,13 @@ Tilemap:
       m_AllTileFlags: 1073741825
   m_AnimatedTiles: {}
   m_TileAssetArray:
-  - m_RefCount: 123
+  - m_RefCount: 120
     m_Data: {fileID: 11400000, guid: f370eb3fe11a9dc46a83168e15282a82, type: 2}
   m_TileSpriteArray:
-  - m_RefCount: 123
+  - m_RefCount: 120
     m_Data: {fileID: 8003245658073903973, guid: 1a4628ef945424b4b8000c8f372b8fb8, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 123
+  - m_RefCount: 120
     m_Data:
       e00: 1
       e01: 0
@@ -7446,7 +7412,7 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 123
+  - m_RefCount: 120
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
@@ -7518,7 +7484,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visualcue: {fileID: 0}
   inkJSON: {fileID: 0}
-  triggertype: portal_hall1
+  triggertype: portal_hall3
 --- !u!61 &2043661059
 BoxCollider2D:
   m_ObjectHideFlags: 0

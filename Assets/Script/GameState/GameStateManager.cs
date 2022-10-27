@@ -17,6 +17,7 @@ public class GameStateManager : MonoBehaviour
     private void Awake()
     {
         
+
         if (instance == null)
         {
             instance = this;
@@ -28,17 +29,21 @@ public class GameStateManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
+        
+        
     }
+
     private void Start()
     {
         SceneManager.sceneUnloaded += updateLastScene;
-        if (SceneManager.GetActiveScene().name.ToString()== "Battlescene")
+        
+    }
+
+    private void Update()
+    {
+        if (SceneManager.GetActiveScene().name == "TitleScreen")
         {
-            BattleManager battlemanager= GameObject.Find("BattleManager").GetComponent<BattleManager>();
-            if (enemy == "firststage")
-            {
-                battlemanager.enemyPrefab = battlemanager.enemyPrefabArray[0];
-            }
+            Destroy(gameObject);
         }
     }
 
@@ -58,6 +63,8 @@ public class GameStateManager : MonoBehaviour
         
         updateOnce = true;
     }
+
+
 
     private void OnDisable()
     {

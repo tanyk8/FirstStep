@@ -47,7 +47,7 @@ public class Progress
         progressData.statusList = StatusManager.GetInstance().statusList;
 
         progressData.inventoryList = InventoryManager.GetInstance().inventory;
-        progressData.itemDictionary = InventoryManager.GetInstance().itemDictionary;
+        //progressData.itemDictionary = InventoryManager.GetInstance().itemDictionary;
 
         progressData.questList = QuestManager.GetInstance().questlist;
         //progressData.questManager = QuestManager.GetInstance().getQuestManager();
@@ -66,7 +66,7 @@ public class Progress
 
 
         saveDate = System.DateTime.Now.ToString("dd/MM/yyyy");
-        saveTime = System.DateTime.Now.ToString("hh:mm:ss");
+        saveTime = System.DateTime.Now.ToString("HH:mm:ss");
 
         currentgameprogress = ProgressManager.GetInstance().gameProgress;
         stageOne_newpos = ProgressManager.GetInstance().stageOne_newpos;

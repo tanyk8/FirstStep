@@ -89,8 +89,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy_name: Enemy1
-  stat_maxhealth: 300
-  stat_damage: 58
+  stat_maxhealth: 10
+  stat_damage: 10
   stat_defence: 10
-  current_health: 300
+  current_health: 10
   enemydata: {fileID: 11400000, guid: 919779796065e6c4faa2c317a07e9bb8, type: 2}

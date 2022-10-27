@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class StatusManager : MonoBehaviour
 {
@@ -34,6 +35,8 @@ public class StatusManager : MonoBehaviour
         //    instance = this;
         //    DontDestroyOnLoad(gameObject);
         //}
+
+
         if (instance == null)
         {
             instance = this;
@@ -44,6 +47,17 @@ public class StatusManager : MonoBehaviour
             Destroy(instance.gameObject);
             instance = this;
             DontDestroyOnLoad(gameObject);
+        }
+        
+
+        
+    }
+
+    private void Update()
+    {
+        if (SceneManager.GetActiveScene().name == "TitleScreen")
+        {
+            Destroy(gameObject);
         }
     }
 

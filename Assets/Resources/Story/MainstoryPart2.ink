@@ -27,7 +27,6 @@ Currently I can sense 1 source in this park. Maybe you can start from finding it
 ->END
 
 ===progress1===
-
 You sense a weak shadow energy from the person at the middle of the small lake.#questtrigger:updateprogressvalue #quest_id:102
 Seems like it's him.
 However, we need to lure the shadow minion away from the person, or it will have unlimited energy.
@@ -45,6 +44,7 @@ Basically yes, but I can help you to become visible so don't worry.#questtrigger
 
 ===progress2===
 ~mainquest_progress="7"
-Great you defeated it, now lets take the shard back to the crystal.
+Great you defeated it!#questtrigger:proceedprogress #quest_id:102 #questtrigger_type:force
+Now lets take the shard back to the crystal.#getitem:item1
 ->END
 
