@@ -33,6 +33,21 @@ public class LevelTwoClass : MonoBehaviour
         {
             player.transform.position = new Vector3(-0.885f, -0.95f, 0);
         }
+
+        //if (GameStateManager.GetInstance().lastscene == "SQ_2_backstory")
+        //{
+        //    player.transform.position = GameStateManager.GetInstance().position;
+        //}
+        //else if (GameStateManager.GetInstance().lastscene == "SQ_2_mindworld")
+        //{
+        //    player.transform.position = GameStateManager.GetInstance().position;
+        //}
+
+        if (ProgressManager.GetInstance().loaded)
+        {
+            ProgressManager.GetInstance().loaded = false;
+            GameObject.Find("Player").transform.position = ProgressManager.GetInstance().loadedposition;
+        }
     }
 
     // Update is called once per frame
@@ -54,6 +69,14 @@ public class LevelTwoClass : MonoBehaviour
                 shadowaura.SetActive(false);
             }
 
+            if(DialogueVariableObserver.variables["mainquest_progress"].ToString() == "91"&& DialogueVariableObserver.variables["areatrigger103"].ToString() == "false")
+            {
+                callonce = false;
+                TextAsset textAsset = Resources.Load<TextAsset>("Story/MainstoryPart3");
+                DialogueManager.GetInstance().notInteractDialogue = true;
+                DialogueManager.GetInstance().EnterDialogueMode(textAsset);
+                callonce = true;
+            }
 
 
             if (DialogueVariableObserver.variables["quest2_progress"].ToString() == "3"&& ProgressManager.GetInstance().gameProgress == "progress10")
@@ -93,9 +116,9 @@ public class LevelTwoClass : MonoBehaviour
                 callonce = true;
             }
 
-            
 
-            if(DialogueVariableObserver.variables["quest2_progress"].ToString() == "61" && ProgressManager.GetInstance().gameProgress == "progress14") 
+
+            if (DialogueVariableObserver.variables["quest2_progress"].ToString() == "61" && ProgressManager.GetInstance().gameProgress == "progress14") 
             {
                 callonce = false;
                 ProgressManager.GetInstance().gameProgress = "progress141";

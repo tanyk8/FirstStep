@@ -18,6 +18,12 @@
     ~quest2_status="complete"
     }
     
+    - 103:
+    {complete=="True":
+    ~quest103_complete=true
+    ~quest103_status="complete"
+    }
+    
     
 }
 
@@ -38,6 +44,20 @@
     }
     
     - 2:
+    {complete=="True":
+        ~proceed_progress=true
+        -else:
+        ~proceed_progress=false
+    }
+    
+    - 103:
+    {complete=="True":
+        ~proceed_progress=true
+        -else:
+        ~proceed_progress=false
+    }
+    
+    - 3:
     {complete=="True":
         ~proceed_progress=true
         -else:

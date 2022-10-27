@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class SkillManager : MonoBehaviour
 {
@@ -53,6 +54,7 @@ public class SkillManager : MonoBehaviour
         //    instance = this;
         //    DontDestroyOnLoad(gameObject);
         //}
+        
         if (instance == null)
         {
             instance = this;
@@ -65,6 +67,16 @@ public class SkillManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
 
+        
+
+    }
+
+    private void Update()
+    {
+        if (SceneManager.GetActiveScene().name == "TitleScreen")
+        {
+            Destroy(gameObject);
+        }
     }
 
     public static SkillManager GetInstance()

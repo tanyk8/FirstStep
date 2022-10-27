@@ -14,8 +14,8 @@ public class SQOne : MonoBehaviour
     {
         if (DialogueVariableObserver.variables["quest1_progress"].ToString() == "5")
         {
-            //PlayableAsset sqCutscene = Resources.Load<PlayableAsset>("Timeline/SQ_1");
-            //TimelineManager.GetInstance().playTimeline(sqCutscene);
+            PlayableAsset sqCutscene = Resources.Load<PlayableAsset>("Timeline/SQ_1");
+            TimelineManager.GetInstance().playTimeline(sqCutscene);
             sqprogress = "progress1";
         }
         

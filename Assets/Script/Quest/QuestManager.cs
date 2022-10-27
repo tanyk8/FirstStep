@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ink.Runtime;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 
 public class QuestManager : MonoBehaviour
@@ -33,6 +34,8 @@ public class QuestManager : MonoBehaviour
         //    instance = this;
         //    DontDestroyOnLoad(gameObject);
         //}
+        
+
         if (instance == null)
         {
             instance = this;
@@ -44,7 +47,18 @@ public class QuestManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
+        
 
+        
+
+    }
+
+    private void Update()
+    {
+        if (SceneManager.GetActiveScene().name == "TitleScreen")
+        {
+            Destroy(gameObject);
+        }
     }
 
     public static QuestManager GetInstance()
@@ -109,7 +123,8 @@ public class QuestManager : MonoBehaviour
                 temp.EvaluateFunction("checkRequirement", questID, checkRequirement(questData, questID).ToString());
                 if (temp.variablesState.GetVariableWithName("proceed_progress").ToString() == "true")
                 {
-                    //questlist.ElementAt(targetIndex).quest_progress++;
+                    questlist.ElementAt(targetIndex).quest_progress++;
+                    questlist.ElementAt(targetIndex).resetProgressValue();
                 }
             }
         }
@@ -124,10 +139,11 @@ public class QuestManager : MonoBehaviour
             }
             else if (questlist.ElementAt(targetIndex).quest_progress == questData.quest_totalprogress - 1)
             {
-                //questlist.ElementAt(targetIndex).quest_progress++;
+                questlist.ElementAt(targetIndex).quest_progress++;
+                questlist.ElementAt(targetIndex).resetProgressValue();
             }
         }
-
+        checkList();
         //int targetIndex = findQuestIndexwithID(receivequest_ID);
         //if (questlist.ElementAt(targetIndex).quest_progress < questlist.ElementAt(targetIndex).questData.quest_totalprogress)
         //{
@@ -170,6 +186,7 @@ public class QuestManager : MonoBehaviour
         //}
 
         questlist.ElementAt(findQuestIndexwithID(questID)).questState = QuestState.COMPLETED;
+        questlist.ElementAt(findQuestIndexwithID(questID)).resetProgressValue();
         checkList();
 
     }

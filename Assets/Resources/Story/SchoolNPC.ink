@@ -34,7 +34,7 @@ INCLUDE ../../Script/Dialogue/globalfunction.ink
 
 
 ===normal===
-Both of them are practicing to communicate
+They are practicing the "magic" that you have taught them.
 ->END
 
 
@@ -233,15 +233,15 @@ Oh ok...so the preparations are ready…?
 
 ===progress42===
 After a while, even though it took some time, he was able to clear all the tasks.
-Good job! You did great!
-Th- thank… you…, I feel… a little more… confident.
+Good job! You did great!#removeitem:item5
+Th- thank… you…, I feel… a little more… confident.#getitem:item6
 Maybe you can now try to communicate with others.
 O- ok… I think… I can try…
 I’ll go prepare, wait me for a while.
+The myeterious person used his powers to make you invisible
 O- ok… he’s gone again…
 ~quest2_progress="5"
 ->END
-
 
 ===progress5===
 (If that’s the case then maybe we need new tasks…)
@@ -315,7 +315,7 @@ And we proceeded with the tasks.
 ~quest2_progress="10"
 ->END
 ===progress7===
-Ok I think that should be fine, good work everybody.
+Ok I think that should be fine, good work everybody.#removeitem:item6
 Even though he took more tries than before but he somehow managed to finish all of it.
 Good job, you cleared all the tasks! You have made your first step!
 Th- thank… you…
@@ -328,9 +328,10 @@ But you don’t have to force yourself, just try it with your own pace.
 ===progress8===
 ~quest2_progress="12"
 Hey the shadow enemy has escaped, after it.
-I think I have to leave already, I suddenly remembered that I have some urgent matter.
+I think I have to leave already, I suddenly remembered that I have some urgent matter.#questtrigger:proceedprogress #questtrigger_type:force #quest_id:2
 Good luck on practicing the “magic” that I have taught you.
-Wa- h- he's gone...
-The mysterious person has made you invisible again, allowing you to focus on the chase.
+Wa- h- he's gone...#questtrigger:proceedprogress #questtrigger_type:force #quest_id:103
+The mysterious person has made you invisible again, allowing you to focus on the chase.#questtrigger:complete #quest_id:2
+~mainquest_progress="10"
 ~shadow2_escaped=true
 ->END

@@ -19,6 +19,8 @@ public class LevelZero : MonoBehaviour
 
     [SerializeField] GameObject obj_openedgate1;
     [SerializeField] GameObject obj_openedgate2;
+    [SerializeField] GameObject obj_openedgate3;
+    [SerializeField] GameObject obj_openedgate31;
 
     [SerializeField] GameObject obj_crystal;
 
@@ -81,8 +83,8 @@ public class LevelZero : MonoBehaviour
 
         if (ProgressManager.GetInstance().gameProgress == "opening")
         {
-            //PlayableAsset opCutscene = Resources.Load<PlayableAsset>("Timeline/Opening");
-            //TimelineManager.GetInstance().playTimeline(opCutscene);
+            PlayableAsset opCutscene = Resources.Load<PlayableAsset>("Timeline/Opening");
+            TimelineManager.GetInstance().playTimeline(opCutscene);
             ProgressManager.GetInstance().gameProgress = "progress1";
         }
 
@@ -101,6 +103,14 @@ public class LevelZero : MonoBehaviour
             if (GameStateManager.GetInstance().lastscene == "FirstStage_Park")
             {
                 player.transform.position = new Vector3(-0.885f, 0.65f, 0);
+            }
+            else if (GameStateManager.GetInstance().lastscene == "SecondStage_Hallway")
+            {
+                player.transform.position = new Vector3(0.885f, 0.65f, 0);
+            }
+            else if (GameStateManager.GetInstance().lastscene == "ThirdStage_hospitalhall")
+            {
+                player.transform.position = new Vector3(0f, 1.9f, 0);
             }
 
         }
@@ -192,6 +202,17 @@ public class LevelZero : MonoBehaviour
             else if(obj_openedgate2.activeInHierarchy && DialogueVariableObserver.variables["gate_portal2"].ToString() == "false")
             {
                 obj_openedgate2.SetActive(false);
+            }
+
+            if (!obj_openedgate3.activeInHierarchy && DialogueVariableObserver.variables["gate_portal3"].ToString() == "true")
+            {
+                obj_openedgate3.SetActive(true);
+                obj_openedgate31.SetActive(true);
+            }
+            else if (obj_openedgate3.activeInHierarchy && DialogueVariableObserver.variables["gate_portal3"].ToString() == "false")
+            {
+                obj_openedgate3.SetActive(false);
+                obj_openedgate31.SetActive(false);
             }
 
             if (ProgressManager.GetInstance().gameProgress == "progress2" && DialogueVariableObserver.variables["mainquest_progress"].ToString() == "1")

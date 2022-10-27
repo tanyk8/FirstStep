@@ -2972,6 +2972,9 @@ MonoBehaviour:
   playerGameObject: {fileID: 0}
   enemyPrefabArray:
   - {fileID: 1872516373546507086, guid: e41ab53802e44ef41a009a289bc10987, type: 3}
+  - {fileID: 6693420332613993806, guid: a11c5452ca8a8b14db5e12a95e4bf777, type: 3}
+  - {fileID: 4701691651563426734, guid: 35088ed080705ae458613b6b30a0fa7d, type: 3}
+  - {fileID: 3452941253152491097, guid: 4f08da4e667eb1242bd33814b96d2159, type: 3}
   enemyPrefab: {fileID: 1872516373546507086, guid: e41ab53802e44ef41a009a289bc10987, type: 3}
   enemyLocation: {fileID: 1818065291}
   enemy_name: {fileID: 2011603513}

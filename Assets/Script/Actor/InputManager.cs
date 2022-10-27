@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 // This script acts as a single point for all other scripts to get
 // the current input from. It uses Unity's new Input System and
@@ -31,6 +32,7 @@ public class InputManager : MonoBehaviour
         //    instance = this;
         //    DontDestroyOnLoad(gameObject);
         //}
+
         if (instance == null)
         {
             instance = this;
@@ -42,6 +44,17 @@ public class InputManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
+
+
+       
+    }
+
+    private void Update()
+    {
+        //if (SceneManager.GetActiveScene().name == "TitleScreen")
+        //{
+        //    Destroy(gameObject);
+        //}
     }
 
     public static InputManager getInstance()

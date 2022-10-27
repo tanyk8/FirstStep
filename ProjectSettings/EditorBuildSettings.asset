@@ -38,4 +38,25 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SQ_2_mindworld.unity
     guid: 6347ec0be5468b84ba892a3554a7f0f6
+  - enabled: 1
+    path: Assets/Scenes/SecondStage_shadowroom.unity
+    guid: bf8df3fe4733ac7479107d5b5926bf5d
+  - enabled: 1
+    path: Assets/Scenes/ThirdStage_hospitalhall.unity
+    guid: 101347877c30e744a9494cd2abf30af6
+  - enabled: 1
+    path: Assets/Scenes/ThirdStage_roomone.unity
+    guid: 1bfc7f3ec64782c4ba6f1f16e8b5ef5c
+  - enabled: 1
+    path: Assets/Scenes/ThirdStage_shadow.unity
+    guid: 5c627d7603396714185d3eb9bc848406
+  - enabled: 1
+    path: Assets/Scenes/SQ_3_backstory.unity
+    guid: 1d86d969bc8803f4792ad68968275fe6
+  - enabled: 1
+    path: Assets/Scenes/Ending.unity
+    guid: cc701bb91828c1949a577855887ef41a
+  - enabled: 1
+    path: Assets/Scenes/Credit.unity
+    guid: eaea8f576725121458f1f8b8ec932665
   m_configObjects: {}

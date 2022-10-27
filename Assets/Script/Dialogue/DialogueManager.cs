@@ -120,23 +120,22 @@ public class DialogueManager : MonoBehaviour
         //    instance = this;
         //    DontDestroyOnLoad(gameObject);
         //}
-        if (instance == null)
-        {
-            instance = this;
-            
-            DontDestroyOnLoad(gameObject);
-            DontDestroyOnLoad(dialogueCanvas);
-            DontDestroyOnLoad(cutscene);
-        }
-        else if (instance != this)
-        {
-            Destroy(instance.gameObject);
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
 
+            if (instance == null)
+            {
+                instance = this;
+
+                DontDestroyOnLoad(gameObject);
+                DontDestroyOnLoad(dialogueCanvas);
+                DontDestroyOnLoad(cutscene);
+            }
+            else if (instance != this)
+            {
+                Destroy(instance.gameObject);
+                instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
         
-
         dialoguevariableobserver = new DialogueVariableObserver(loadGlobalsJSON);
     }
 
@@ -160,7 +159,12 @@ public class DialogueManager : MonoBehaviour
 
     private void Update()
     {
-        
+        if (SceneManager.GetActiveScene().name == "TitleScreen")
+        {
+            Destroy(gameObject);
+            Destroy(dialogueCanvas);
+            Destroy(cutscene);
+        }
 
         if (!dialogueIsPlaying)
         {
@@ -289,6 +293,14 @@ public class DialogueManager : MonoBehaviour
                 case "SQ_2_mindworld":
                     destination = "";
                     UnityEngine.SceneManagement.SceneManager.LoadScene("SQ_2_mindworld");
+                    break;
+                case "ThirdStage_hospitalhall":
+                    destination = "";
+                    UnityEngine.SceneManagement.SceneManager.LoadScene("ThirdStage_hospitalhall");
+                    break;
+                case "SQ_3_backstory":
+                    destination = "";
+                    UnityEngine.SceneManagement.SceneManager.LoadScene("SQ_3_backstory");
                     break;
             }
         }

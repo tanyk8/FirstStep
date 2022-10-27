@@ -88,6 +88,9 @@ public class MenuManager : MonoBehaviour
     [SerializeField] GameObject questContentPanel;
     [SerializeField] Transform questListT;
 
+    [SerializeField] GameObject scrollbarq;
+    [SerializeField] GameObject scrollareaq;
+
     [Header("SaveLoad")]
     [SerializeField] GameObject saveloadContentPanel;
     [SerializeField] GameObject saveloadListRef;
@@ -124,8 +127,11 @@ public class MenuManager : MonoBehaviour
         //}
         //else
         //{
-            
+
         //}
+
+        
+
         if (instance == null)
         {
             instance = this;
@@ -140,6 +146,8 @@ public class MenuManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         
+        
+        
     }
 
     public static MenuManager GetInstance()
@@ -150,13 +158,26 @@ public class MenuManager : MonoBehaviour
 
     private void Start()
     {
+        Button backbtn = SoundManager.GetInstance().backsettingbtn;
+
+        backbtn.onClick.RemoveAllListeners();
+        if (SceneManager.GetActiveScene().name != "TitleScreen")
+        {
+            backbtn.onClick.AddListener(closeSettingsBtn);
+        }
+
         menuCanvas.SetActive(false);
         overlay.SetActive(false);
     }
 
     void Update()
     {
+        if (SceneManager.GetActiveScene().name == "TitleScreen")
+        {
 
+            Destroy(gameObject);
+            Destroy(menuCanvas);
+        }
         if (SceneManager.GetActiveScene().name != "Battlescene"&& InputManager.getInstance().getMenuPressed())
         {
             if (!TimelineManager.GetInstance().dontmove&&!menuCanvas.activeInHierarchy&& !DialogueManager.GetInstance().dialogueIsPlaying&& TimelineManager.GetInstance().getPlayState() != PlayState.Playing)
@@ -623,7 +644,7 @@ public class MenuManager : MonoBehaviour
             if (QuestManager.GetInstance().checkQuestListEmpty("inprog"))
             {
                 emptyQuestMsg.SetActive(true);
-                StartCoroutine(ListLayout.selectOption(emptyQuestMsg));
+                StartCoroutine(ListLayout.selectOption(scrollareaq));
             }
             else
             {
@@ -643,7 +664,7 @@ public class MenuManager : MonoBehaviour
             if (QuestManager.GetInstance().checkQuestListEmpty("completed"))
             {
                 emptyQuestMsg.SetActive(true);
-                StartCoroutine(ListLayout.selectOption(emptyQuestMsg));
+                StartCoroutine(ListLayout.selectOption(scrollareaq));
             }
             else
             {
@@ -698,10 +719,25 @@ public class MenuManager : MonoBehaviour
 
     public void onSettingsBtn()
     {
-        if (!settingsPanel.activeInHierarchy)
+        GameObject temp = SoundManager.GetInstance().settings;
+
+        if (!temp.activeInHierarchy)
         {
             overlay.SetActive(true);
-            settingsPanel.SetActive(true);
+            temp.SetActive(true);
+            StartCoroutine(ListLayout.selectOption(SoundManager.GetInstance().muteMusicObj));
+
+        }
+    }
+
+    public void closeSettingsBtn()
+    {
+        GameObject temp = SoundManager.GetInstance().settings;
+        if (temp.activeInHierarchy)
+        {
+            temp.SetActive(false);
+            overlay.SetActive(false);
+            StartCoroutine(ListLayout.selectOption(settingsBtn));
         }
     }
 
@@ -727,7 +763,7 @@ public class MenuManager : MonoBehaviour
 
     public void onReturntoTitle_Yes()
     {
-
+        SceneManager.LoadScene("TitleScreen");
     }
 
     public void closeMenu()

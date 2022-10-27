@@ -69,7 +69,7 @@ public class DialogueTrigger : MonoBehaviour
         }
         if (playerInRange)
         {
-            if(triggertype == "portal_treehouse")
+            if (triggertype == "portal_treehouse")
             {
                 SceneManager.LoadScene("SQ_1_treehouse");
             }
@@ -87,6 +87,12 @@ public class DialogueTrigger : MonoBehaviour
                 GameStateManager.GetInstance().lastentrance = "class2";
                 SceneManager.LoadScene("SecondStage_Classroom");
             }
+            else if (triggertype == "portal_class3")
+            {
+                
+                GameStateManager.GetInstance().lastentrance = "class3";
+                SceneManager.LoadScene("SecondStage_shadowroom");
+            }
             else if (triggertype == "portal_hall1")
             {
                 GameStateManager.GetInstance().lastentrance = "hall1";
@@ -97,6 +103,33 @@ public class DialogueTrigger : MonoBehaviour
                 GameStateManager.GetInstance().lastentrance = "hall2";
                 SceneManager.LoadScene("SecondStage_Hallway");
             }
+            else if (triggertype == "portal_hall3")
+            {
+                GameStateManager.GetInstance().lastentrance = "hall3";
+                SceneManager.LoadScene("SecondStage_Hallway");
+            }
+            else if (triggertype == "portal_hospitalroom1")
+            {
+                GameStateManager.GetInstance().lastentrance = "hospitalroom1";
+                SceneManager.LoadScene("ThirdStage_roomone");
+            }
+            else if (triggertype == "portal_hospitalroom2")
+            {
+                GameStateManager.GetInstance().lastentrance = "hospitalroom2";
+                SceneManager.LoadScene("ThirdStage_shadow");
+            }
+            else if (triggertype == "portal_hospitalhall1")
+            {
+                GameStateManager.GetInstance().lastentrance = "hospitalhall1";
+                SceneManager.LoadScene("ThirdStage_hospitalhall");
+            }
+            else if (triggertype == "portal_hospitalhall2")
+            {
+                GameStateManager.GetInstance().lastentrance = "hospitalhall2";
+                SceneManager.LoadScene("ThirdStage_hospitalhall");
+            }
+
+            //portal_hospitalroom1
         }
     }
 

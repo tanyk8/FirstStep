@@ -80,8 +80,7 @@ Thanks to you
 ...
 ...
 Umm... Then I'll be taking my leave, bye.
-He's gone... how did he know about that...
-Regardless, this is my chance, maybe I should go get "that" too.
+He's gone... how did he know about that... Geez#questtrigger:proceedprogress #questtrigger_type:force #quest_id:2
 ~girlhelped=true
 ~quest2_progress="9"
 ->END

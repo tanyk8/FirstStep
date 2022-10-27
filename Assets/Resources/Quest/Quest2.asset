@@ -19,7 +19,7 @@ MonoBehaviour:
   quest_description: help him to solve his problem
   quest_rewardType: stat
   quest_reward: 100
-  quest_totalprogress: 5
+  quest_totalprogress: 6
   quest_progress:
   - description: Try to communicate with him
     requirementType: talk
@@ -30,6 +30,9 @@ MonoBehaviour:
   - description: Find chocolate
     requirementType: talk
     requirement: 1
-  - description: find the girl and request for help
+  - description: Find the girl and request for help
+    requirementType: talk
+    requirement: 1
+  - description: Return to Tim
     requirementType: talk
     requirement: 1
