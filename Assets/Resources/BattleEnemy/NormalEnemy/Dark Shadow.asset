@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4c3d325396272749823a851b2704341, type: 3}
+  m_Name: Dark Shadow
+  m_EditorClassIdentifier: 
+  enemy_name: 
+  enemy_sprite: {fileID: 0}
+  enemy_maxhealth: 0
+  enemy_currenthealth: 0
+  enemy_damage: 0
+  enemy_defence: 0
+  enemy_skilllist:
+  - {fileID: 11400000, guid: 1e35ed25a60737642878a6148891c3eb, type: 2}
+  - {fileID: 11400000, guid: a4d3c1c8d57b64b43b3e4fbc97eff3e3, type: 2}
+  - {fileID: 11400000, guid: 4a75fa5169afbb447b202d318aea4b14, type: 2}
+  - {fileID: 11400000, guid: afaee15f51ede9147ac11035c4a954a3, type: 2}

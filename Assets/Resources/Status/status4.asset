@@ -15,6 +15,6 @@ MonoBehaviour:
   status_ID: 4
   status_name: Chaos Aura
   status_description: The chaos aura that surround the enemy has powered up the enemy.
-  status_value: 120
+  status_value: 110
   status_duration: 3
   status_type: enemystatus_dmg

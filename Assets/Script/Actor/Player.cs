@@ -58,15 +58,13 @@ public class Player : MonoBehaviour
     //contructor
     public Player()
     {
-        stat_maxhealth = 1000;
-        stat_maxmentalpoint = 100;
-        stat_mentalpower = 62;
-        stat_mentalprotection = 20;
+        stat_maxhealth = 750;
+        stat_maxmentalpoint = 200;
+        stat_mentalpower = 100;
+        stat_mentalprotection = 25;
 
-        current_health = 1000;
-        current_mentalpoint = 100;
-
-
+        current_health = 750;
+        current_mentalpoint = 200;
     }
 
     public void updatePlayer(int maxhp,int maxmp,int maxpow,int maxprotect,int currhp,int currmp)
@@ -183,6 +181,24 @@ public class Player : MonoBehaviour
         after = current_health;
         Debug.Log(after+ "-" +original);
         return (after-original);
+    }
+
+    public int playerChannelMP(Skill skill)
+    {
+        int original = 0;
+        int after = 0;
+
+        original = current_mentalpoint;
+        current_mentalpoint += stat_maxmentalpoint * (skill.skillData.skill_power - 100) / 100;
+
+        if (current_mentalpoint > stat_maxmentalpoint)
+        {
+            current_mentalpoint = stat_maxmentalpoint;
+
+        }
+        after = current_mentalpoint;
+        Debug.Log(after + "-" + original);
+        return (after - original);
     }
 
     public int playerItemHeal(InventoryItem inventoryitem)

@@ -59,6 +59,10 @@ public class LevelZero : MonoBehaviour
             {
                 TimelineManager.GetInstance().GetComponent<PlayableDirector>().SetGenericBinding(track, magicAnimator);
             }
+            else if (track.name == "MagicAudio")
+            {
+                TimelineManager.GetInstance().GetComponent<PlayableDirector>().SetGenericBinding(track, SoundManager.GetInstance().effectSource);
+            }
 
         }
 
@@ -115,12 +119,25 @@ public class LevelZero : MonoBehaviour
 
         }
 
+        if (TimelineManager.GetInstance().getPlayState() != PlayState.Playing && SoundManager.GetInstance().musicSource.clip.name != "bgm_lobby")
+        {
+
+            SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_lobby"));
+        }
+
+
     }
     private void LateUpdate()
     {
         if (ProgressManager.GetInstance().loading)
         {
             return;
+        }
+
+        if(TimelineManager.GetInstance().getPlayState() != PlayState.Playing && !SoundManager.GetInstance().musicSource.isPlaying&&SoundManager.GetInstance().musicSource.clip.name!="bgm_lobby")
+        {
+
+            SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_lobby"));
         }
 
         if (TimelineManager.GetInstance().getPlayState() != PlayState.Playing && ProgressManager.GetInstance().gameProgress == "progress1")

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class LevelTwo : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -39,6 +38,12 @@ public class LevelTwo : MonoBehaviour
             ProgressManager.GetInstance().loaded = false;
             GameObject.Find("Player").transform.position = ProgressManager.GetInstance().loadedposition;
         }
+
+        if (SoundManager.GetInstance().musicSource.clip.name != "bgm_stage2")
+        {
+
+            SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_stage2"));
+        }
     }
 
     // Update is called once per frame
@@ -47,6 +52,12 @@ public class LevelTwo : MonoBehaviour
         if (ProgressManager.GetInstance().loading)
         {
             return;
+        }
+
+        if (!SoundManager.GetInstance().musicSource.isPlaying && SoundManager.GetInstance().musicSource.clip.name != "bgm_stage2")
+        {
+
+            SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_stage2"));
         }
 
         if (!shadowaura.activeInHierarchy&&DialogueVariableObserver.variables["shadow2_escaped"].ToString() == "true"&& DialogueVariableObserver.variables["shadow2_defeated"].ToString() == "false")

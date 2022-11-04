@@ -240,6 +240,7 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  walkingsound: {fileID: 8300000, guid: 0bc54841622e8c044a1fbfbf0c8d6e14, type: 3}
 --- !u!95 &5088952637388986533
 Animator:
   serializedVersion: 3

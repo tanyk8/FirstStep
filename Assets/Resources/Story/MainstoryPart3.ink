@@ -11,18 +11,18 @@ INCLUDE ../../Script/Dialogue/globalfunction.ink
 }
 
 ===main===
-When you exit the portal, you see a enclosed space with wooden flooring.#questtrigger:updateprogressvalue #quest_id:103
+When you exit the portal, you see a enclosed space with wooden flooring.#logtype:mono #questtrigger:updateprogressvalue #quest_id:103
 It seems like you are at a hallway in a building.
-Is this a school...?
-Somehow you have vague impression that this is a school building.
+Is this a school...?#logtype:di #speaker:Yuuki #portrait:portrait_player
+Somehow you have vague impression that this is a school building.#logtype:mono
 But you can't remember anything else.
-Ok you know the drill, let's move on to find the shadow.#questtrigger:proceedprogress #quest_id:103 #questtrigger_type:force
+Ok you know the drill, let's move on to find the shadow.#logtype:di #speaker:??? #portrait:portrait_npc_mysterious #questtrigger:proceedprogress #quest_id:103 #questtrigger_type:force
 ~mainquest_progress="91"
 ->END
 
 ===progress91===
 ~areatrigger103=true
-I can sense the energy in this room.
+I can sense the energy in this room.#logtype:di #speaker:??? #portrait:portrait_npc_mysterious
 I think it's that boy at the corner seat.#questtrigger:proceedprogress #questtrigger_type:force #quest_id:103
 ~mainquest_progress="9"
 ->END
@@ -30,39 +30,8 @@ I think it's that boy at the corner seat.#questtrigger:proceedprogress #questtri
 ===progress1===
 ~mainquest_progress="11"
 ~shadow2_defeated=true
-Great you defeated it!#questtrigger:proceedprogress #quest_id:103 #questtrigger_type:force
+(Again with this...but...)#logtype:di #speaker:Yuuki #portrait:portrait_player
+You somehow have a feeling that it is related to yourself#logtype:mono
+Great you defeated it!#logtype:di #speaker:??? #portrait:portrait_npc_mysterious #questtrigger:proceedprogress #quest_id:103 #questtrigger_type:force
 Now lets take the shard back to the crystal.#getitem:item1
-->END
-
-
-//solve the quest
-//strogn energy
-//find
-//battle
-//memory cutscene
-
-//return to void and power up
-//open 3rd gate
-
-//solve
-//this time strong energy come to find you
-//battle(lose)
-//even the guide is having a hard time
-//memories of past, knowing everything
-//rememebrs everything learnt before
-//believe in self
-//learnt new skill
-//battle
-//accepting your past
-//purify
-//don't avoid the negative, embrace and understand it, it helps to make mental stronger
-//restore crystal
-//the void become bright world
-//portal
-//farewell and thank you
-//return to real world
-//find your self regaining conscious at a hospital with worrying parents
-//make up your mind and try to talk 
-//story end
-
 ->END

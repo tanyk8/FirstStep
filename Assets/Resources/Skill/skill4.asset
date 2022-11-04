@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: skill4
   m_EditorClassIdentifier: 
   skill_ID: 4
-  skill_name: Light of Hope
-  skill_type: cure
-  skill_description: Dispel debuff
+  skill_name: Mental Preparation
+  skill_type: buff
+  skill_description: 'Prepare in advance to ba able to face future challenges. Type:
+    Buff Cost: 50 '
   skill_power: 0
-  skill_cost: 0
+  skill_cost: 50
   skill_cureID: 0
-  skill_statusID: 0
+  skill_statusID: 9

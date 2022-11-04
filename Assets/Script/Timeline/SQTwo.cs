@@ -18,6 +18,7 @@ public class SQTwo : MonoBehaviour
             TimelineManager.GetInstance().playTimeline(sqCutscene);
             sqprogress2 = "progress1";
         }
+        SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_memories"));
     }
 
     // Update is called once per frame

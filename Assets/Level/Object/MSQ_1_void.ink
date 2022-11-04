@@ -9,7 +9,7 @@ INCLUDE ../../Script/Dialogue/globalfunction.ink
 }
 
 ===main===
-You see an endless void, it seems impossible to escape this place.
+You see an endless void, it seems impossible to escape this place.#logtype:mono
 ->END
 
 ===quest===

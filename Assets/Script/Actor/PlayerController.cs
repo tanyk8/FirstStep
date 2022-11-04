@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -16,6 +15,8 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb;
     Animator animator;
     List<RaycastHit2D> castCollision = new List<RaycastHit2D>();
+
+    [SerializeField] AudioClip walkingsound;
 
 
     // Start is called before the first frame update
@@ -41,19 +42,29 @@ public class PlayerController : MonoBehaviour
         {
             bool success=tryMove(movementInput);
 
+            
+
             if (!success)
             {
                 success = tryMove(new Vector2(movementInput.x,0));
+                
                 if (!success)
                 {
                     success = tryMove(new Vector2(0,movementInput.y));
                 }
             }
 
+            if (success&&!SoundManager.GetInstance().characterSource.isPlaying)
+            {
+                SoundManager.GetInstance().playSEChar(walkingsound);
+            }
+
             animator.SetBool("isMoving",success);
         }
         else
         {
+            SoundManager.GetInstance().characterSource.Stop();
+
             animator.SetBool("isMoving", false);
         }
     }

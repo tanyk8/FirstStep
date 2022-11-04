@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -6091473341203804793, guid: fcc8833896be4d9489c375ce28839824, type: 3}
+  m_Sprite: {fileID: -1776779282584162555, guid: 83b8a8439a8e23a48b009e06d19c80fd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -89,8 +89,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy_name: Shadow
-  stat_maxhealth: 20
-  stat_damage: 20
-  stat_defence: 20
-  current_health: 20
+  stat_maxhealth: 3000
+  stat_damage: 300
+  stat_defence: 150
+  current_health: 3000
   enemydata: {fileID: 11400000, guid: cbe70991d2f7a3a42aca4ec58669861a, type: 2}

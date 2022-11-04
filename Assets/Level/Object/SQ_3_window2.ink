@@ -4,7 +4,7 @@ INCLUDE ../../Script/Dialogue/globalfunction.ink
 ->main
 
 ===main===
-You closed the curtains.#questtrigger:updateprogressvalue #quest_id:3
+You closed the curtains.#logtype:mono #questtrigger:updateprogressvalue #quest_id:3
 ~window_checked_count=window_checked_count+1
 {
 -window_checked_count==2:

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d785233de56fc44e8ece5e09db32ac0, type: 3}
+  m_Name: skill6
+  m_EditorClassIdentifier: 
+  skill_ID: 6
+  skill_name: Consult worries
+  skill_type: heal
+  skill_description: 'Consulting worries and seek help from others helps to reduce
+    anxiety. Type: Heal Cost: 40'
+  skill_power: 125
+  skill_cost: 40
+  skill_cureID: 0
+  skill_statusID: 0

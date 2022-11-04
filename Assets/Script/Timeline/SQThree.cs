@@ -27,6 +27,7 @@ public class SQThree : MonoBehaviour
             DialogueManager.GetInstance().notInteractDialogue = true;
             DialogueManager.GetInstance().EnterDialogueMode(textAsset);
         }
+        SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_stage2"));
     }
 
     // Update is called once per frame

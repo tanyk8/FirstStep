@@ -13,13 +13,14 @@ public class MenuManager : MonoBehaviour
 
     [SerializeField] GameObject menuCanvas;
     [SerializeField] GameObject eventsys;
+    [SerializeField] AudioClip submitSE;
+    [SerializeField] AudioClip cancelSE;
 
     [Header("ContentPanel")]
     [SerializeField] GameObject characterPanel;
     [SerializeField] GameObject inventoryPanel;
     [SerializeField] GameObject questPanel;
     [SerializeField] GameObject saveloadPanel;
-    [SerializeField] GameObject helpPanel;
     [SerializeField] GameObject settingsPanel;
     [SerializeField] GameObject returntotitlePanel;
 
@@ -31,7 +32,6 @@ public class MenuManager : MonoBehaviour
     [SerializeField] GameObject inventoryBtn;
     [SerializeField] GameObject questBtn;
     [SerializeField] GameObject saveloadBtn;
-    [SerializeField] GameObject helpBtn;
     [SerializeField] GameObject settingsBtn;
     [SerializeField] GameObject returntoTitleBtn;
 
@@ -182,6 +182,7 @@ public class MenuManager : MonoBehaviour
         {
             if (!TimelineManager.GetInstance().dontmove&&!menuCanvas.activeInHierarchy&& !DialogueManager.GetInstance().dialogueIsPlaying&& TimelineManager.GetInstance().getPlayState() != PlayState.Playing)
             {
+                SoundManager.GetInstance().playSEMenu(submitSE);
                 menuIsOpened = true;
                 menuCanvas.SetActive(true);
                 StartCoroutine(ListLayout.selectOption(characterBtn));
@@ -190,6 +191,7 @@ public class MenuManager : MonoBehaviour
             {
                 if (characterRightPanel.activeInHierarchy)
                 {
+                    SoundManager.GetInstance().playSEMenu(cancelSE);
                     characterRightPanel.SetActive(false);
                     if (lastSelectedCharacterBtn == "skill")
                     {
@@ -203,6 +205,7 @@ public class MenuManager : MonoBehaviour
                 }
                 else
                 {
+                    SoundManager.GetInstance().playSEMenu(cancelSE);
                     characterEmptyMsg.SetActive(false);
                     characterAboutPanel.SetActive(false);
                     characterLeftPanel.SetActive(false);
@@ -232,6 +235,7 @@ public class MenuManager : MonoBehaviour
             {
                 if (inventoryRightPanel.activeInHierarchy)
                 {
+                    SoundManager.GetInstance().playSEMenu(cancelSE);
                     inventoryRightPanel.SetActive(false);
                     if (lastSelectedInventoryBtn == "all")
                     {
@@ -252,6 +256,7 @@ public class MenuManager : MonoBehaviour
                 }
                 else
                 {
+                    SoundManager.GetInstance().playSEMenu(cancelSE);
                     inventoryLeftPanel.SetActive(false);
                     inventoryRightPanel.SetActive(false);
                     inventoryEmptyMsg.SetActive(false);
@@ -282,6 +287,7 @@ public class MenuManager : MonoBehaviour
             {
                 if (questInfoPanel.activeInHierarchy)
                 {
+                    SoundManager.GetInstance().playSEMenu(cancelSE);
                     questInfoPanel.SetActive(false);
                     if (lastSelectedQuestBtn == "inprog")
                     {
@@ -294,6 +300,7 @@ public class MenuManager : MonoBehaviour
                 }
                 else
                 {
+                    SoundManager.GetInstance().playSEMenu(cancelSE);
                     emptyQuestMsg.SetActive(false);
                     questListPanel.SetActive(false);
                     questInfoPanel.SetActive(false);
@@ -313,6 +320,7 @@ public class MenuManager : MonoBehaviour
             }
             else if (lastSelectedSaveLoadBtn!=""&&saveloadContentPanel.activeInHierarchy)
             {
+                SoundManager.GetInstance().playSEMenu(cancelSE);
                 saveloadContentPanel.SetActive(false);
                 saveloadListRef.GetComponent<ListLayout>().destroyListSelection();
                 if (lastSelectedSaveLoadBtn == "save")
@@ -327,38 +335,41 @@ public class MenuManager : MonoBehaviour
             }
 
             else if (overlay.activeInHierarchy) {
+                GameObject temp = SoundManager.GetInstance().settings;
                 if (characterPanel.activeInHierarchy)
                 {
+                    SoundManager.GetInstance().playSEMenu(cancelSE);
                     characterPanel.SetActive(false);
                     StartCoroutine(ListLayout.selectOption(characterBtn));
                 }
                 else if (inventoryPanel.activeInHierarchy)
                 {
+                    SoundManager.GetInstance().playSEMenu(cancelSE);
                     inventoryPanel.SetActive(false);
                     StartCoroutine(ListLayout.selectOption(inventoryBtn));
                 }
                 else if (questPanel.activeInHierarchy)
                 {
+                    SoundManager.GetInstance().playSEMenu(cancelSE);
                     questPanel.SetActive(false);
                     StartCoroutine(ListLayout.selectOption(questBtn));
                 }
                 else if (saveloadPanel.activeInHierarchy)
                 {
+                    SoundManager.GetInstance().playSEMenu(cancelSE);
                     saveloadPanel.SetActive(false);
                     StartCoroutine(ListLayout.selectOption(saveloadBtn));
                 }
-                else if (helpPanel.activeInHierarchy)
+                else if (temp.activeInHierarchy)
                 {
-                    helpPanel.SetActive(false);
-                    StartCoroutine(ListLayout.selectOption(helpBtn));
-                }
-                else if (settingsPanel.activeInHierarchy)
-                {
-                    settingsPanel.SetActive(false);
+                    SoundManager.GetInstance().playSEMenu(cancelSE);
+                    SoundManager.GetInstance().revertValue();
+                    temp.SetActive(false);
                     StartCoroutine(ListLayout.selectOption(settingsBtn));
                 }
                 else if (returntotitlePanel.activeInHierarchy)
                 {
+                    SoundManager.GetInstance().playSEMenu(cancelSE);
                     returntotitlePanel.SetActive(false);
                     StartCoroutine(ListLayout.selectOption(returntoTitleBtn));
                 }
@@ -366,15 +377,16 @@ public class MenuManager : MonoBehaviour
                 overlay.SetActive(false);
 
             }
-            else
+            else if(menuCanvas.activeInHierarchy)
             {
-
+                SoundManager.GetInstance().playSEMenu(cancelSE);
                 menuCanvas.SetActive(false);
                 menuIsOpened = false;
             }
         }
 
     }
+
 
     public void onCloseBtn()
     {
@@ -388,6 +400,7 @@ public class MenuManager : MonoBehaviour
     {
         if (!characterPanel.activeInHierarchy)
         {
+            SoundManager.GetInstance().playSEMenu(submitSE);
             overlay.SetActive(true);
 
             slider_hp.maxValue = player.getStat_MaxHealth();
@@ -411,6 +424,7 @@ public class MenuManager : MonoBehaviour
     {
         if (!characterContentPanel.activeInHierarchy)
         {
+            SoundManager.GetInstance().playSEMenu(submitSE);
             characterContentPanel.SetActive(true);
             characterAboutPanel.SetActive(true);
             lastSelectedCharacterBtn = "about";
@@ -422,6 +436,7 @@ public class MenuManager : MonoBehaviour
     {
         if (!characterContentPanel.activeInHierarchy)
         {
+            SoundManager.GetInstance().playSEMenu(submitSE);
             characterContentPanel.SetActive(true);
 
             if (SkillManager.GetInstance().checkSkillEmpty("learnt"))
@@ -444,6 +459,7 @@ public class MenuManager : MonoBehaviour
     {
         if (!characterContentPanel.activeInHierarchy)
         {
+            SoundManager.GetInstance().playSEMenu(submitSE);
             characterContentPanel.SetActive(true);
             if (StatusManager.GetInstance().checkStatusEmpty())
             {
@@ -466,6 +482,7 @@ public class MenuManager : MonoBehaviour
     {
         if (!inventoryPanel.activeInHierarchy)
         {
+            SoundManager.GetInstance().playSEMenu(submitSE);
             overlay.SetActive(true);
             inventoryPanel.SetActive(true);
             StartCoroutine(ListLayout.selectOption(inventoryAllBtn));
@@ -476,6 +493,7 @@ public class MenuManager : MonoBehaviour
     {
         if (!inventoryContentPanel.activeInHierarchy)
         {
+            SoundManager.GetInstance().playSEMenu(submitSE);
             inventoryContentPanel.SetActive(true);
             inventoryUseItemBtn.SetActive(false);
             
@@ -498,6 +516,7 @@ public class MenuManager : MonoBehaviour
     {
         if (!inventoryContentPanel.activeInHierarchy)
         {
+            SoundManager.GetInstance().playSEMenu(submitSE);
             inventoryContentPanel.SetActive(true);
             inventoryUseItemBtn.SetActive(false);
 
@@ -522,6 +541,7 @@ public class MenuManager : MonoBehaviour
     {
         if (!inventoryContentPanel.activeInHierarchy)
         {
+            SoundManager.GetInstance().playSEMenu(submitSE);
             inventoryContentPanel.SetActive(true);
             inventoryUseItemBtn.SetActive(false);
 
@@ -544,6 +564,7 @@ public class MenuManager : MonoBehaviour
     {
         if (!inventoryContentPanel.activeInHierarchy)
         {
+            SoundManager.GetInstance().playSEMenu(submitSE);
             inventoryContentPanel.SetActive(true);
             inventoryUseItemBtn.SetActive(false);
 
@@ -564,6 +585,7 @@ public class MenuManager : MonoBehaviour
 
     public void onUseItemBtn()
     {
+        SoundManager.GetInstance().playSEMenu(submitSE);
         Debug.Log("Use item " + lastSelectedItem);
         InventoryItem tempitem = null;
         tempitem = InventoryManager.GetInstance().getItemWName(lastSelectedItem);
@@ -631,6 +653,7 @@ public class MenuManager : MonoBehaviour
     {
         if (!questPanel.activeInHierarchy)
         {
+            SoundManager.GetInstance().playSEMenu(submitSE);
             overlay.SetActive(true);
             questPanel.SetActive(true);
             StartCoroutine(ListLayout.selectOption(inprogQuestBtn));
@@ -639,7 +662,8 @@ public class MenuManager : MonoBehaviour
 
     public void onInProgQuestBtn()
     {
-        if (!questContentPanel.activeInHierarchy) { 
+        if (!questContentPanel.activeInHierarchy) {
+            SoundManager.GetInstance().playSEMenu(submitSE);
             questContentPanel.SetActive(true);
             if (QuestManager.GetInstance().checkQuestListEmpty("inprog"))
             {
@@ -660,6 +684,7 @@ public class MenuManager : MonoBehaviour
     {
         if (!questContentPanel.activeInHierarchy)
         {
+            SoundManager.GetInstance().playSEMenu(submitSE);
             questContentPanel.SetActive(true);
             if (QuestManager.GetInstance().checkQuestListEmpty("completed"))
             {
@@ -680,6 +705,7 @@ public class MenuManager : MonoBehaviour
     {
         if (!saveloadPanel.activeInHierarchy)
         {
+            SoundManager.GetInstance().playSEMenu(submitSE);
             overlay.SetActive(true);
             saveloadPanel.SetActive(true);
             StartCoroutine(ListLayout.selectOption(saveBtn));
@@ -690,6 +716,7 @@ public class MenuManager : MonoBehaviour
     {
         if (!saveloadContentPanel.activeInHierarchy)
         {
+            SoundManager.GetInstance().playSEMenu(submitSE);
             saveloadContentPanel.SetActive(true);
             saveloadListRef.GetComponent<ListLayout>().createSaveLoadList(ProgressManager.GetInstance().progressArray);
             lastSelectedSaveLoadBtn = "save";
@@ -701,6 +728,7 @@ public class MenuManager : MonoBehaviour
     {
         if (!saveloadContentPanel.activeInHierarchy)
         {
+            SoundManager.GetInstance().playSEMenu(submitSE);
             saveloadContentPanel.SetActive(true);
             saveloadListRef.GetComponent<ListLayout>().createSaveLoadList(ProgressManager.GetInstance().progressArray);
 
@@ -708,14 +736,6 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    public void onHelpBtn()
-    {
-        if (!helpPanel.activeInHierarchy)
-        {
-            overlay.SetActive(true);
-            helpPanel.SetActive(true);
-        }
-    }
 
     public void onSettingsBtn()
     {
@@ -723,8 +743,10 @@ public class MenuManager : MonoBehaviour
 
         if (!temp.activeInHierarchy)
         {
+            SoundManager.GetInstance().playSEMenu(submitSE);
             overlay.SetActive(true);
             temp.SetActive(true);
+            SoundManager.GetInstance().updateUI();
             StartCoroutine(ListLayout.selectOption(SoundManager.GetInstance().muteMusicObj));
 
         }
@@ -735,6 +757,8 @@ public class MenuManager : MonoBehaviour
         GameObject temp = SoundManager.GetInstance().settings;
         if (temp.activeInHierarchy)
         {
+            SoundManager.GetInstance().playSEMenu(cancelSE);
+            SoundManager.GetInstance().revertValue();
             temp.SetActive(false);
             overlay.SetActive(false);
             StartCoroutine(ListLayout.selectOption(settingsBtn));
@@ -745,6 +769,7 @@ public class MenuManager : MonoBehaviour
     {
         if (!returntotitlePanel.activeInHierarchy)
         {
+            SoundManager.GetInstance().playSEMenu(submitSE);
             overlay.SetActive(true);
             returntotitlePanel.SetActive(true);
             StartCoroutine(ListLayout.selectOption(returntoTitle_NoBtn));
@@ -755,6 +780,7 @@ public class MenuManager : MonoBehaviour
     {
         if (returntotitlePanel.activeInHierarchy)
         {
+            SoundManager.GetInstance().playSEMenu(cancelSE);
             overlay.SetActive(false);
             returntotitlePanel.SetActive(false);
             StartCoroutine(ListLayout.selectOption(returntoTitleBtn));
@@ -763,15 +789,19 @@ public class MenuManager : MonoBehaviour
 
     public void onReturntoTitle_Yes()
     {
+        SoundManager.GetInstance().playSEMenu(submitSE);
         SceneManager.LoadScene("TitleScreen");
     }
 
     public void closeMenu()
     {
+        SoundManager.GetInstance().playSEMenu(cancelSE);
         saveloadContentPanel.SetActive(false);
         saveloadPanel.SetActive(false);
         overlay.SetActive(false);
         menuCanvas.SetActive(false);
         menuIsOpened = false;
     }
+
+    
 }

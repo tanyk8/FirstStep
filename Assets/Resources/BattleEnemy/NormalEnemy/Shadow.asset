@@ -18,4 +18,8 @@ MonoBehaviour:
   enemy_currenthealth: 0
   enemy_damage: 0
   enemy_defence: 0
-  enemy_skilllist: []
+  enemy_skilllist:
+  - {fileID: 11400000, guid: becfdfdd783c3f348809ce7b6447846b, type: 2}
+  - {fileID: 11400000, guid: caa1f324cbe09c84c821a0324b0cba6f, type: 2}
+  - {fileID: 11400000, guid: ddeea23d6cff1d144ae4fbf6fb4fc373, type: 2}
+  - {fileID: 11400000, guid: f2b9b5cc37c7cfb4b8b45081e65ac26e, type: 2}

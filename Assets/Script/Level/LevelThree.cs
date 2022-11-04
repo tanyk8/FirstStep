@@ -40,6 +40,11 @@ public class LevelThree : MonoBehaviour
             ProgressManager.GetInstance().loaded = false;
             GameObject.Find("Player").transform.position = ProgressManager.GetInstance().loadedposition;
         }
+        if ( SoundManager.GetInstance().musicSource.clip.name != "bgm_stage3")
+        {
+
+            SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_stage3"));
+        }
     }
 
     // Update is called once per frame
@@ -48,6 +53,12 @@ public class LevelThree : MonoBehaviour
         if (ProgressManager.GetInstance().loading)
         {
             return;
+        }
+
+        if (!SoundManager.GetInstance().musicSource.isPlaying && SoundManager.GetInstance().musicSource.clip.name != "bgm_stage3")
+        {
+
+            SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_stage3"));
         }
 
         if (!shadowaura.activeInHierarchy && DialogueVariableObserver.variables["shadow3_escaped"].ToString() == "true" && DialogueVariableObserver.variables["shadow3_defeated"].ToString() == "false")

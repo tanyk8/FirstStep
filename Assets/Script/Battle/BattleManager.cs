@@ -120,19 +120,19 @@ public class BattleManager : MonoBehaviour
     {
         if (state == BattleState.PLAYERTURN)
         {
-            if (InputManager.getInstance().getSwitchPressed())
-            {
-                if (EventSystem.current.currentSelectedGameObject == playerstatusbtn || EventSystem.current.currentSelectedGameObject == enemystatusbtn)
-                {
-                    StartCoroutine(ListLayout.selectOption(previousSelectedObject));
-                    previousSelectedObject = null;
-                }
-                else
-                {
-                    previousSelectedObject = EventSystem.current.currentSelectedGameObject;
-                    StartCoroutine(ListLayout.selectOption(playerstatusbtn));
-                }
-            }
+            //if (InputManager.getInstance().getSwitchPressed())
+            //{
+            //    if (EventSystem.current.currentSelectedGameObject == playerstatusbtn || EventSystem.current.currentSelectedGameObject == enemystatusbtn)
+            //    {
+            //        StartCoroutine(ListLayout.selectOption(previousSelectedObject));
+            //        previousSelectedObject = null;
+            //    }
+            //    else
+            //    {
+            //        previousSelectedObject = EventSystem.current.currentSelectedGameObject;
+            //        StartCoroutine(ListLayout.selectOption(playerstatusbtn));
+            //    }
+            //}
 
             if (SceneManager.GetActiveScene().name == "Battlescene"&&InputManager.getInstance().getMenuPressed() )
             {
@@ -225,18 +225,23 @@ public class BattleManager : MonoBehaviour
 
         if (GameStateManager.GetInstance().enemy == "firststage")
         {
-           enemyPrefab = enemyPrefabArray[0];
+            SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_battle"));
+            
+            enemyPrefab = enemyPrefabArray[0];
         }
         else if (GameStateManager.GetInstance().enemy == "secondstage")
         {
+            SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_battle2"));
             enemyPrefab = enemyPrefabArray[1];
         }
         else if (GameStateManager.GetInstance().enemy == "finalstage")
         {
+            SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_final1"));
             enemyPrefab = enemyPrefabArray[2];
         }
         else if (GameStateManager.GetInstance().enemy == "finalstage2")
         {
+            SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_end"));
             enemyPrefab = enemyPrefabArray[3];
         }
 
@@ -286,7 +291,7 @@ public class BattleManager : MonoBehaviour
         {
 
             //if enemy prefab name is this, then this
-            if (enemyPrefab.name == "Enemy1")
+            if (enemyPrefab.name == "Blob Minion")
             {
                 //item shard of light
                 //ItemData additemData = Resources.Load<ItemData>("Item/item1");
@@ -296,9 +301,10 @@ public class BattleManager : MonoBehaviour
                 string[] tempendmsg = { "You have purified the shadow!", "You received a shard of light" };
                 ProgressManager.GetInstance().gameProgress = "progress9";
                 player.setCurrent_Health(player.getStat_MaxHealth());
+                player.setCurrent_MentalPoint(player.getStat_MaxMentalPoint());
                 StartCoroutine(endBattleChoiceMsg_E(tempendmsg));
             }
-            else if (enemyPrefab.name == "Enemy2")
+            else if (enemyPrefab.name == "Shadow Feeder")
             {
                 //item shard of light
                 //ItemData additemData = Resources.Load<ItemData>("Item/item1");
@@ -308,6 +314,7 @@ public class BattleManager : MonoBehaviour
                 string[] tempendmsg = { "You have purified the shadow!", "You received a shard of light" };
                 ProgressManager.GetInstance().gameProgress = "progress19";
                 player.setCurrent_Health(player.getStat_MaxHealth());
+                player.setCurrent_MentalPoint(player.getStat_MaxMentalPoint());
                 StartCoroutine(endBattleChoiceMsg_E(tempendmsg));
             }
             else if (enemyPrefab.name == "Shadow")
@@ -317,12 +324,13 @@ public class BattleManager : MonoBehaviour
                 //InventoryManager.GetInstance().Add(additemData);
                 //Story temp = DialogueManager.GetInstance().GetComponent<DialogueManager>().getStory();
                 //temp.EvaluateFunction("activatestagetwo", true);
-                string[] tempendmsg = { "You have purified the shadow!" };
+                string[] tempendmsg = { "He still have so much powers...","What should we do..." };
                 ProgressManager.GetInstance().gameProgress = "progress25";
                 player.setCurrent_Health(player.getStat_MaxHealth());
+                player.setCurrent_MentalPoint(player.getStat_MaxMentalPoint());
                 StartCoroutine(endBattleChoiceMsg_E(tempendmsg));
             }
-            else if (enemyPrefab.name == "Shadow Final Form")
+            else if (enemyPrefab.name == "Dark Shadow")
             {
                 //item shard of light
                 //ItemData additemData = Resources.Load<ItemData>("Item/item1");
@@ -332,6 +340,7 @@ public class BattleManager : MonoBehaviour
                 string[] tempendmsg = { "You have purified the shadow!" };
                 ProgressManager.GetInstance().gameProgress = "progress28";
                 player.setCurrent_Health(player.getStat_MaxHealth());
+                player.setCurrent_MentalPoint(player.getStat_MaxMentalPoint());
                 StartCoroutine(endBattleChoiceMsg_E(tempendmsg));
             }
             
@@ -339,6 +348,7 @@ public class BattleManager : MonoBehaviour
         else if (state == BattleState.LOST)
         {
             string[] tempendmsg = { "It's too strong we have to retreat for now!" };
+            player.setCurrent_MentalPoint(player.getStat_MaxMentalPoint());
             player.setCurrent_Health(player.getStat_MaxHealth());
             StartCoroutine(endBattleChoiceMsg_E(tempendmsg));
 
@@ -377,7 +387,7 @@ public class BattleManager : MonoBehaviour
         }
         else if (enemy.getCurrent_Health() > enemy.getStat_MaxHealth() * 60 / 100)
         {
-            if (enemychoice < 10)
+            if (enemychoice < 5)
             {
                 enemychoiceresult = "heal";
             }
@@ -400,7 +410,7 @@ public class BattleManager : MonoBehaviour
             {
                 enemychoiceresult = "skill";
             }
-            else if (enemychoice >= 30 && enemychoice < 60)
+            else if (enemychoice >= 30 && enemychoice < 40)
             {
                 enemychoiceresult = "heal";
             }
@@ -419,7 +429,7 @@ public class BattleManager : MonoBehaviour
             {
                 enemychoiceresult = "debuff";
             }
-            else if (enemychoice >= 30 && enemychoice < 60)
+            else if (enemychoice >= 30 && enemychoice < 40)
             {
                 enemychoiceresult = "heal";
             }
@@ -434,6 +444,8 @@ public class BattleManager : MonoBehaviour
         //skill 0 is dmg, 1 is heal, 2 is buff, 3 is debuff
         if (enemychoiceresult == "heal")
         {
+
+            SoundManager.GetInstance().playSE(Resources.Load<AudioClip>("Sound/SE/se_heal"));
             int temp = enemy.enemySkillHeal(enemy.enemydata.enemy_skilllist.ElementAt(1));
             string[] healmsg = { "Enemy has used " + enemy.enemydata.enemy_skilllist.ElementAt(1).enemyskill_name + "!", "Enemy has recovered " + temp + " HP!" };
             enemyHUD.setEnemyHP(enemy.getCurrent_Health(), enemy);
@@ -442,6 +454,7 @@ public class BattleManager : MonoBehaviour
         }
         else if (enemychoiceresult == "buff")
         {
+            SoundManager.GetInstance().playSE(Resources.Load<AudioClip>("Sound/SE/se_buffatt"));
             enemy_InflictBuffStatus(enemy.enemydata.enemy_skilllist.ElementAt(2));
             string[] buffmsg = { "The Enemy used " + enemy.enemydata.enemy_skilllist.ElementAt(2).enemyskill_name + "!", "You feel that the enemy has gotten stronger!" };
 
@@ -450,7 +463,7 @@ public class BattleManager : MonoBehaviour
         }
         else if (enemychoiceresult == "debuff")
         {
-
+            SoundManager.GetInstance().playSE(Resources.Load<AudioClip>("Sound/SE/se_debuff"));
             StatusManager.GetInstance().skill_InflictDebuffStatus(enemy.enemydata.enemy_skilllist.ElementAt(3));
             string[] debuffmsg = { "The Enemy used " + enemy.enemydata.enemy_skilllist.ElementAt(3).enemyskill_name + "!", "You start to feel weakened" };
 
@@ -486,12 +499,46 @@ public class BattleManager : MonoBehaviour
 
             if (useSkill_Enemy)
             {
-
+                if (enemyPrefab.name == "Shadow" || enemyPrefab.name == "Shadow Final")
+                {
+                    if (probability == 19)
+                    {
+                        SoundManager.GetInstance().playSE(Resources.Load<AudioClip>("Sound/SE/se_miss"));
+                    }
+                    else
+                    {
+                        SoundManager.GetInstance().playSE(Resources.Load<AudioClip>("Sound/SE/se_magicattack"));
+                    }
+                    
+                }
+                else
+                {
+                    if (probability == 19)
+                    {
+                        SoundManager.GetInstance().playSE(Resources.Load<AudioClip>("Sound/SE/se_miss"));
+                    }
+                    else
+                    {
+                        SoundManager.GetInstance().playSE(Resources.Load<AudioClip>("Sound/SE/se_magic1"));
+                    }
+                        
+                }
                 enemydmgdealt = (int)(player.getStat_MentalPower() * enemy.enemydata.enemy_skilllist.ElementAt(0).enemyskill_power / 100.0f * enemystatusvalue / 100.0f);
                 useSkill_Enemy = false;
             }
             else
             {
+                if (probability == 19)
+                {
+                    SoundManager.GetInstance().playSE(Resources.Load<AudioClip>("Sound/SE/se_miss"));
+                }
+                else
+                {
+                    SoundManager.GetInstance().playSE(Resources.Load<AudioClip>("Sound/SE/se_normalattack"));
+                }
+                
+                
+
                 enemydmgdealt = (int)(player.getStat_MentalPower() * enemystatusvalue / 100.0f);
             }
 
@@ -622,11 +669,29 @@ public class BattleManager : MonoBehaviour
 
         if (useSkill)
         {
+            if (probability == 19)
+            {
+                SoundManager.GetInstance().playSE(Resources.Load<AudioClip>("Sound/SE/se_miss"));
+            }
+            else
+            {
+                SoundManager.GetInstance().playSE(Resources.Load<AudioClip>("Sound/SE/se_magic1"));
+            }
+            
             playerdmgdealt = (int)(player.getStat_MentalPower()*skill.skillData.skill_power/100.0f*playerstatusvalue/100.0f);
             useSkill = false;
         }
         else
         {
+            if (probability == 19)
+            {
+                SoundManager.GetInstance().playSE(Resources.Load<AudioClip>("Sound/SE/se_miss"));
+            }
+            else
+            {
+                SoundManager.GetInstance().playSE(Resources.Load<AudioClip>("Sound/SE/se_normalattack1"));
+            }
+            
             playerdmgdealt = (int)(player.getStat_MentalPower()*playerstatusvalue/100.0f);
         }
 
@@ -840,6 +905,7 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
+            statusempty.SetActive(false);
             statusleft.SetActive(true);
             statusDescription.GetComponent<TextMeshProUGUI>().text = "";
             statusright.SetActive(true);
@@ -923,6 +989,7 @@ public class BattleManager : MonoBehaviour
                         string[] healmsg = { "Player has used " + tempskill.skillData.skill_name + "!", "Player has recovered "+temp+" HP!" };
                         player.updatePlayerMP(tempskill);
                         playerHUD.setPlayerMP(player.getCurrent_MentalPoint(), player);
+                        SoundManager.GetInstance().playSE(Resources.Load<AudioClip>("Sound/SE/se_heal"));
                         playerHUD.setPlayerHP(player.getCurrent_Health(), player);
 
                         StartCoroutine(actionChoiceMsg(healmsg));
@@ -930,7 +997,7 @@ public class BattleManager : MonoBehaviour
                     case "cure":
                         player.updatePlayerMP(tempskill);
                         playerHUD.setPlayerMP(player.getCurrent_MentalPoint(), player);
-
+                        SoundManager.GetInstance().playSE(Resources.Load<AudioClip>("Sound/SE/se_cure"));
                         StatusManager.GetInstance().skill_CureStatus(tempskill);
                         string[] curemsg = {"Player has used "+tempskill.skillData.skill_name+"!","The abnormal status "+StatusManager.GetInstance().getStatusWID(tempskill.skillData.skill_statusID)+" has been cured"};
 
@@ -939,7 +1006,7 @@ public class BattleManager : MonoBehaviour
                     case "buff":
                         player.updatePlayerMP(tempskill);
                         playerHUD.setPlayerMP(player.getCurrent_MentalPoint(), player);
-
+                        SoundManager.GetInstance().playSE(Resources.Load<AudioClip>("Sound/SE/se_buffatt"));
                         StatusManager.GetInstance().skill_InflictBuffStatus(tempskill);
                         string[] buffmsg = { "The player used "+tempskill.skillData.skill_name+"!", "You feel that you have gotten stronger!"};
 
@@ -948,11 +1015,19 @@ public class BattleManager : MonoBehaviour
                     case "debuff":
                         player.updatePlayerMP(tempskill);
                         playerHUD.setPlayerMP(player.getCurrent_MentalPoint(), player);
-
+                        SoundManager.GetInstance().playSE(Resources.Load<AudioClip>("Sound/SE/se_debuff"));
                         enemy_InflictDebuffStatus(tempskill);
                         string[] debuffmsg = { "The player used " + tempskill.skillData.skill_name + "!", "You have weakened the enemy" };
 
                         StartCoroutine(actionChoiceMsg(debuffmsg));
+                        break;
+                    case "channel":
+                        int tempmp = player.playerChannelMP(tempskill);
+                        playerHUD.setPlayerMP(player.getCurrent_MentalPoint(), player);
+                        SoundManager.GetInstance().playSE(Resources.Load<AudioClip>("Sound/SE/se_cure"));
+                        string[] channelmsg = { "The player used " + tempskill.skillData.skill_name + "!", "You regained "+tempmp+" mental points" };
+
+                        StartCoroutine(actionChoiceMsg(channelmsg));
                         break;
                 }
             }

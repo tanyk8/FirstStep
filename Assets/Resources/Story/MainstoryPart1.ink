@@ -62,7 +62,7 @@ Oh you're awake!#speaker:??? #portrait:portrait_npc_mysterious
 ->nomorechoice
 ===nomorechoice===
 *[Umm...who are you?]
-Oh I am *********, but I don't think you can hear it as "he" prevents me to do so.#speaker:??? #portrait:portrait_npc_mysterious
+Oh I am *****, but I don't think you can hear it as "he" prevents me to do so.#speaker:??? #portrait:portrait_npc_mysterious
 ~questionasked=questionasked+1
 {
 -questionasked==4:
@@ -115,7 +115,7 @@ You feel a warm energy flowing into your body.#logtype:mono #learnskill:starter
 Well I am on the same boat with you, so let's do our best.#speaker:??? #portrait:portrait_npc_mysterious
 So currently I am only able to open the gate on the left side.
 The other 2 gates are too strong for me to unlock for now.
-(You hear the sturdy iron bar gets lifted up by itselves)#logtype:mono
+(You hear the sturdy iron bar gets lifted up by itselves)#logtype:mono #playse:gate
 ~gate_portal1=true
 Ok so you're good to go now, good luck!#logtype:di #speaker:??? #portrait:portrait_npc_mysterious #questtrigger:start #quest_id:102
 ~mainquest_progress="3"

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: enemyskill1
   m_EditorClassIdentifier: 
   enemyskill_ID: 1
-  enemyskill_name: Negative Corrosion
+  enemyskill_name: Poisonous Blob
   enemyskill_type: damage
   enemyskill_description: 
-  enemyskill_power: 500
+  enemyskill_power: 200
   enemyskill_cost: 0
   enemyskill_statusID: 0

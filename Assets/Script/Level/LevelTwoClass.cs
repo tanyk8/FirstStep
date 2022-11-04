@@ -48,6 +48,12 @@ public class LevelTwoClass : MonoBehaviour
             ProgressManager.GetInstance().loaded = false;
             GameObject.Find("Player").transform.position = ProgressManager.GetInstance().loadedposition;
         }
+
+        if ( SoundManager.GetInstance().musicSource.clip.name != "bgm_stage2")
+        {
+
+            SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_stage2"));
+        }
     }
 
     // Update is called once per frame
@@ -56,6 +62,12 @@ public class LevelTwoClass : MonoBehaviour
         if (ProgressManager.GetInstance().loading)
         {
             return;
+        }
+
+        if (TimelineManager.GetInstance().getPlayState() != PlayState.Playing && !SoundManager.GetInstance().musicSource.isPlaying && SoundManager.GetInstance().musicSource.clip.name != "bgm_stage2")
+        {
+
+            SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_stage2"));
         }
 
         if (lvltwodirector.state!=PlayState.Playing&&!DialogueManager.GetInstance().dialogueIsPlaying && callonce)

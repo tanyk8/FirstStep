@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using TMPro;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class SoundManager : MonoBehaviour
 {
@@ -16,10 +13,13 @@ public class SoundManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI muteMusicText;
     [SerializeField] TextMeshProUGUI muteEffectText;
 
-    [SerializeField] private AudioSource musicSource, effectSource;
+    [SerializeField] public AudioSource musicSource, effectSource,characterSource,menuSource;
 
     [SerializeField] public Button backsettingbtn;
     [SerializeField] public GameObject muteMusicObj;
+
+    [SerializeField] AudioClip submitSE;
+    [SerializeField] AudioClip cancelSE;
 
     
     public float tempMusicVolume = 0f;
@@ -27,7 +27,7 @@ public class SoundManager : MonoBehaviour
     public bool tempMuteMusic = true;
     public bool tempMuteEffect= true;
 
-    SettingsData currentSettings;
+    public SettingsData currentSettings;
 
     [SerializeField] public GameObject settingsobj;
     [SerializeField] public GameObject settings;
@@ -75,9 +75,20 @@ public class SoundManager : MonoBehaviour
         effectSource.PlayOneShot(clip);
     }
 
+    public void playSEChar(AudioClip clip)
+    {
+        characterSource.PlayOneShot(clip);
+    }
+
+    public void playSEMenu(AudioClip clip)
+    {
+        menuSource.PlayOneShot(clip);
+    }
+
     public void playMusic(AudioClip clip)
     {
         musicSource.clip = clip;
+        musicSource.Play();
     }
 
     public void playmuzic()
@@ -140,6 +151,8 @@ public class SoundManager : MonoBehaviour
     public void toggleEffect()
     {
         effectSource.mute = !effectSource.mute;
+        characterSource.mute = !characterSource.mute;
+        menuSource.mute = !menuSource.mute;
         if (effectSource.mute)
         {
             muteEffectText.text = "Effect OFF";
@@ -206,6 +219,8 @@ public class SoundManager : MonoBehaviour
         }
         effectVolValue.text = tempEffectVolume * 100 + "%";
         effectSource.volume = tempEffectVolume;
+        characterSource.volume = tempEffectVolume;
+        menuSource.volume = tempEffectVolume;
     }
 
     public void updateSettings(SettingsData data)
@@ -214,16 +229,24 @@ public class SoundManager : MonoBehaviour
 
         musicSource.volume = data.currentMusicVolume;
         effectSource.volume = data.currentEffectVolume;
+        characterSource.volume = data.currentEffectVolume;
+        menuSource.volume = data.currentEffectVolume;
         musicSource.mute = data.muteMusic;
         effectSource.mute = data.muteEffect;
+        characterSource.mute = data.muteEffect;
+        menuSource.mute = data.muteEffect;
     }
 
     public void revertValue()
     {
         musicSource.volume =currentSettings.currentMusicVolume;
         effectSource.volume = currentSettings.currentEffectVolume;
+        characterSource.volume = currentSettings.currentEffectVolume;
+        menuSource.volume = currentSettings.currentEffectVolume;
         musicSource.mute = currentSettings.muteMusic;
         effectSource.mute = currentSettings.muteEffect;
+        characterSource.mute = currentSettings.muteEffect;
+        menuSource.mute = currentSettings.muteEffect;
 
         setTempValue(currentSettings);
         updateUI();
@@ -232,12 +255,16 @@ public class SoundManager : MonoBehaviour
 
     public void btnApply()
     {
-        
+        playSE(submitSE);
 
         musicSource.volume = tempMusicVolume;
         effectSource.volume = tempEffectVolume;
+        characterSource.volume = tempEffectVolume;
+        menuSource.volume = tempEffectVolume;
         musicSource.mute = tempMuteMusic;
         effectSource.mute = tempMuteEffect;
+        characterSource.mute = tempMuteEffect;
+        menuSource.mute = tempMuteEffect;
 
         currentSettings.currentMusicVolume = tempMusicVolume;
         currentSettings.currentEffectVolume = tempEffectVolume;

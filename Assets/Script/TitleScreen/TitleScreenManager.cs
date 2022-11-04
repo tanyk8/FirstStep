@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.IO;
 using UnityEngine.UI;
 
 public class TitleScreenManager : MonoBehaviour
 {
+    [SerializeField] AudioClip submitSE;
+    [SerializeField] AudioClip cancelSE;
 
     [SerializeField] GameObject newGameBtn;
     [SerializeField] GameObject loadGameBtn;
@@ -19,12 +18,12 @@ public class TitleScreenManager : MonoBehaviour
     [SerializeField] GameObject loadTitleListRef;
     [SerializeField] GameObject loadPanel;
 
+    bool playonce=true;
 
     private void Start()
     {
         StartCoroutine(ListLayout.selectOption(newGameBtn));
 
-        SoundManager.GetInstance().playmuzic();
 
         Button backbtn = SoundManager.GetInstance().backsettingbtn;
 
@@ -32,6 +31,7 @@ public class TitleScreenManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "TitleScreen")
         {
             backbtn.onClick.AddListener(onSettingBack);
+            SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_titlescreen"));
         }
 
 
@@ -43,11 +43,13 @@ public class TitleScreenManager : MonoBehaviour
         {
             if (settingsMenu.activeInHierarchy)
             {
+                SoundManager.GetInstance().playSEMenu(cancelSE);
                 settingsMenu.SetActive(false);
                 StartCoroutine(ListLayout.selectOption(settingsBtn));
             }
             else if (loadPanel.activeInHierarchy)
             {
+                SoundManager.GetInstance().playSEMenu(cancelSE);
                 loadPanel.SetActive(false);
                 StartCoroutine(ListLayout.selectOption(loadGameBtn));
             }
@@ -56,24 +58,30 @@ public class TitleScreenManager : MonoBehaviour
 
     public void onStartGameBtn()
     {
+        SoundManager.GetInstance().playSEMenu(submitSE);
+        SoundManager.GetInstance().musicSource.Stop();
         SceneManager.LoadScene("Loading");
     }
 
     public void onLoadGameBtn()
     {
         //createTitleLoadList
+        SoundManager.GetInstance().playSEMenu(submitSE);
         loadPanel.SetActive(true);
         loadTitleListRef.GetComponent<ListLayout>().createTitleLoadList();
     }
 
     public void onBackLoadBtn()
     {
+        SoundManager.GetInstance().playSEMenu(cancelSE);
         loadTitleListRef.GetComponent<ListLayout>().destroyListSelection();
         loadPanel.SetActive(false);
+        StartCoroutine(ListLayout.selectOption(loadGameBtn));
     }
 
     public void onSettingsBtn()
     {
+        SoundManager.GetInstance().playSEMenu(submitSE);
         settingsMenu.SetActive(true);
         SoundManager.GetInstance().updateUI();
         StartCoroutine(ListLayout.selectOption(musicOnBtn));
@@ -83,6 +91,7 @@ public class TitleScreenManager : MonoBehaviour
     {
         if (settingsMenu.activeInHierarchy)
         {
+            SoundManager.GetInstance().playSEMenu(cancelSE);
             //revert settings
             SoundManager.GetInstance().revertValue();
             settingsMenu.SetActive(false);
@@ -92,6 +101,7 @@ public class TitleScreenManager : MonoBehaviour
 
     public void onExitGameBtn()
     {
+        SoundManager.GetInstance().playSEMenu(submitSE);
         Application.Quit();
     }
 }

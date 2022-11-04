@@ -16,11 +16,19 @@ public class Ending : MonoBehaviour
         PlayableAsset cutscene = Resources.Load<PlayableAsset>("Timeline/Ending");
         endingdirector.Play(cutscene);
         endprogress = "progress1";
+
+        SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_ending"));
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (SoundManager.GetInstance().musicSource.clip.name != "bgm_ending")
+        {
+
+            SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_ending"));
+        }
+
         if (endprogress == "progress1"&&endingdirector.state != PlayState.Playing)
         {
             SceneManager.LoadScene("Credit");

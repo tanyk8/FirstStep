@@ -4,7 +4,7 @@ INCLUDE ../../Script/Dialogue/globalfunction.ink
 ->main
 
 ===main===
-You searched here and there but you found nothing.#questtrigger:updateprogressvalue #quest_id:1
+You searched here and there but you found nothing.#logtype:mono #questtrigger:updateprogressvalue #quest_id:1
 ~playground_checked_count=playground_checked_count+1
 {
 -playground_checked_count==5:

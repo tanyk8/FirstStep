@@ -77,11 +77,16 @@ public class ListLayout : MonoBehaviour
     [SerializeField] GameObject statusDescriptionPanel;
 
     [SerializeField] GameObject statusActor;
-    
 
+    AudioClip onClickSE;
     public ListLayout()
     {
         //totalElements = 0;
+    }
+
+    private void Awake()
+    {
+        onClickSE = Resources.Load<AudioClip>("Sound/SE/submit");
     }
 
     public void createBattleSkillList(List<Skill> skillList,string type)
@@ -1119,13 +1124,14 @@ public class ListLayout : MonoBehaviour
 
     void listSkillClicked(int skillIndex)
     {
+        SoundManager.GetInstance().playSE(onClickSE);
         MenuManager.GetInstance().lastSelectedSkill= EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text;
         MenuManager.GetInstance().lastSelectedSkillIndex = skillIndex;
 
         Skill tempskill = null;
         tempskill = SkillManager.GetInstance().getSkillWName(MenuManager.GetInstance().lastSelectedSkill);
 
-        menuSkillDescription.transform.GetComponent<TextMeshProUGUI>().text = MenuManager.GetInstance().lastSelectedSkill + tempskill.skillData.skill_description;
+        menuSkillDescription.transform.GetComponent<TextMeshProUGUI>().text = MenuManager.GetInstance().lastSelectedSkill +"<br/>"+ tempskill.skillData.skill_description;
         menuSkillDescPanel.SetActive(true);
         StartCoroutine(selectOption(menuSkillDescPanel));
 
@@ -1133,13 +1139,13 @@ public class ListLayout : MonoBehaviour
 
     void listBattleSkillClicked(int skillindex)
     {
+        SoundManager.GetInstance().playSE(onClickSE);
         //switch to use btn
         BattleManager.GetInstance().lastSelectedName = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text;
         BattleManager.GetInstance().lastSelectedIndex = skillindex;
 
         Skill tempskill = null;
         tempskill = SkillManager.GetInstance().getSkillWName(BattleManager.GetInstance().lastSelectedName);
-
 
         descriptionText.transform.GetComponent<TextMeshProUGUI>().text = BattleManager.GetInstance().lastSelectedName+"<br>"+tempskill.skillData.skill_description;
         detailPanel_useBtn.SetActive(true);
@@ -1151,6 +1157,7 @@ public class ListLayout : MonoBehaviour
 
     void listBattleItemClicked(int itemindex)
     {
+        SoundManager.GetInstance().playSE(onClickSE);
         BattleManager.GetInstance().lastSelectedName = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text;
         BattleManager.GetInstance().lastSelectedIndex = itemindex;
 
@@ -1166,7 +1173,8 @@ public class ListLayout : MonoBehaviour
 
     void listBattleStatusClicked(int statusindex)
     {
-        if(statusActor.GetComponent<TextMeshProUGUI>().text=="Player status")
+        SoundManager.GetInstance().playSE(onClickSE);
+        if (statusActor.GetComponent<TextMeshProUGUI>().text=="Player status")
         {
             BattleManager.GetInstance().lastSelectedStatus = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text;
             BattleManager.GetInstance().lastSelectedStatusIndex = statusindex;
@@ -1200,6 +1208,7 @@ public class ListLayout : MonoBehaviour
 
     void listStatusClicked(int statusIndex)
     {
+        SoundManager.GetInstance().playSE(onClickSE);
         MenuManager.GetInstance().lastSelectedStatus = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text;
         MenuManager.GetInstance().lastSelectedStatusIndex = statusIndex;
 
@@ -1232,7 +1241,7 @@ public class ListLayout : MonoBehaviour
 
     void listChoiceClicked(int choiceIndex)
     {
-
+        SoundManager.GetInstance().playSE(onClickSE);
         string tempText = panel_listT.GetChild(choiceIndex).GetComponentInChildren<Text>().text;
 
 
@@ -1250,6 +1259,7 @@ public class ListLayout : MonoBehaviour
 
     void listQuestClicked(int questIndex)
     {
+        SoundManager.GetInstance().playSE(onClickSE);
         MenuManager.GetInstance().lastSelectedQuest = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text;
         MenuManager.GetInstance().lastSelectedQuestIndex = questIndex;
 
@@ -1296,6 +1306,7 @@ public class ListLayout : MonoBehaviour
 
     void listInventoryClicked(int inventoryIndex)
     {
+        SoundManager.GetInstance().playSE(onClickSE);
         Debug.Log("item " + inventoryIndex + " clicked");
         MenuManager.GetInstance().lastSelectedItem = EventSystem.current.currentSelectedGameObject.GetComponentInChildren<Text>().text;
         MenuManager.GetInstance().lastSelectedItemIndex = inventoryIndex;
@@ -1322,6 +1333,7 @@ public class ListLayout : MonoBehaviour
 
     void listProgressClicked(int progressIndex)
     {
+        SoundManager.GetInstance().playSE(onClickSE);
         if (MenuManager.GetInstance().lastSelectedSaveLoadBtn == "save")
         {
             Debug.Log("save "+ progressIndex);
@@ -1349,6 +1361,7 @@ public class ListLayout : MonoBehaviour
 
     void listLoadTitleClicked(int progressIndex)
     {
+        SoundManager.GetInstance().playSE(onClickSE);
         Debug.Log("load " + progressIndex);
         string path = Application.dataPath + System.IO.Path.AltDirectorySeparatorChar + "save" + System.IO.Path.AltDirectorySeparatorChar + "savedata" + progressIndex + ".json";
         if (File.Exists(path))
@@ -1356,6 +1369,7 @@ public class ListLayout : MonoBehaviour
             destroyListSelection();
             SoundManager.GetInstance().loadfromtitle = true;
             SoundManager.GetInstance().loadfromtitleindex = progressIndex;
+            SoundManager.GetInstance().musicSource.Stop();
             SceneManager.LoadScene("Loading");
         }
         else

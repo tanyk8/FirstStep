@@ -79,6 +79,8 @@ public class DialogueManager : MonoBehaviour
     private const string REMOVEITEM_TAG = "removeitem";
     private const string CALLFUNCTION_TAG = "callfunction";
     private const string ENEMY_TAG = "enemy";
+    private const string ADDSTAT_TAG = "addstat";
+    private const string PLAYSE_TAG = "playse";
 
     public static event handleStartQuestT startQuestTrigger;
     public delegate void handleStartQuestT(QuestData questdata);
@@ -510,13 +512,77 @@ public class DialogueManager : MonoBehaviour
                 case LEARNSKILL_TAG:
                     if (tagValue == "starter")
                     {
+                        SkillData testskill1 = Resources.Load<SkillData>("Skill/skill1");
+                        Skill skill1 = new Skill(testskill1);
+                        skill1.updateSkillLearnt();
+                        SkillManager.GetInstance().skilllist.Add(skill1);
+
+                        SkillData testskill2 = Resources.Load<SkillData>("Skill/skill2");
+                        Skill skill2 = new Skill(testskill2);
+                        skill2.updateSkillLearnt();
+                        SkillManager.GetInstance().skilllist.Add(skill2);
+
+                        SkillData testskill3 = Resources.Load<SkillData>("Skill/skill3");
+                        Skill skill3 = new Skill(testskill3);
+                        skill3.updateSkillLearnt();
+                        SkillManager.GetInstance().skilllist.Add(skill3);
+
+                        SkillData testskill10 = Resources.Load<SkillData>("Skill/skill10");
+                        Skill skill10 = new Skill(testskill10);
+                        skill10.updateSkillLearnt();
+                        SkillManager.GetInstance().skilllist.Add(skill10);
+                    }
+                    else if (tagValue == "second")
+                    {
+                        SkillData testskill4 = Resources.Load<SkillData>("Skill/skill4");
+                        Skill skill4 = new Skill(testskill4);
+                        skill4.updateSkillLearnt();
+                        SkillManager.GetInstance().skilllist.Add(skill4);
+
                         SkillData testskill5 = Resources.Load<SkillData>("Skill/skill5");
                         Skill skill5 = new Skill(testskill5);
                         skill5.updateSkillLearnt();
                         SkillManager.GetInstance().skilllist.Add(skill5);
-                    }
-                    break;
 
+                        SkillData testskill6 = Resources.Load<SkillData>("Skill/skill6");
+                        Skill skill6 = new Skill(testskill6);
+                        skill6.updateSkillLearnt();
+                        SkillManager.GetInstance().skilllist.Add(skill6);
+                    }
+                    else if (tagValue == "third")
+                    {
+                        SkillData testskill7 = Resources.Load<SkillData>("Skill/skill7");
+                        Skill skill7 = new Skill(testskill7);
+                        skill7.updateSkillLearnt();
+                        SkillManager.GetInstance().skilllist.Add(skill7);
+
+                        SkillData testskill8 = Resources.Load<SkillData>("Skill/skill8");
+                        Skill skill8 = new Skill(testskill8);
+                        skill8.updateSkillLearnt();
+                        SkillManager.GetInstance().skilllist.Add(skill8);
+
+                        SkillData testskill9 = Resources.Load<SkillData>("Skill/skill9");
+                        Skill skill9 = new Skill(testskill9);
+                        skill9.updateSkillLearnt();
+                        SkillManager.GetInstance().skilllist.Add(skill9);
+                    }
+
+                    break;
+                case ADDSTAT_TAG:
+                    if (tagValue == "clearfirst")
+                    {
+                        Player.GetInstance().updatePlayer(2000, 250, 160, 65, 2000, 250);
+                    }
+                    else if (tagValue == "clearsecond")
+                    {
+                        Player.GetInstance().updatePlayer(3250, 300, 325, 135, 3250, 300);
+                    }
+                    else if (tagValue == "finalpower")
+                    {
+                        Player.GetInstance().updatePlayer(3500, 350, 450, 280, 3500, 350);
+                    }
+                    //Player.GetInstance().
+                    break;
                 case GETITEM_TAG:
                     ItemData additemData = Resources.Load<ItemData>("Item/"+tagValue);
                     InventoryManager.GetInstance().Add(additemData);
@@ -527,6 +593,17 @@ public class DialogueManager : MonoBehaviour
                     break;
                 case ENEMY_TAG:
                     GameStateManager.GetInstance().enemy = tagValue;
+                    break;
+                case PLAYSE_TAG:
+                    if (tagValue == "heal")
+                    {
+                        SoundManager.GetInstance().playSE(Resources.Load<AudioClip>("Sound/SE/se_heal"));
+                    }
+                    else if (tagValue == "gate")
+                    {
+                        SoundManager.GetInstance().playSE(Resources.Load<AudioClip>("Sound/SE/se_gate"));
+                    }
+                    
                     break;
                 default:
                     Debug.LogWarning("Tag in switch case but not handled: "+tag);

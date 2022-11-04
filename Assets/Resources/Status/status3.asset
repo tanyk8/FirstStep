@@ -15,6 +15,6 @@ MonoBehaviour:
   status_ID: 3
   status_name: Positive Aura
   status_description: The positive aura emitting from you has weakened the enemy.
-  status_value: 85
+  status_value: 90
   status_duration: 3
   status_type: enemystatus_dmg

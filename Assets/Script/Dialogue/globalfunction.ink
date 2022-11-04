@@ -24,6 +24,12 @@
     ~quest103_status="complete"
     }
     
+    - 3:
+    {complete=="True":
+    ~quest3_complete=true
+    ~quest3_status="complete"
+    }
+    
     
 }
 
@@ -64,3 +70,8 @@
         ~proceed_progress=false
     }
 }
+
+
+
+
+

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: enemyskill2
   m_EditorClassIdentifier: 
   enemyskill_ID: 2
-  enemyskill_name: Absorb Negative Energy
+  enemyskill_name: Energy Absorb
   enemyskill_type: heal
   enemyskill_description: 
   enemyskill_power: 110

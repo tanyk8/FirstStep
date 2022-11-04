@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c258bb081b63e645b3a3ee93969949c, type: 3}
   m_Name: SubtitleClip
   m_EditorClassIdentifier: 
-  subtitleText: aaa
+  subtitleText: Please wake up...
 --- !u!114 &-731173967648784324
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -384,4 +384,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c258bb081b63e645b3a3ee93969949c, type: 3}
   m_Name: SubtitleClip(Clone)(Clone)
   m_EditorClassIdentifier: 
-  subtitleText: aaa
+  subtitleText: Yuuki...!
