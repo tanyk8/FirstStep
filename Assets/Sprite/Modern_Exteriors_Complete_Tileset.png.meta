@@ -1586,6 +1586,18 @@ TextureImporter:
   - first:
       213: -4387172088302368319
     second: Modern_Exteriors_Complete_Tileset_527
+  - first:
+      213: 9024589600123104537
+    second: streetlight_1
+  - first:
+      213: -7777490500580656170
+    second: streetlight_2
+  - first:
+      213: 8134696001778665596
+    second: streetlight_3
+  - first:
+      213: -6519864399966000323
+    second: streetlight_4
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -12806,6 +12818,90 @@ TextureImporter:
       bones: []
       spriteID: 1c98a3cda32ad13c0800000000000000
       internalID: -4387172088302368319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: streetlight_1
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 1600
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91da50f4d68cd3d70800000000000000
+      internalID: 9024589600123104537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: streetlight_2
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 1584
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6db3aecb89dc01490800000000000000
+      internalID: -7777490500580656170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: streetlight_3
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 1568
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c78cec50aee34e070800000000000000
+      internalID: 8134696001778665596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: streetlight_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 1552
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3baf483fd9c485a0800000000000000
+      internalID: -6519864399966000323
       vertices: []
       indices: 
       edges: []

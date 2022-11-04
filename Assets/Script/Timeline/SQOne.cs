@@ -18,8 +18,8 @@ public class SQOne : MonoBehaviour
             TimelineManager.GetInstance().playTimeline(sqCutscene);
             sqprogress = "progress1";
         }
-        
 
+        SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_memories"));
         //play timeline
     }
 

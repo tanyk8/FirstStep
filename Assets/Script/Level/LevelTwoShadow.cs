@@ -30,6 +30,12 @@ public class LevelTwoShadow : MonoBehaviour
             ProgressManager.GetInstance().loaded = false;
             GameObject.Find("Player").transform.position = ProgressManager.GetInstance().loadedposition;
         }
+
+        if (TimelineManager.GetInstance().getPlayState() != PlayState.Playing && SoundManager.GetInstance().musicSource.clip.name != "bgm_stage2")
+        {
+
+            SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_stage2"));
+        }
     }
 
     // Update is called once per frame
@@ -38,6 +44,12 @@ public class LevelTwoShadow : MonoBehaviour
         if (ProgressManager.GetInstance().loading)
         {
             return;
+        }
+
+        if (TimelineManager.GetInstance().getPlayState() != PlayState.Playing && !SoundManager.GetInstance().musicSource.isPlaying && SoundManager.GetInstance().musicSource.clip.name != "bgm_stage2")
+        {
+
+            SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_stage2"));
         }
 
         if (!DialogueManager.GetInstance().dialogueIsPlaying && callonce)
@@ -57,6 +69,7 @@ public class LevelTwoShadow : MonoBehaviour
                 ProgressManager.GetInstance().gameProgress = "progress20";
                 PlayableAsset tempPlayableasset = Resources.Load<PlayableAsset>("Timeline/Memory2");
                 TimelineManager.GetInstance().playTimeline(tempPlayableasset);
+                SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_memories"));
                 callonce = true;
             }
 
@@ -64,6 +77,7 @@ public class LevelTwoShadow : MonoBehaviour
             {
                 callonce = false;
                 ProgressManager.GetInstance().gameProgress = "progress21";
+                SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_stage2"));
                 TextAsset textAsset = Resources.Load<TextAsset>("Story/MainStoryPart3");
                 DialogueManager.GetInstance().notInteractDialogue = true;
                 DialogueManager.GetInstance().EnterDialogueMode(textAsset);

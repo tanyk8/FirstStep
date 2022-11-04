@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
@@ -18,7 +16,7 @@ public class Credit : MonoBehaviour
         PlayableAsset cutscene = Resources.Load<PlayableAsset>("Timeline/Credit");
         creditdirector.Play(cutscene);
         creditprogress = "progress1";
-
+        SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_credit"));
 
         //play timeline
     }
@@ -26,6 +24,12 @@ public class Credit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (SoundManager.GetInstance().musicSource.clip.name != "bgm_credit")
+        {
+
+            SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_credit"));
+        }
 
         if (creditprogress == "progress1"&&creditdirector.state != PlayState.Playing)
         {

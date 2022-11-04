@@ -30,12 +30,9 @@ MonoBehaviour:
   - description: Help the person
     requirementType: talk
     requirement: 1
-  - description: Defeat the shadow minion
+  - description: Find the shadow source
     requirementType: talk
     requirement: 1
-  - description: Find the shadow's main source
-    requirementType: talk
-    requirement: 1
-  - description: Talk to crystal
+  - description: Defeat the Shadow
     requirementType: talk
     requirement: 1

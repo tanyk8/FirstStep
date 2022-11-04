@@ -21,6 +21,7 @@ VAR shadow2_defeated=false
 
 VAR shadow3_escaped=false
 VAR shadow3_defeated=false
+VAR shadow3_first_defeated=false
 
 VAR playground1_checked=false
 VAR playground2_checked=false

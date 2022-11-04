@@ -33,6 +33,11 @@ public class LevelThreeRoom : MonoBehaviour
             ProgressManager.GetInstance().loaded = false;
             GameObject.Find("Player").transform.position = ProgressManager.GetInstance().loadedposition;
         }
+        if (TimelineManager.GetInstance().getPlayState() != PlayState.Playing && SoundManager.GetInstance().musicSource.clip.name != "bgm_stage3")
+        {
+
+            SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_stage3"));
+        }
     }
 
     // Update is called once per frame
@@ -42,6 +47,12 @@ public class LevelThreeRoom : MonoBehaviour
         {
             return;
         }
+        if (TimelineManager.GetInstance().getPlayState() != PlayState.Playing && !SoundManager.GetInstance().musicSource.isPlaying && SoundManager.GetInstance().musicSource.clip.name != "bgm_stage3")
+        {
+
+            SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_stage3"));
+        }
+
         //lvlthreedirector.state != PlayState.Playing&&
         if (!DialogueManager.GetInstance().dialogueIsPlaying && callonce)
         {

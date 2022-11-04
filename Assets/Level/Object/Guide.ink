@@ -10,5 +10,5 @@ INCLUDE ../../Script/Dialogue/globalfunction.ink
 }
 
 ===guide===
-Let's make sure he is okay before leaving.
+Let's make sure he is okay before leaving.#logtype:mono
 ->END

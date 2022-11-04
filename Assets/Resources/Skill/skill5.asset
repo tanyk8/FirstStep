@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: skill5
   m_EditorClassIdentifier: 
   skill_ID: 5
-  skill_name: Positive Aura
-  skill_type: debuff
-  skill_description: Creates a positive aura around yourself, waekening negative
-    energy.
-  skill_power: 0
-  skill_cost: 0
+  skill_name: Foward Confidence
+  skill_type: damage
+  skill_description: 'A strong confidence that deals big damage to enemy. Type: Damage
+    Cost: 100'
+  skill_power: 200
+  skill_cost: 100
   skill_cureID: 0
   skill_statusID: 3

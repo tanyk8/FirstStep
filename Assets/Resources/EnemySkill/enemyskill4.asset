@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: enemyskill4
   m_EditorClassIdentifier: 
   enemyskill_ID: 4
-  enemyskill_name: Stress Inflict
+  enemyskill_name: Inflict Fear
   enemyskill_type: debuff
   enemyskill_description: 
   enemyskill_power: 0

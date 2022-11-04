@@ -16,6 +16,6 @@ MonoBehaviour:
   status_name: Be Confident
   status_description: You feel more confident which strengthens your power against
     negative energy.
-  status_value: 110
-  status_duration: 2
+  status_value: 150
+  status_duration: 3
   status_type: playerstatus_dmg

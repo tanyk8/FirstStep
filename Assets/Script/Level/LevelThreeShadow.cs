@@ -31,6 +31,12 @@ public class LevelThreeShadow : MonoBehaviour
             ProgressManager.GetInstance().loaded = false;
             GameObject.Find("Player").transform.position = ProgressManager.GetInstance().loadedposition;
         }
+
+        if (TimelineManager.GetInstance().getPlayState() != PlayState.Playing  && SoundManager.GetInstance().musicSource.clip.name != "bgm_shadow")
+        {
+
+            SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_shadow"));
+        }
     }
 
     // Update is called once per frame
@@ -39,6 +45,12 @@ public class LevelThreeShadow : MonoBehaviour
         if (ProgressManager.GetInstance().loading)
         {
             return;
+        }
+
+        if (TimelineManager.GetInstance().getPlayState() != PlayState.Playing && SoundManager.GetInstance().musicSource.clip.name != "bgm_shadow")
+        {
+
+            SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_shadow"));
         }
 
         if (!DialogueManager.GetInstance().dialogueIsPlaying && callonce && TimelineManager.GetInstance().getPlayState() != PlayState.Playing)

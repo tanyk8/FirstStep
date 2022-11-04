@@ -15,8 +15,9 @@ MonoBehaviour:
   skill_ID: 1
   skill_name: Positive strike
   skill_type: damage
-  skill_description: Using your positive energy to push back the negative emotion
-  skill_power: 300
+  skill_description: 'Using your positive energy to push back the negative emotion.
+    Type: Damage Cost:70'
+  skill_power: 150
   skill_cost: 70
   skill_cureID: 0
   skill_statusID: 0

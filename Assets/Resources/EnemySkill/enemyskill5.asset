@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: enemyskill5
   m_EditorClassIdentifier: 
   enemyskill_ID: 5
-  enemyskill_name: Hopeless void
-  enemyskill_type: 
+  enemyskill_name: Gluttonous Bite
+  enemyskill_type: damage
   enemyskill_description: 
-  enemyskill_power: 0
+  enemyskill_power: 200
   enemyskill_cost: 0
   enemyskill_statusID: 0

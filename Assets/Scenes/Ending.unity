@@ -1306,6 +1306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c95eba687d94ae46a89506edeed6c70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  backloadbtn: {fileID: 0}
   template_listitem: {fileID: 6762444196843905771, guid: 207284e5f5c00a4448d63f7e1f382f58, type: 3}
   panel_list: {fileID: 349950334}
   panel_listT: {fileID: 349950335}
@@ -1624,7 +1625,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: (Hey did we defeated it?)
+  m_text: Yu- Yuuki...! You're finally awake...!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1865,7 +1866,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: But you don't feel the shadow energy anymore
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1874,8 +1875,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 3019898879
-  m_fontColor: {r: 1, g: 1, b: 1, a: 0.70029485}
+    rgba: 469762047
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -5199,6 +5200,8 @@ PlayableDirector:
     value: {fileID: 855238667}
   - key: {fileID: 1562234173404553904, guid: 8723de081e2183b4fba78caabcfdd3df, type: 2}
     value: {fileID: 855238667}
+  - key: {fileID: 8479906404736775531, guid: 8723de081e2183b4fba78caabcfdd3df, type: 2}
+    value: {fileID: 565331565}
   m_ExposedReferences:
     m_References:
     - 03ffb46da62533945a1e03eb81c58818: {fileID: 969646805}
@@ -6334,7 +6337,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -6433,7 +6436,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96

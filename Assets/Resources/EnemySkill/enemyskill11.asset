@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6c73cd7f3b51184c97d8d47aeca09d2, type: 3}
+  m_Name: enemyskill11
+  m_EditorClassIdentifier: 
+  enemyskill_ID: 11
+  enemyskill_name: Nightmare Domain
+  enemyskill_type: buff
+  enemyskill_description: 
+  enemyskill_power: 0
+  enemyskill_cost: 0
+  enemyskill_statusID: 7

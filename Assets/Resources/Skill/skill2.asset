@@ -15,8 +15,9 @@ MonoBehaviour:
   skill_ID: 2
   skill_name: Mental rest
   skill_type: heal
-  skill_description: Relaxing your mental heals your mental helath
-  skill_power: 105
+  skill_description: 'Relaxing your mental heals your mental helath. Type: Heal Cost:
+    20'
+  skill_power: 115
   skill_cost: 20
   skill_cureID: 0
   skill_statusID: 0

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.Playables;
-
+using UnityEngine.Timeline;
 
 
 public class LevelOne : MonoBehaviour
@@ -41,6 +41,24 @@ public class LevelOne : MonoBehaviour
         Toverlay = GameObject.Find("TransitionOverlay").gameObject;
         Toverlayanimator = GameObject.Find("TransitionOverlay").GetComponent<Animator>();
 
+        var timelineAsset = lvlonedirector.playableAsset as TimelineAsset;
+        var trackList = timelineAsset.GetOutputTracks();
+        foreach (var track in trackList)
+        {
+            // check to see if this is the one you are looking for (by name, index etc)
+            if (track.name == "SQ1_setrack")
+            {
+                // bind the track to our new actor instance
+                lvlonedirector.SetGenericBinding(track, SoundManager.GetInstance().effectSource);
+            }
+            else if (track.name == "SQ1_musictrack")
+            {
+                lvlonedirector.SetGenericBinding(track, SoundManager.GetInstance().musicSource);
+            }
+
+        }
+
+
         if (DialogueVariableObserver.variables["mainquest_progress"].ToString() == "3" && ProgressManager.GetInstance().gameProgress == "progress5")
         {
             ProgressManager.GetInstance().gameProgress = "progress6";
@@ -71,8 +89,12 @@ public class LevelOne : MonoBehaviour
             }
 
         }
-        
 
+        if (SoundManager.GetInstance().musicSource.clip.name != "bgm_stage1")
+        {
+
+            SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_stage1"));
+        }
     }
 
     // Update is called once per frame
@@ -82,6 +104,19 @@ public class LevelOne : MonoBehaviour
         {
             return;
         }
+        
+        if (TimelineManager.GetInstance().getPlayState() != PlayState.Playing&&lvlonedirector.state!=PlayState.Playing && SoundManager.GetInstance().musicSource.clip.name != "bgm_stage1")
+        {
+
+            SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_stage1"));
+        }
+
+        if (TimelineManager.GetInstance().getPlayState() != PlayState.Playing && lvlonedirector.state != PlayState.Playing && !SoundManager.GetInstance().musicSource.isPlaying)
+        {
+
+            SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_stage1"));
+        }
+
 
         if (!DialogueManager.GetInstance().dialogueIsPlaying && callonce)
         {
@@ -239,6 +274,7 @@ public class LevelOne : MonoBehaviour
             {
                 callonce = false;
                 //StartCoroutine(fadeTransition("updateprogress"));
+                SoundManager.GetInstance().musicSource.Stop();
                 shadowaura.SetActive(false);
                 Debug.Log(shadowaura.activeInHierarchy);
                 PlayableAsset cutscene = Resources.Load<PlayableAsset>("Timeline/SQ_1_Music");            
@@ -250,6 +286,7 @@ public class LevelOne : MonoBehaviour
 
             if(ProgressManager.GetInstance().gameProgress == "progress8"&& lvlonedirector.state != PlayState.Playing)
             {
+                //SoundManager.GetInstance().musicSource.Play();
                 ProgressManager.GetInstance().stageOne_newpos = true;
             }
             

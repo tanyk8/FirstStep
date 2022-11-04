@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: status2
   m_EditorClassIdentifier: 
   status_ID: 2
-  status_name: Stress
+  status_name: Fear
   status_description: The negative tries to overwhelm you with stress, weakening
     your power
   status_value: 90

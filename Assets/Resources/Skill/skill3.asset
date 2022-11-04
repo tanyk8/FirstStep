@@ -15,8 +15,8 @@ MonoBehaviour:
   skill_ID: 3
   skill_name: Gain confidence
   skill_type: buff
-  skill_description: Try to believe in yourself.
+  skill_description: 'Try to believe in yourself. Type: Buff Cost:30'
   skill_power: 0
-  skill_cost: 10
+  skill_cost: 30
   skill_cureID: 0
   skill_statusID: 1
