@@ -166,8 +166,6 @@ public class LevelOne : MonoBehaviour
             {
                 npc.transform.position = new Vector3(-6.663799e-05f, 0.18f,0);
                 
-                
-
             }
 
             if (!shadowaura_after.activeInHierarchy&& DialogueVariableObserver.variables["mainquest_progress"].ToString() == "6")
@@ -179,9 +177,9 @@ public class LevelOne : MonoBehaviour
                 shadowaura_after.SetActive(false);
             }
 
-            if (DialogueVariableObserver.variables["quest1_progress"].ToString() == "0"&& DialogueVariableObserver.variables["quest1_progress"].ToString() == "8")
+            if (DialogueVariableObserver.variables["quest1_progress"].ToString() == "0"|| DialogueVariableObserver.variables["quest1_progress"].ToString() == "8")
             {
-
+                //Debug.Log("Test1");
                 //!QuestManager.GetInstance().checkQuestExist(1)
                 playgroundobj1.SetActive(false);
                 playgroundobj2.SetActive(false);
@@ -198,6 +196,7 @@ public class LevelOne : MonoBehaviour
 
                 if (playgroundobj1.activeInHierarchy&&QuestManager.GetInstance().questlist.ElementAt(tempindex).questState != QuestState.INPROGRESS)
                 {
+                    //Debug.Log("Test2");
                     playgroundobj1.SetActive(false);
                     playgroundobj2.SetActive(false);
                     playgroundobj3.SetActive(false);
@@ -207,7 +206,8 @@ public class LevelOne : MonoBehaviour
                 }
                 if (QuestManager.GetInstance().questlist.ElementAt(tempindex).questState == QuestState.INPROGRESS && QuestManager.GetInstance().questlist.ElementAt(tempindex).quest_progress == 2)
                 {
-                    if(!fountainobj.activeInHierarchy&& DialogueVariableObserver.variables["fountain_checked"].ToString() == "false")
+                    //Debug.Log("Test3");
+                    if (!fountainobj.activeInHierarchy&& DialogueVariableObserver.variables["fountain_checked"].ToString() == "false")
                     {
                         fountainobj.SetActive(true);
                     }
@@ -217,7 +217,7 @@ public class LevelOne : MonoBehaviour
                     }
                 }
 
-                    if (QuestManager.GetInstance().questlist.ElementAt(tempindex).questState==QuestState.INPROGRESS&& QuestManager.GetInstance().questlist.ElementAt(tempindex).quest_progress==1)
+                if (QuestManager.GetInstance().questlist.ElementAt(tempindex).questState==QuestState.INPROGRESS&& QuestManager.GetInstance().questlist.ElementAt(tempindex).quest_progress==1)
                 {
                     if (!playgroundobj1.activeInHierarchy && DialogueVariableObserver.variables["playground1_checked"].ToString() == "false")
                     {

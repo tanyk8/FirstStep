@@ -2145,6 +2145,7 @@ MonoBehaviour:
   player: {fileID: 216893817}
   girlnpctrigger: {fileID: 1653608306}
   shadowaura: {fileID: 1763174463}
+  girlnpc: {fileID: 1915891050}
   continuestory: 0
   callonce: 1
   Toverlay: {fileID: 0}
@@ -2159,7 +2160,7 @@ PlayableDirector:
   m_GameObject: {fileID: 1526490033}
   m_Enabled: 1
   serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: dde32133afa623d439cdb89ce14cc69b, type: 2}
+  m_PlayableAsset: {fileID: 11400000, guid: 8c9d11e691e049f4694b771377ed3558, type: 2}
   m_InitialState: 0
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
@@ -2268,7 +2269,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.17997187, y: -0.122531325}
+  m_Offset: {x: 0.064156234, y: -0.11761978}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -2279,7 +2280,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.4833871, y: 0.31313032}
+  m_Size: {x: 0.50904965, y: 0.291745}
   m_EdgeRadius: 0
 --- !u!1 &1588400737
 GameObject:

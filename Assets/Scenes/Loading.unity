@@ -13907,24 +13907,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '<b>Controls</b>
-
-    [W][A][S][D] Move
-
-    OR
-
-    [UP][LEFT][DOWN][RIGHT]
-    Move
-
-
-    [E] Interect
-
-
-    [ENTER] Submit/Continue Dialogue
-
-
-    [ESC] Open/Close
-    Menu'
+  m_text: "<b>CONTROLS\r</b>\n\nMove\r\n[W][A][S][D] \n[\u2191][\u2190][\u2193][\u2192]
+    \n\r\n[E] Interect\r\n\r\n[ENTER] Submit/Continue Dialogue\r\n\r\n[ESC] Open/Close
+    Menu"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

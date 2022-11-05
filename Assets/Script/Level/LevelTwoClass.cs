@@ -12,6 +12,8 @@ public class LevelTwoClass : MonoBehaviour
     [SerializeField] GameObject girlnpctrigger;
     [SerializeField] GameObject shadowaura;
 
+    [SerializeField] GameObject girlnpc;
+
     public bool continuestory = false;
     public bool callonce = true;
 
@@ -72,16 +74,17 @@ public class LevelTwoClass : MonoBehaviour
 
         if (lvltwodirector.state!=PlayState.Playing&&!DialogueManager.GetInstance().dialogueIsPlaying && callonce)
         {
-            if (DialogueVariableObserver.variables["girlhelped"].ToString() == "true")
+            if (girlnpctrigger.activeInHierarchy&&DialogueVariableObserver.variables["girlhelped"].ToString() == "true")
             {
                 girlnpctrigger.SetActive(false);
             }
-            if (DialogueVariableObserver.variables["shadow2_escaped"].ToString() == "true")
+            if (shadowaura.activeInHierarchy&&DialogueVariableObserver.variables["shadow2_escaped"].ToString() == "true")
             {
                 shadowaura.SetActive(false);
+                girlnpc.transform.position = new Vector3(-0.416f,0.941f,0);
             }
 
-            if(DialogueVariableObserver.variables["mainquest_progress"].ToString() == "91"&& DialogueVariableObserver.variables["areatrigger103"].ToString() == "false")
+            if (DialogueVariableObserver.variables["mainquest_progress"].ToString() == "91"&& DialogueVariableObserver.variables["areatrigger103"].ToString() == "false")
             {
                 callonce = false;
                 TextAsset textAsset = Resources.Load<TextAsset>("Story/MainstoryPart3");
@@ -142,7 +145,6 @@ public class LevelTwoClass : MonoBehaviour
             if (DialogueVariableObserver.variables["quest2_progress"].ToString() == "61" && ProgressManager.GetInstance().gameProgress == "progress141")
             {
                 callonce = false;
-
                 ProgressManager.GetInstance().gameProgress = "progress142";
                 TextAsset textAsset = Resources.Load<TextAsset>("Story/SchoolNPC");
                 DialogueManager.GetInstance().notInteractDialogue = true;

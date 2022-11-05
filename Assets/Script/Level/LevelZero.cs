@@ -9,6 +9,9 @@ using UnityEngine.SceneManagement;
 
 public class LevelZero : MonoBehaviour
 {
+    [SerializeField] GameObject controlsPanel;
+    [SerializeField] GameObject closeControlsBtn;
+
     [SerializeField] GameObject obj_void1;
     [SerializeField] GameObject obj_void2;
     [SerializeField] GameObject obj_void3;
@@ -142,10 +145,18 @@ public class LevelZero : MonoBehaviour
 
         if (TimelineManager.GetInstance().getPlayState() != PlayState.Playing && ProgressManager.GetInstance().gameProgress == "progress1")
         {
-            ProgressManager.GetInstance().gameProgress = "progress2";
+            ProgressManager.GetInstance().gameProgress = "progress2p";
             TextAsset textAsset = Resources.Load<TextAsset>("Story/MainStoryPart1");
             DialogueManager.GetInstance().notInteractDialogue = true;
             DialogueManager.GetInstance().EnterDialogueMode(textAsset);
+            ProgressManager.GetInstance().gameProgress = "progress2p2";
+        }
+
+        if (!DialogueManager.GetInstance().dialogueIsPlaying&& TimelineManager.GetInstance().getPlayState() != PlayState.Playing&& ProgressManager.GetInstance().gameProgress == "progress2p2")
+        {
+            ProgressManager.GetInstance().gameProgress = "progress2";
+            controlsPanel.SetActive(true);
+            StartCoroutine(ListLayout.selectOption(closeControlsBtn));
         }
 
         if (!DialogueManager.GetInstance().dialogueIsPlaying&&callonce)
@@ -355,5 +366,9 @@ public class LevelZero : MonoBehaviour
         }
     }
 
-
+    public void onCloseControlsBtn()
+    {
+        controlsPanel.SetActive(false);
+        SoundManager.GetInstance().playSE(Resources.Load<AudioClip>("Sound/SE/submit"));
+    }
 }

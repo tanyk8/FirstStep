@@ -31,7 +31,8 @@ Oh hey umm… actually I lost something and I am trying to find it.#speaker:John
 Do you need help? I am rather free as I am just enjoying a walk around the park.#speaker:??? #portrait:portrait_player
 Really? That would be a great help! Actually I’ve lost my favourite guitar pick and I just can’t find it anywhere.#speaker:John #portrait:portrait_parknpc
 When was the last time you saw it?#speaker:Yuuki #portrait:portrait_player
-…I think it was when I kept it in my wallet after practicing here hours ago. That’s why I came back here trying to find it.#speaker:John #portrait:portrait_parknpc
+…I think it was when I kept it in my wallet after practicing here hours ago.#speaker:John #portrait:portrait_parknpc
+That’s why I came back here trying to find it.
 Then what about the places you’ve went after practicing?#speaker:Yuuki #portrait:portrait_player
 I think I’ve went to the playground for a walk to get some inspiration for my new song.#speaker:John #portrait:portrait_parknpc
 Maybe I can try to go there and search for it.#speaker:Yuuki #portrait:portrait_player
