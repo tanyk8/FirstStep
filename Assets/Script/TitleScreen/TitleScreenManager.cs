@@ -18,8 +18,6 @@ public class TitleScreenManager : MonoBehaviour
     [SerializeField] GameObject loadTitleListRef;
     [SerializeField] GameObject loadPanel;
 
-    bool playonce=true;
-
     private void Start()
     {
         StartCoroutine(ListLayout.selectOption(newGameBtn));

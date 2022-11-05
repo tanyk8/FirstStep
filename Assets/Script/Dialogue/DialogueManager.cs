@@ -172,20 +172,28 @@ public class DialogueManager : MonoBehaviour
         {
             return;
         }
-        if (canContinueToNextLine&& currentStory.currentChoices.Count == 0 && InputManager.getInstance().getSubmitPressed())
+        else
         {
-            ContinueStory();
+            if (canContinueToNextLine && currentStory.currentChoices.Count == 0 && InputManager.getInstance().getSubmitPressed())
+            {
+                
+                ContinueStory();
+            }
         }
+        
     }
 
     public void EnterDialogueMode(TextAsset inkJSON)
     {
+
+
+
         if (!notInteractDialogue)
         {
             updateTalkingActor?.Invoke();
         }
         
-        
+
 
         currentStory = new Story(inkJSON.text);
         dialogueIsPlaying = true;
@@ -227,9 +235,10 @@ public class DialogueManager : MonoBehaviour
 
     }
 
-    public IEnumerator ExitDialogueMode()
+    public void ExitDialogueMode()
     {
-        yield return new WaitForSeconds(0.2f);
+        //IEnumerator
+        //yield return new WaitForSeconds(0.2f);
 
         dialoguevariableobserver.stopListening(currentStory);
 
@@ -310,6 +319,7 @@ public class DialogueManager : MonoBehaviour
 
     private void ContinueStory()
     {
+        
         if (currentStory.canContinue)
         {
             if (displayLineCoroutine != null)
@@ -321,7 +331,9 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            StartCoroutine(ExitDialogueMode());
+            Debug.Log("Test");
+            //StartCoroutine(ExitDialogueMode());
+            ExitDialogueMode();
         }
     }
 

@@ -341,11 +341,11 @@ But you don’t have to force yourself, just try it with your own pace.
 ->END
 ===progress8===
 ~quest2_progress="12"
+~shadow2_escaped=true
 Hey the shadow enemy has escaped, after it.#logtype:di #speaker:??? #portrait:portrait_npc_mysterious
 I think I have to leave already, I suddenly remembered that I have some urgent matter.#speaker:Yuuki #portrait:portrait_player #questtrigger:proceedprogress #questtrigger_type:force #quest_id:2
 Good luck on practicing the “magic” that I have taught you.
 Wa- h- he's gone...#speaker:Tim #portrait:portrait_schoolnpc #questtrigger:proceedprogress #questtrigger_type:force #quest_id:103
 The mysterious person has made you invisible again, allowing you to focus on the chase.#logtype:mono #questtrigger:complete #quest_id:2
 ~mainquest_progress="10"
-~shadow2_escaped=true
 ->END

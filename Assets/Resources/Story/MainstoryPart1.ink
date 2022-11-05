@@ -19,7 +19,7 @@ VAR questionasked=0
 
 ===progress0===
 Where am I...?#logtype:di #speaker:??? #portrait:portrait_player
-The moment you opens your eyes, you noticed that you're in an unfamiliar place.#logtype:mono
+The moment you open your eyes, you noticed that you're in an unfamiliar place.#logtype:mono
 You find yourself lying on the hard dusty floor which is made out of stone.
 You tried to get up from the floor and looked around the place.
 (Maybe I should try and look around) #logtype:di #speaker:??? #portrait:portrait_player #questtrigger:start #quest_id:101
