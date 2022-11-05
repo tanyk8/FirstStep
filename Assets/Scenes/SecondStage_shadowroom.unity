@@ -337,7 +337,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 412326187}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.875, y: -0.95, z: -10}
+  m_LocalPosition: {x: 0.87, y: -0.95, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -460,7 +460,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1828730691181487474, guid: b7d5eb08577db3f46931ccd64d42e5b5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.875
+      value: 0.87
       objectReference: {fileID: 0}
     - target: {fileID: 1828730691181487474, guid: b7d5eb08577db3f46931ccd64d42e5b5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -731,7 +731,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 8669b8c0a980ae94a8a0d5fd6c0b4e08, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2137,7 +2137,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 8669b8c0a980ae94a8a0d5fd6c0b4e08, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5625,6 +5625,8 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: ed05459bd6ceaef45b4f5b2aa435534e, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 9dca98fe082aa0d48be03b89be8e5084, type: 2}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   m_TileSpriteArray:
   - m_RefCount: 254
     m_Data: {fileID: 582862884337083886, guid: 6fb694c12a1ae414eb189282740a730e, type: 3}
@@ -5654,6 +5656,8 @@ Tilemap:
     m_Data: {fileID: 4385509888552774161, guid: 4c69e4bd7c38d304597210761fb0c148, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 2684475003878836197, guid: 4c69e4bd7c38d304597210761fb0c148, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   m_TileMatrixArray:
   - m_RefCount: 342
     m_Data:
@@ -5852,7 +5856,7 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 554907145}
+  m_LookAt: {fileID: 0}
   m_Follow: {fileID: 554907145}
   m_Lens:
     FieldOfView: 60
@@ -5877,7 +5881,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1312004370}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.875, y: -0.95, z: -10}
+  m_LocalPosition: {x: 0.87, y: -0.95, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1119232747}
@@ -6013,7 +6017,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 8669b8c0a980ae94a8a0d5fd6c0b4e08, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -1131,7 +1131,7 @@ public class ListLayout : MonoBehaviour
         Skill tempskill = null;
         tempskill = SkillManager.GetInstance().getSkillWName(MenuManager.GetInstance().lastSelectedSkill);
 
-        menuSkillDescription.transform.GetComponent<TextMeshProUGUI>().text = MenuManager.GetInstance().lastSelectedSkill +"<br/>"+ tempskill.skillData.skill_description;
+        menuSkillDescription.transform.GetComponent<TextMeshProUGUI>().text = MenuManager.GetInstance().lastSelectedSkill +"<br>"+ tempskill.skillData.skill_description;
         menuSkillDescPanel.SetActive(true);
         StartCoroutine(selectOption(menuSkillDescPanel));
 
