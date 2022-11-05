@@ -38,9 +38,18 @@ public class SoundManager : MonoBehaviour
 
     private void Awake()
     {
+        if (!Directory.Exists(Application.dataPath + Path.AltDirectorySeparatorChar + "save"))
+        {
+            Directory.CreateDirectory(Application.dataPath + Path.AltDirectorySeparatorChar + "save");
+        }
+
         if (!File.Exists(Application.dataPath + Path.AltDirectorySeparatorChar + "save" + Path.AltDirectorySeparatorChar + "settings.json"))
         {
             createDefault();
+            currentSettings = new SettingsData();
+            currentSettings.loadSetting();
+            updateSettings(currentSettings);
+            setTempValue(currentSettings);
         }
         else
         {
@@ -48,6 +57,7 @@ public class SoundManager : MonoBehaviour
             currentSettings.loadSetting();
             updateSettings(currentSettings);
             setTempValue(currentSettings);
+            
         }
 
         if (instance == null)
@@ -310,7 +320,11 @@ public class SoundManager : MonoBehaviour
         string savePath = Application.dataPath + Path.AltDirectorySeparatorChar + "save" + Path.AltDirectorySeparatorChar + "settings.json";
 
         SettingsData settingdata = new SettingsData();
-
+        settingdata.currentMusicVolume = 1f;
+        settingdata.currentEffectVolume = 1f;
+        settingdata.muteMusic = false;
+        settingdata.muteEffect = false;
+        
         Debug.Log("Data saved at " + savePath);
         string json = JsonUtility.ToJson(settingdata);
         Debug.Log(json);

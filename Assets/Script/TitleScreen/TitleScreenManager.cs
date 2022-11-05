@@ -44,6 +44,7 @@ public class TitleScreenManager : MonoBehaviour
             if (settingsMenu.activeInHierarchy)
             {
                 SoundManager.GetInstance().playSEMenu(cancelSE);
+                SoundManager.GetInstance().revertValue();
                 settingsMenu.SetActive(false);
                 StartCoroutine(ListLayout.selectOption(settingsBtn));
             }
