@@ -41,12 +41,6 @@ public class DialogueManager : MonoBehaviour
     [Header("QuestManager")]
     [SerializeField] private GameObject questManager;
 
-    //[Header("Animator")]
-    //[SerializeField] private Animator mainenemyAnimator;
-    //[SerializeField] private Animator darkauraAnimator;
-    //[Header("AnimatorObj")]
-    //[SerializeField] private GameObject mainenemyObj;
-
     [Header("cutscene")]
     [SerializeField] private GameObject cutscene;
 
@@ -73,11 +67,9 @@ public class DialogueManager : MonoBehaviour
     private const string LOG_TAG = "logtype";
     private const string CUTSCENE_TAG = "cutscene";
     private const string ANIMATOR_TAG = "animator";
-    private const string ANIMATION_TAG = "animation";
     private const string LEARNSKILL_TAG = "learnskill";
     private const string GETITEM_TAG = "getitem";
     private const string REMOVEITEM_TAG = "removeitem";
-    private const string CALLFUNCTION_TAG = "callfunction";
     private const string ENEMY_TAG = "enemy";
     private const string ADDSTAT_TAG = "addstat";
     private const string PLAYSE_TAG = "playse";
@@ -100,8 +92,6 @@ public class DialogueManager : MonoBehaviour
 
     private DialogueVariableObserver dialoguevariableobserver;
 
-    //private GameObject talkingActor;
-
     private bool initiateBattle;
     private bool changeScene;
     private string destination;
@@ -112,16 +102,6 @@ public class DialogueManager : MonoBehaviour
 
     private void Awake()
     {
-        //if (instance != null)
-        //{
-        //    Debug.LogWarning("Found more than one Dialogue Manager in the scene");
-        //    Destroy(gameObject);
-        //}
-        //else
-        //{
-        //    instance = this;
-        //    DontDestroyOnLoad(gameObject);
-        //}
 
             if (instance == null)
             {
@@ -148,15 +128,11 @@ public class DialogueManager : MonoBehaviour
 
     private void Start()
     {
-        
-
         dialogueIsPlaying = false;
         dialogueCanvas.SetActive(false);
         dialoguechoicepanel.SetActive(false);
 
         layoutAnimator = dialoguePanel.GetComponent<Animator>();
-
-        
     }
 
     private void Update()
@@ -174,7 +150,7 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            if (canContinueToNextLine && currentStory.currentChoices.Count == 0 && InputManager.getInstance().getSubmitPressed())
+            if (canContinueToNextLine && currentStory.currentChoices.Count == 0 && InputManager.GetInstance().getSubmitPressed())
             {
                 
                 ContinueStory();
@@ -185,33 +161,16 @@ public class DialogueManager : MonoBehaviour
 
     public void EnterDialogueMode(TextAsset inkJSON)
     {
-
-
-
         if (!notInteractDialogue)
         {
             updateTalkingActor?.Invoke();
         }
-        
-
 
         currentStory = new Story(inkJSON.text);
         dialogueIsPlaying = true;
         dialogueCanvas.SetActive(true);
 
         dialoguevariableobserver.startListening(currentStory);
-
-        //if (!notInteractDialogue)
-        //{
-        //    if(talkingActor.GetComponent<QuestGiver>() != null && questManager.GetComponent<QuestManager>() != null)
-        //    {
-        //        startQuestTrigger += questManager.GetComponent<QuestManager>().startQuest;
-        //        updateQuestPV += questManager.GetComponent<QuestManager>().updateTalkProgressValue;
-        //        updateQuestTrigger += questManager.GetComponent<QuestManager>().updateQuestProgress;
-        //        completeQuestTrigger += questManager.GetComponent<QuestManager>().completeQuest;
-        //    }
-
-        //}
 
         startQuestTrigger += questManager.GetComponent<QuestManager>().startQuest;
         updateQuestPV += questManager.GetComponent<QuestManager>().updateTalkProgressValue;
@@ -228,31 +187,12 @@ public class DialogueManager : MonoBehaviour
         layoutAnimator.Play("layout_left");
         dialoguetype = "di";
 
-        
-
-
         ContinueStory();
-
     }
 
     public void ExitDialogueMode()
     {
-        //IEnumerator
-        //yield return new WaitForSeconds(0.2f);
-
         dialoguevariableobserver.stopListening(currentStory);
-
-        //if (!notInteractDialogue)
-        //{
-        //    if (talkingActor.GetComponent<QuestGiver>() != null && questManager.GetComponent<QuestManager>() != null)
-        //    {
-        //        startQuestTrigger -= questManager.GetComponent<QuestManager>().startQuest;
-        //        updateQuestPV -= questManager.GetComponent<QuestManager>().updateTalkProgressValue;
-        //        updateQuestTrigger -= questManager.GetComponent<QuestManager>().updateQuestProgress;
-        //        completeQuestTrigger -= questManager.GetComponent<QuestManager>().completeQuest;
-        //    }
-        //}
-
 
         startQuestTrigger -= questManager.GetComponent<QuestManager>().startQuest;
         updateQuestPV -= questManager.GetComponent<QuestManager>().updateTalkProgressValue;
@@ -261,7 +201,6 @@ public class DialogueManager : MonoBehaviour
 
 
         dialogueIsPlaying = false;
-        //dialoguePanel.SetActive(false);
         dialogueCanvas.SetActive(false);
         dialogueText.text = "";
 
@@ -287,7 +226,6 @@ public class DialogueManager : MonoBehaviour
                 case "Beginning":
                     destination = "";
                     UnityEngine.SceneManagement.SceneManager.LoadScene("Beginning");
-                    
                     break;
                 case "SQ_1_backstory":
                     destination = "";
@@ -319,7 +257,6 @@ public class DialogueManager : MonoBehaviour
 
     private void ContinueStory()
     {
-        
         if (currentStory.canContinue)
         {
             if (displayLineCoroutine != null)
@@ -331,8 +268,6 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Test");
-            //StartCoroutine(ExitDialogueMode());
             ExitDialogueMode();
         }
     }
@@ -344,15 +279,13 @@ public class DialogueManager : MonoBehaviour
         monologueText.maxVisibleCharacters = 0;
 
         continueIcon.SetActive(false);
-
-
         canContinueToNextLine = false;
 
         bool isAddingRichTextTag = false;
 
         foreach (char letter in line.ToCharArray())
         {
-            if (InputManager.getInstance().getSubmitPressed())
+            if (InputManager.GetInstance().getSubmitPressed())
             {
                 monologueText.maxVisibleCharacters = line.Length;
                 break;
@@ -402,7 +335,7 @@ public class DialogueManager : MonoBehaviour
 
         foreach(char letter in line.ToCharArray())
         {
-            if (InputManager.getInstance().getSubmitPressed())
+            if (InputManager.GetInstance().getSubmitPressed())
             {
                 dialogueText.maxVisibleCharacters = line.Length;
                 monologueText.maxVisibleCharacters = line.Length;
@@ -511,15 +444,9 @@ public class DialogueManager : MonoBehaviour
                 case ANIMATOR_TAG:
                     if (tagValue == "mainenemyappear")
                     {
-                        //mainenemyObj.SetActive(true);
-                        //darkauraAnimator.SetTrigger("Fadein");
-                        //mainenemyAnimator.SetTrigger("Fadein");
                         LevelZero lvlzero = GameObject.Find("LevelManager").GetComponent<LevelZero>();
-
                         lvlzero.performAction(tagValue);
                     }
-                    
-
                     break;
                 case LEARNSKILL_TAG:
                     if (tagValue == "starter")
@@ -625,7 +552,6 @@ public class DialogueManager : MonoBehaviour
 
         if (questTrigger == "start")
         {
-            //questData = talkingActor.GetComponent<QuestGiver>().getTargetQuestData(int.Parse(quest_id));
             questData = Resources.Load<QuestData>("Quest/quest"+quest_id);
             startQuestTrigger?.Invoke(questData);
         }
@@ -637,7 +563,6 @@ public class DialogueManager : MonoBehaviour
 
         if (questTrigger == "proceedprogress")
         {
-            //questData = talkingActor.GetComponent<QuestGiver>().getTargetQuestData(int.Parse(quest_id));
             questData = Resources.Load<QuestData>("Quest/quest" + quest_id);
             if (questTrigger_type == "")
             {
@@ -652,7 +577,6 @@ public class DialogueManager : MonoBehaviour
 
         if (questTrigger == "complete")
         {
-            //questData = talkingActor.GetComponent<QuestGiver>().getTargetQuestData(int.Parse(quest_id));
             questData = Resources.Load<QuestData>("Quest/quest" + quest_id);
             completeQuestTrigger?.Invoke(questData);
         }
@@ -678,9 +602,6 @@ public class DialogueManager : MonoBehaviour
             dialoguechoicepanel.SetActive(true);
             choiceListref.GetComponent<ListLayout>().createChoiceList(currentChoices.Count, currentChoices);
         }
-        
-
-
     }
 
     public void MakeChoice(int choiceIndex,string response)
@@ -690,7 +611,7 @@ public class DialogueManager : MonoBehaviour
         {
             currentStory.ChooseChoiceIndex(choiceIndex);
 
-            InputManager.getInstance().registerSubmitPressed();
+            InputManager.GetInstance().registerSubmitPressed();
 
             choiceListref.GetComponent<ListLayout>().destroyListSelection();
             dialoguechoicepanel.SetActive(false);
@@ -705,9 +626,18 @@ public class DialogueManager : MonoBehaviour
         return currentStory;
     }
 
-    //public void setTalkingActor(GameObject talkingactor)
-    //{
-    //    talkingActor = talkingactor;
-    //}
-
 }
+
+
+//if (!notInteractDialogue)
+//{
+//    if(talkingActor.GetComponent<QuestGiver>() != null && questManager.GetComponent<QuestManager>() != null)
+//    {
+//        startQuestTrigger += questManager.GetComponent<QuestManager>().startQuest;
+//        updateQuestPV += questManager.GetComponent<QuestManager>().updateTalkProgressValue;
+//        updateQuestTrigger += questManager.GetComponent<QuestManager>().updateQuestProgress;
+//        completeQuestTrigger += questManager.GetComponent<QuestManager>().completeQuest;
+//    }
+
+//}
+//ENTER DIALGOE

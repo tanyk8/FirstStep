@@ -168,7 +168,7 @@ Actually both are different.
 Correct, both are different.
 -Anxiety is a rather normal thing that anyone could have any point in their life.
 You may feel worried and anxious about sitting an exam, having medical test or job interview.
-Anxiety only becomes a problem when it becomes unmanagable and start to affect your daily life.
+Anxiety only becomes a problem when it becomes unmanageable and start to affect your daily life.
 From that point, it is considered an anxiety disorder.
 ->quiz3
 

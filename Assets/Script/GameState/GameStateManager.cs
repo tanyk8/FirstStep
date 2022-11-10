@@ -55,16 +55,9 @@ public class GameStateManager : MonoBehaviour
     public void updateLastScene(Scene current)
     {
         lastscene = current.name;
-        //if (GameObject.Find("Player")!=null)
-        //{
-        //    position = GameObject.Find("Player").transform.position;
-        //    Debug.Log(position);
-        //}
         
         updateOnce = true;
     }
-
-
 
     private void OnDisable()
     {

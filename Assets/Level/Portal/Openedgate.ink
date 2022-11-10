@@ -5,5 +5,5 @@ Do you wish to enter the gate?#logtype:mono
 You feel a strange power as it teleports you to another location. #portal:FirstStage_Park
 ->END
 +[No]
-Maybe I need some time to prepare
+Maybe I need some time to prepare#logtype:di #speaker:Yuuki #portrait:portrait_player
 ->END

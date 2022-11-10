@@ -22,17 +22,6 @@ public class InputManager : MonoBehaviour
 
     private void Awake()
     {
-        //if (instance != null)
-        //{
-        //    Debug.LogWarning("Found more than one Input Manager in the scene.");
-        //    //Destroy(gameObject);
-        //}
-        //else
-        //{
-        //    instance = this;
-        //    DontDestroyOnLoad(gameObject);
-        //}
-
         if (instance == null)
         {
             instance = this;
@@ -44,20 +33,10 @@ public class InputManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-
-
        
     }
 
-    private void Update()
-    {
-        //if (SceneManager.GetActiveScene().name == "TitleScreen")
-        //{
-        //    Destroy(gameObject);
-        //}
-    }
-
-    public static InputManager getInstance()
+    public static InputManager GetInstance()
     {
         return instance;
     }
@@ -127,10 +106,6 @@ public class InputManager : MonoBehaviour
     {
         return moveDirection;
     }
-
-    // for any of the below 'Get' methods, if we're getting it then we're also using it,
-    // which means we should set it to false so that it can't be used again until actually
-    // pressed again.
 
     public bool getInteractPressed()
     {

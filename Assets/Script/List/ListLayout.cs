@@ -1337,7 +1337,7 @@ public class ListLayout : MonoBehaviour
         if (MenuManager.GetInstance().lastSelectedSaveLoadBtn == "save")
         {
             Debug.Log("save "+ progressIndex);
-            ProgressManager.GetInstance().SavetoFile(progressIndex);
+            ProgressManager.GetInstance().savetoFile(progressIndex);
             destroyListSelection();
             MenuManager.GetInstance().closeMenu();
         }
@@ -1347,7 +1347,7 @@ public class ListLayout : MonoBehaviour
             string path = Application.dataPath + System.IO.Path.AltDirectorySeparatorChar + "save" + System.IO.Path.AltDirectorySeparatorChar + "savedata" + progressIndex + ".json";
             if (File.Exists(path))
             {
-                ProgressManager.GetInstance().LoadfromFile(progressIndex);
+                ProgressManager.GetInstance().loadfromFile(progressIndex);
                 destroyListSelection();
                 MenuManager.GetInstance().closeMenu();
             }

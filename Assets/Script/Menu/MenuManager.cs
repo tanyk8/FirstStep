@@ -120,18 +120,6 @@ public class MenuManager : MonoBehaviour
 
     private void Awake()
     {
-        //if (instance != null)
-        //{
-        //    Debug.LogWarning("Found more than one Inventory Manager in the scene");
-        //    Destroy(gameObject);
-        //}
-        //else
-        //{
-
-        //}
-
-        
-
         if (instance == null)
         {
             instance = this;
@@ -145,16 +133,12 @@ public class MenuManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        
-        
-        
     }
 
     public static MenuManager GetInstance()
     {
         return instance;
     }
-
 
     private void Start()
     {
@@ -174,11 +158,10 @@ public class MenuManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name == "TitleScreen")
         {
-
             Destroy(gameObject);
             Destroy(menuCanvas);
         }
-        if (SceneManager.GetActiveScene().name != "Battlescene"&& InputManager.getInstance().getMenuPressed())
+        if (SceneManager.GetActiveScene().name != "Battlescene"&& InputManager.GetInstance().getMenuPressed())
         {
             if (!TimelineManager.GetInstance().dontmove&&!menuCanvas.activeInHierarchy&& !DialogueManager.GetInstance().dialogueIsPlaying&& TimelineManager.GetInstance().getPlayState() != PlayState.Playing)
             {
@@ -386,7 +369,6 @@ public class MenuManager : MonoBehaviour
         }
 
     }
-
 
     public void onCloseBtn()
     {
@@ -735,7 +717,6 @@ public class MenuManager : MonoBehaviour
             lastSelectedSaveLoadBtn = "load";
         }
     }
-
 
     public void onSettingsBtn()
     {

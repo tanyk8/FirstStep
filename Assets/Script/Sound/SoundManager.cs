@@ -101,11 +101,6 @@ public class SoundManager : MonoBehaviour
         musicSource.Play();
     }
 
-    public void playmuzic()
-    {
-        musicSource.Play();
-    }
-
     public void setTempValue(SettingsData tempdata)
     {
         tempMusicVolume=tempdata.currentMusicVolume;

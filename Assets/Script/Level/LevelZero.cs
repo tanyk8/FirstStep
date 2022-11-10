@@ -130,7 +130,7 @@ public class LevelZero : MonoBehaviour
 
 
     }
-    private void LateUpdate()
+    private void Update()
     {
         if (ProgressManager.GetInstance().loading)
         {
@@ -315,10 +315,6 @@ public class LevelZero : MonoBehaviour
     {
         TimelineManager.GetInstance().dontmove = true;
         Toverlay.SetActive(true);
-        //if (overlayanimator.GetCurrentAnimatorStateInfo(0).IsName("fadeout"))
-        //{
-
-        //}
         Debug.Log("fadein");
 
         Toverlayanimator.SetTrigger("Fadein");

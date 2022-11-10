@@ -28,17 +28,6 @@ public class Player : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        //if (instance == null)
-        //{
-        //    instance = this;
-        //    DontDestroyOnLoad(gameObject);
-        //}
-        //else if (instance != this)
-        //{
-        //    Destroy(instance.gameObject);
-        //    instance = this;
-        //    DontDestroyOnLoad(gameObject);
-        //}
 
     }
 
@@ -143,7 +132,6 @@ public class Player : MonoBehaviour
     {
         current_mentalpoint = value;
     }
-
 
     public void addStat_MentalPower(int value)
     {
