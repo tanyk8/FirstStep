@@ -11,31 +11,9 @@ public class StatusManager : MonoBehaviour
     private static StatusManager instance;
 
     [SerializeField] public StatusManager[] statusManager;
-    private void Start()
-    {
-        //StatusData teststatus = Resources.Load<StatusData>("Status/status1");
-        //Debug.Log(teststatus.status_name);
-        //Status status = new Status(teststatus);
-        //statusList.Add(status);
-
-        //StatusData teststatus2 = Resources.Load<StatusData>("Status/status2");
-        //Status status2 = new Status(teststatus2);
-        //statusList.Add(status2);
-    }
 
     private void Awake()
     {
-        //if (instance != null)
-        //{
-        //    Debug.LogWarning("Found more than one Status Manager in the scene");
-        //    Destroy(gameObject);
-        //}
-        //else
-        //{
-        //    instance = this;
-        //    DontDestroyOnLoad(gameObject);
-        //}
-
 
         if (instance == null)
         {
@@ -48,9 +26,7 @@ public class StatusManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        
 
-        
     }
 
     private void Update()

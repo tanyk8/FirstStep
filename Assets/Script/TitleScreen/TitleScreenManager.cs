@@ -37,7 +37,7 @@ public class TitleScreenManager : MonoBehaviour
 
     private void Update()
     {
-        if (InputManager.getInstance().getMenuPressed())
+        if (InputManager.GetInstance().getMenuPressed())
         {
             if (settingsMenu.activeInHierarchy)
             {

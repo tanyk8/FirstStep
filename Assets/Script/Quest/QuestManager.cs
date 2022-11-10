@@ -24,17 +24,6 @@ public class QuestManager : MonoBehaviour
 
     private void Awake()
     {
-        //if (instance != null)
-        //{
-        //    Debug.LogWarning("Found more than one Inventory Manager in the scene");
-        //    Destroy(gameObject);
-        //}
-        //else
-        //{
-        //    instance = this;
-        //    DontDestroyOnLoad(gameObject);
-        //}
-        
 
         if (instance == null)
         {
@@ -48,9 +37,6 @@ public class QuestManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         
-
-        
-
     }
 
     private void Update()
@@ -78,7 +64,6 @@ public class QuestManager : MonoBehaviour
         checkList();
     }
 
-
     public void updateKillProgressValue()
     {
 
@@ -100,10 +85,7 @@ public class QuestManager : MonoBehaviour
 
     public void updateQuestProgress(QuestData questData,string type)
     {
-
-
         Story temp = DialogueManager.GetInstance().GetComponent<DialogueManager>().getStory();
-        //Debug.Log(questData.quest_ID);
         int questID = questData.quest_ID;
         int targetIndex = findQuestIndexwithID(questID);
 
@@ -144,31 +126,6 @@ public class QuestManager : MonoBehaviour
             }
         }
         checkList();
-        //int targetIndex = findQuestIndexwithID(receivequest_ID);
-        //if (questlist.ElementAt(targetIndex).quest_progress < questlist.ElementAt(targetIndex).questData.quest_totalprogress)
-        //{
-        //    temp.EvaluateFunction("checkRequirement", receivequest_ID, checkRequirement(questData, receivequest_ID).ToString());
-        //    if (temp.variablesState.GetVariableWithName("proceed_progress").ToString() == "true")
-        //    {
-        //        questlist.ElementAt(targetIndex).quest_progress++;
-        //        questlist.ElementAt(targetIndex).resetProgressValue();
-        //    }
-        //}
-
-        //if (questlist.ElementAt(targetIndex).quest_progress < questData.quest_totalprogress)
-        //{
-        //    temp.EvaluateFunction("checkRequirement", questID, checkRequirement(questData,questID).ToString());
-        //    if (temp.variablesState.GetVariableWithName("proceed_progress").ToString()=="true")
-        //    {
-        //        questlist.ElementAt(targetIndex).quest_progress++;
-        //        questlist.ElementAt(targetIndex).resetProgressValue();
-        //    }
-        //}
-        //else
-        //{
-        //    temp.EvaluateFunction("completeQuest", questID, checkRequirement(questData,questID).ToString());
-        //}
-
     }
 
     public void completeQuest(QuestData questData)
@@ -178,12 +135,6 @@ public class QuestManager : MonoBehaviour
         int questID = questData.quest_ID;
 
         temp.EvaluateFunction("completeQuest", questID, "True");
-
-
-        //if (questlist.ElementAt(findQuestIndexwithID(questID)).getQuestRewardType() == "stat")
-        //{
-        //    playermanager.GetComponent<Player>().addStat_MentalPower(questlist.ElementAt(findQuestIndexwithID(questID)).getQuestReward());
-        //}
 
         questlist.ElementAt(findQuestIndexwithID(questID)).questState = QuestState.COMPLETED;
         questlist.ElementAt(findQuestIndexwithID(questID)).resetProgressValue();

@@ -12,7 +12,7 @@ public class Loading : MonoBehaviour
             int tempindex = SoundManager.GetInstance().loadfromtitleindex;
             SoundManager.GetInstance().loadfromtitleindex = -1;
 
-            ProgressManager.GetInstance().LoadfromFile(tempindex);
+            ProgressManager.GetInstance().loadfromFile(tempindex);
         }
         else
         {

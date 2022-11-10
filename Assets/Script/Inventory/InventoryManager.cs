@@ -17,27 +17,8 @@ public class InventoryManager : MonoBehaviour
     public List<InventoryItem> inventory=new List<InventoryItem>();
     //public Dictionary<ItemData, InventoryItem> itemDictionary=new Dictionary<ItemData, InventoryItem>();
 
-    private void Start()
-    {
-        //ItemData shard=Resources.Load<ItemData>("Item/item1");
-        //Debug.Log(shard.item_name);
-        //Add(shard);
-        //ItemData item2 = Resources.Load<ItemData>("Item/item2");
-        //Add(item2);
-    }
-
     private void Awake()
     {
-        //if (instance != null)
-        //{
-        //    Debug.LogWarning("Found more than one Inventory Manager in the scene");
-        //    Destroy(gameObject);
-        //}
-        //else
-        //{
-        //    instance = this;
-        //    DontDestroyOnLoad(gameObject);
-        //}
 
         if (instance == null)
         {
@@ -90,19 +71,6 @@ public class InventoryManager : MonoBehaviour
             inventory.Add(newItem);
         }
         
-
-
-        //if (itemDictionary.TryGetValue(itemData,out InventoryItem item))
-        //{
-        //    item.addToStack();
-        //}
-        //else
-        //{
-        //    InventoryItem newItem = new InventoryItem(itemData);
-        //    inventory.Add(newItem);
-        //    itemDictionary.Add(itemData, newItem);
-
-        //}
         QuestManager qManager = QuestManager.GetInstance();
         if (itemData.item_name == "Guitar pick" &&qManager.checkQuestExist(1)&&qManager.checkQuestInProgress(1)&&qManager.getCurrentProg(1)==2)
         {
@@ -213,14 +181,9 @@ public class InventoryManager : MonoBehaviour
 
         return empty;
     }
-
-
     public void updateInventory(List<InventoryItem> inventorylist)
     {
-        //Dictionary<ItemData, InventoryItem> itemdictionary
-        //itemdictionary = new Dictionary<ItemData, InventoryItem>();
         inventory = inventorylist;
-        //itemDictionary = itemdictionary;
     }
 
     public InventoryManager getInventoryManager()
@@ -262,7 +225,4 @@ public class InventoryManager : MonoBehaviour
             return false;
         }
     }
-
-    //shard of courage
-    //mental potion (overuse will give debuff)
 }

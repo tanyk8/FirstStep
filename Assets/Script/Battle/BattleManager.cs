@@ -120,7 +120,7 @@ public class BattleManager : MonoBehaviour
     {
         if (state == BattleState.PLAYERTURN)
         {
-            //if (InputManager.getInstance().getSwitchPressed())
+            //if (InputManager.GetInstance().getSwitchPressed())
             //{
             //    if (EventSystem.current.currentSelectedGameObject == playerstatusbtn || EventSystem.current.currentSelectedGameObject == enemystatusbtn)
             //    {
@@ -134,7 +134,7 @@ public class BattleManager : MonoBehaviour
             //    }
             //}
 
-            if (SceneManager.GetActiveScene().name == "Battlescene"&&InputManager.getInstance().getMenuPressed() )
+            if (SceneManager.GetActiveScene().name == "Battlescene"&&InputManager.GetInstance().getMenuPressed() )
             {
                 if (actionpanel.activeInHierarchy)
                 {
@@ -182,8 +182,9 @@ public class BattleManager : MonoBehaviour
                     }
                     else if (status.activeInHierarchy)
                     {
-                        statusListRef.GetComponent<ListLayout>().destroyListSelection();
+                        
                         status.SetActive(false);
+                        statusListRef.GetComponent<ListLayout>().destroyListSelection();
                         if (lastSelectedStatusBtn == "player")
                         {
                             StartCoroutine(ListLayout.selectOption(playerstatusbtn));
@@ -216,7 +217,6 @@ public class BattleManager : MonoBehaviour
 
         StartCoroutine(initiateBattle());
     }
-   
 
     IEnumerator initiateBattle()
     {
@@ -289,15 +289,9 @@ public class BattleManager : MonoBehaviour
     {
         if (state == BattleState.WON)
         {
-
-            //if enemy prefab name is this, then this
             if (enemyPrefab.name == "Blob Minion")
             {
-                //item shard of light
-                //ItemData additemData = Resources.Load<ItemData>("Item/item1");
-                //InventoryManager.GetInstance().Add(additemData);
-                //Story temp = DialogueManager.GetInstance().GetComponent<DialogueManager>().getStory();
-                //temp.EvaluateFunction("activatestagetwo", true);
+
                 string[] tempendmsg = { "You have purified the shadow!", "You received a shard of light" };
                 ProgressManager.GetInstance().gameProgress = "progress9";
                 player.setCurrent_Health(player.getStat_MaxHealth());
@@ -306,11 +300,6 @@ public class BattleManager : MonoBehaviour
             }
             else if (enemyPrefab.name == "Shadow Feeder")
             {
-                //item shard of light
-                //ItemData additemData = Resources.Load<ItemData>("Item/item1");
-                //InventoryManager.GetInstance().Add(additemData);
-                //Story temp = DialogueManager.GetInstance().GetComponent<DialogueManager>().getStory();
-                //temp.EvaluateFunction("activatestagetwo", true);
                 string[] tempendmsg = { "You have purified the shadow!", "You received a shard of light" };
                 ProgressManager.GetInstance().gameProgress = "progress19";
                 player.setCurrent_Health(player.getStat_MaxHealth());
@@ -319,11 +308,6 @@ public class BattleManager : MonoBehaviour
             }
             else if (enemyPrefab.name == "Shadow")
             {
-                //item shard of light
-                //ItemData additemData = Resources.Load<ItemData>("Item/item1");
-                //InventoryManager.GetInstance().Add(additemData);
-                //Story temp = DialogueManager.GetInstance().GetComponent<DialogueManager>().getStory();
-                //temp.EvaluateFunction("activatestagetwo", true);
                 string[] tempendmsg = { "He still have so much powers...","What should we do..." };
                 ProgressManager.GetInstance().gameProgress = "progress25";
                 player.setCurrent_Health(player.getStat_MaxHealth());
@@ -332,11 +316,6 @@ public class BattleManager : MonoBehaviour
             }
             else if (enemyPrefab.name == "Dark Shadow")
             {
-                //item shard of light
-                //ItemData additemData = Resources.Load<ItemData>("Item/item1");
-                //InventoryManager.GetInstance().Add(additemData);
-                //Story temp = DialogueManager.GetInstance().GetComponent<DialogueManager>().getStory();
-                //temp.EvaluateFunction("activatestagetwo", true);
                 string[] tempendmsg = { "You have purified the shadow!" };
                 ProgressManager.GetInstance().gameProgress = "progress28";
                 player.setCurrent_Health(player.getStat_MaxHealth());
@@ -360,9 +339,6 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator enemyTurn()
     {
-
-        
-
         int enemydmgdealt = 0;
         int probability = Random.Range(0, 20);
         float enemystatusvalue = 100;
@@ -438,8 +414,6 @@ public class BattleManager : MonoBehaviour
                 enemychoiceresult = "attack";
             }
         }
-
-
 
         //skill 0 is dmg, 1 is heal, 2 is buff, 3 is debuff
         if (enemychoiceresult == "heal")
@@ -616,8 +590,6 @@ public class BattleManager : MonoBehaviour
             }
             else
             {
-                
-
                 state = BattleState.PLAYERTURN;
                 playerTurn();
             }
@@ -766,7 +738,6 @@ public class BattleManager : MonoBehaviour
             StartCoroutine(enemyTurn());
         }
     }
-
     public void onAttackBtn()
     {
         if (state != BattleState.PLAYERTURN)

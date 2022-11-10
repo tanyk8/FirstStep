@@ -5,12 +5,8 @@ using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 public class ProgressManager : MonoBehaviour
 {
-
-    
-
     private static ProgressManager instance;
 
-    
     private const int TOTALSLOT=20;
 
     public Progress[] progressArray = new Progress[TOTALSLOT];
@@ -92,9 +88,7 @@ public class ProgressManager : MonoBehaviour
         inkpath = Application.dataPath + Path.AltDirectorySeparatorChar + "save" + Path.AltDirectorySeparatorChar + "savedataI" + index + ".ink";
     }
 
-    
-
-    public void SavetoFile(int index)
+    public void savetoFile(int index)
     {
         setPath(index);
         string savePath = path;
@@ -102,30 +96,16 @@ public class ProgressManager : MonoBehaviour
 
         progressArray[index].updateProgress();
 
-
         Debug.Log("Data saved at " + savePath);
         string json = JsonUtility.ToJson(progressArray[index]);
         Debug.Log(json);
         
-
-
         using StreamWriter writer = new StreamWriter(savePath);
         writer.Write(json);
 
-        //string ink= File.ReadAllText(sourceinkpath);
-        //File.WriteAllText(saveinkpath, ink);
-
-
-        //using StreamReader readink = new StreamReader(sourceinkpath);
-        //string ink = readink.ReadToEnd();
-        //Debug.Log(sourceinkpath+" | "+ink);
-        //using StreamWriter writerink = new StreamWriter(saveinkpath);
-        //writer.Write(ink);
-
-
     }
 
-    public void LoadfromFile(int index)
+    public void loadfromFile(int index)
     {
         setPath(index);
 
@@ -136,9 +116,6 @@ public class ProgressManager : MonoBehaviour
         loading = true;
         loadProgress(data);
         loading = false;
-        //Debug.Log(data.progressData.questList.Count);
-        //Debug.Log(data.progressData.questList.ElementAt(0).questState);
-        //Debug.Log(data.progressData.questList.ElementAt(0).questData.quest_progress[0].description);
     }
 
     public string loadDateTime(int index)
@@ -175,18 +152,15 @@ public class ProgressManager : MonoBehaviour
         for(int x = 0; x < progdata.inventoryList.Count; x++)
         {
             ItemData tempItemData = Resources.Load<ItemData>("Item/item" + progdata.inventoryList.ElementAt(x).id);
-            //InventoryManager.GetInstance().inventory.ElementAt(x).itemData = tempItemData;
             progdata.inventoryList.ElementAt(x).itemData = tempItemData;
             
         }
-        //InventoryManager.GetInstance().updateInventory(progdata.inventoryList, progdata.itemDictionary);
         InventoryManager.GetInstance().updateInventory(progdata.inventoryList);
 
 
         for (int x = 0; x < progdata.questList.Count; x++)
         {
             QuestData tempQuestData = Resources.Load<QuestData>("Quest/quest" + progdata.questList.ElementAt(x).id);
-            //QuestManager.GetInstance().questlist.ElementAt(x).questData = tempQuestData;
             progdata.questList.ElementAt(x).questData = tempQuestData;
             
         }
@@ -196,7 +170,6 @@ public class ProgressManager : MonoBehaviour
         for (int x = 0; x < progdata.skillList.Count; x++)
         {
             SkillData tempSkillData = Resources.Load<SkillData>("Skill/skill" + progdata.skillList.ElementAt(x).id);
-            //SkillManager.GetInstance().skilllist.ElementAt(x).skillData = tempSkillData;
             progdata.skillList.ElementAt(x).skillData = tempSkillData;
         }
         SkillManager.GetInstance().updateSkill(progdata.skillList);
