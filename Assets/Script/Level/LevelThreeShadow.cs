@@ -8,6 +8,7 @@ public class LevelThreeShadow : MonoBehaviour
 {
     [SerializeField] GameObject player;
     [SerializeField] GameObject shadowaura_after;
+    [SerializeField] GameObject boss;
 
     public bool continuestory = false;
     public bool callonce = true;
@@ -32,10 +33,14 @@ public class LevelThreeShadow : MonoBehaviour
             GameObject.Find("Player").transform.position = ProgressManager.GetInstance().loadedposition;
         }
 
-        if (TimelineManager.GetInstance().getPlayState() != PlayState.Playing  && SoundManager.GetInstance().musicSource.clip.name != "bgm_shadow")
+        if (TimelineManager.GetInstance().getPlayState() != PlayState.Playing  && SoundManager.GetInstance().musicSource.clip.name != "bgm_shadow" && DialogueVariableObserver.variables["shadow3_escaped"].ToString() == "true" && DialogueVariableObserver.variables["shadow3_defeated"].ToString() == "false")
         {
 
             SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_shadow"));
+        }
+        else if(TimelineManager.GetInstance().getPlayState() != PlayState.Playing && SoundManager.GetInstance().musicSource.clip.name != "bgm_stage3")
+        {
+            SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_stage3"));
         }
     }
 
@@ -47,7 +52,7 @@ public class LevelThreeShadow : MonoBehaviour
             return;
         }
 
-        if (TimelineManager.GetInstance().getPlayState() != PlayState.Playing && SoundManager.GetInstance().musicSource.clip.name != "bgm_shadow")
+        if (TimelineManager.GetInstance().getPlayState() != PlayState.Playing && SoundManager.GetInstance().musicSource.clip.name != "bgm_shadow" && DialogueVariableObserver.variables["shadow3_escaped"].ToString() == "true" && DialogueVariableObserver.variables["shadow3_defeated"].ToString() == "false")
         {
 
             SoundManager.GetInstance().playMusic(Resources.Load<AudioClip>("Sound/Music/bgm_shadow"));
@@ -55,6 +60,17 @@ public class LevelThreeShadow : MonoBehaviour
 
         if (!DialogueManager.GetInstance().dialogueIsPlaying && callonce && TimelineManager.GetInstance().getPlayState() != PlayState.Playing)
         {
+            if(!shadowaura_after.activeInHierarchy&& DialogueVariableObserver.variables["shadow3_escaped"].ToString() == "true" && DialogueVariableObserver.variables["shadow3_defeated"].ToString() == "false")
+            {
+                shadowaura_after.SetActive(true);
+                boss.SetActive(true);
+            }
+            else if(shadowaura_after.activeInHierarchy&& DialogueVariableObserver.variables["shadow3_escaped"].ToString() == "false" || DialogueVariableObserver.variables["shadow3_defeated"].ToString() == "true")
+            {
+                shadowaura_after.SetActive(false);
+                boss.SetActive(false);
+            }
+
             //if (!shadowaura_after.activeInHierarchy && DialogueVariableObserver.variables["mainquest_progress"].ToString() == "10" && ProgressManager.GetInstance().gameProgress == "progress18")
             //{
             //    shadowaura_after.SetActive(true);

@@ -1074,6 +1074,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1054504484}
   shadowaura_after: {fileID: 195413410}
+  boss: {fileID: 513473767}
   continuestory: 0
   callonce: 1
 --- !u!1 &402714317
